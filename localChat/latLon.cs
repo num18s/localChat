@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace localChat
 {
-    class latLong
+    class latLon
     {
         private static int REMOVE_DECIMAL = 100000;
         private static int LAT_ADD = 90, LON_ADD = 180;
@@ -17,7 +17,7 @@ namespace localChat
         private string gridP = "p.", grid1 = "1.", grid2 = "2.", grid3 = "3.", grid4 = "4."
             , grid5 = "5.", grid6 = "6.", grid7 = "7.", grid8 = "8.";
 
-        latLong(float lat, float lon)
+        latLon(float lat, float lon)
         {
             //Set variables
             this.lat = lat;
