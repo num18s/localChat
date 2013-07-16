@@ -33,10 +33,6 @@ namespace localChat
             gridP += ( (int)( sysLatDeg / LAT_SEGMENT ) ).ToString();
             gridP += ".";
             gridP += ( (int)(sysLonDeg / LON_SEGMENT) ).ToString();
-
-            gridP += ((int)( ( sysLatDeg - ( LAT_SEGMENT / 2 ) ) / LAT_SEGMENT)).ToString();
-            gridP += ".";
-            gridP += ((int)(sysLonDeg / LON_SEGMENT)).ToString();
         }
     }
 }
