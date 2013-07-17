@@ -32,7 +32,7 @@
 		</DataTemplate>
 	</phone:PhoneApplicationPage.Resources>
 	<phone:PhoneApplicationPage.ApplicationBar>
-    <shell:ApplicationBar x:Name="ApplicationBar" Mode="Minimized" Opacity="1.0" IsMenuEnabled="True" IsVisible="True" BackgroundColor="{StaticResource PhoneBackgroundColor}">
+    <shell:ApplicationBar x:Name="ApplicationBar" Mode="Default" Opacity="1.0" IsMenuEnabled="True" IsVisible="True" BackgroundColor="{StaticResource PhoneBackgroundColor}">
 
         <shell:ApplicationBarIconButton x:Name="write" Click="Write_Click" IconUri="/Assets/AppBar/feature.email.png" Text="write" IsEnabled="True" />
             <shell:ApplicationBarIconButton x:Name="refresh" Click="Refresh_Click" IconUri="/Assets/AppBar/refresh.png" Text="refresh" />
@@ -46,26 +46,25 @@
 </phone:PhoneApplicationPage.ApplicationBar>
 
     <!--LayoutRoot is the root grid where all page content is placed-->
-    <Grid x:Name="LayoutRoot" Background="Transparent" DataContext="{Binding Source={StaticResource CurrentData}}">
+    <Grid x:Name="LayoutRoot" Background="Transparent">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
-            <RowDefinition Height="0*"/>
         </Grid.RowDefinitions>
-    	<phone:Panorama x:Name="Incoming_Messag" Title="Incoming Messsage" Margin="0,0,0,30">
-    		<phone:PanoramaItem x:Name="Current" CacheMode="{x:Null}" Header="Current">
+    	<phone:Panorama x:Name="Incoming_Message" Title="Incoming Messsage" FontSize="{StaticResource PhoneFontSizeMedium}" VerticalAlignment="Bottom">
+    		<phone:PanoramaItem x:Name="Current" CacheMode="{x:Null}" Header="Current" DataContext="{Binding Source={StaticResource CurrentData}}" FontSize="{StaticResource PhoneFontSizeMedium}">
     			<phone:PanoramaItem.RenderTransform>
     				<TranslateTransform/>
     			</phone:PanoramaItem.RenderTransform>
-    			<Grid x:Name="CurrentGrid">    			
-    				<ListBox x:Name="CurrentLB" ItemTemplate="{StaticResource ItemTemplate}" ItemsSource="{Binding Collection}" Grid.ColumnSpan="2" Margin="0,-40,0,0"/>
+    			<Grid x:Name="CurrentGrid" Margin="0,-49,0,0">    			
+    				<ListBox x:Name="CurrentLB" ItemTemplate="{StaticResource ItemTemplate}" ItemsSource="{Binding Collection}" FontSize="{StaticResource PhoneFontSizeNormal}"/>
     			</Grid>
     		</phone:PanoramaItem>
-    		<phone:PanoramaItem x:Name="Alert" CacheMode="{x:Null}" Header="Alert" Margin="0,-46,0,0" DataContext="{Binding Source={StaticResource AlertData}}">
+    		<phone:PanoramaItem x:Name="Alert" CacheMode="{x:Null}" Header="Alert" DataContext="{Binding Source={StaticResource AlertData}}" FontSize="{StaticResource PhoneFontSizeMedium}">
     			<phone:PanoramaItem.RenderTransform>
     				<TranslateTransform/>
     			</phone:PanoramaItem.RenderTransform>
-    			<Grid x:Name="AlertGrid">
-    				<ListBox x:Name="AlertLB" ItemTemplate="{StaticResource ItemTemplate}" ItemsSource="{Binding Collection}"/>
+    			<Grid x:Name="AlertGrid" Margin="0,-49,0,0">
+    				<ListBox x:Name="AlertLB" ItemTemplate="{StaticResource ItemTemplate}" ItemsSource="{Binding Collection}" FontSize="{StaticResource PhoneFontSizeNormal}"/>
     			</Grid>
     		</phone:PanoramaItem>
     	</phone:Panorama>
