@@ -11,13 +11,13 @@ namespace localChat
         private static int REMOVE_DECIMAL = 100000;
         private static int LAT_ADD = 90, LON_ADD = 180;
         private static float LAT_SEGMENT = 1, LON_SEGMENT = 1;
+        private static int GRID_COUNT = 9;
 
         private float lat, lon;
         private float sysLat, sysLon;
-        private string gridP = "p.", grid1 = "1.", grid2 = "2.", grid3 = "3.", grid4 = "4."
-            , grid5 = "5.", grid6 = "6.", grid7 = "7.", grid8 = "8.";
+        private string[] grid = new string[GRID_COUNT];
 
-        latLon(float lat, float lon)
+        public latLon(float lat, float lon)
         {
             //Set variables
             this.lat = lat;
@@ -29,10 +29,112 @@ namespace localChat
             //Use to calculate grids
             float sysLatDeg = (float)( (int)( this.lat + LAT_ADD ) );
             float sysLonDeg = (float)( (int)( this.lon + LON_ADD ) );
+            float temp = 0;
 
-            gridP += ( (int)( sysLatDeg / LAT_SEGMENT ) ).ToString();
-            gridP += ".";
-            gridP += ( (int)(sysLonDeg / LON_SEGMENT) ).ToString();
+            if (this.lat > 84) 
+            {
+                grid[0] = grid[1] = grid[2] = grid[3] = grid[4] = grid[5] = grid[6] = grid[7] = grid[8] = "N";
+            }
+            else if (this.lat < -80)
+            {
+                grid[0] = grid[1] = grid[2] = grid[3] = grid[4] = grid[5] = grid[6] = grid[7] = grid[8] = "S";
+            }
+            else
+            {
+                grid[0] = "p.";//Prime
+                grid[1] = "1.";
+                grid[2] = "2.";
+                grid[3] = "3.";
+                grid[4] = "4.";
+                grid[5] = "5.";
+                grid[6] = "6.";
+                grid[7] = "7.";
+                grid[8] = "8.";
+
+
+                grid[0] += ((int)(sysLatDeg / LAT_SEGMENT)).ToString();
+                grid[0] += ".";
+                grid[0] += ((int)(sysLonDeg / LON_SEGMENT)).ToString();
+
+                //North, West
+                grid[1] += ( (int)( ( sysLatDeg + ( LAT_SEGMENT / 2 ) ) / LAT_SEGMENT) ).ToString();
+                grid[1] += ".";
+                temp = (sysLonDeg - ( LON_SEGMENT / 2 ));
+                if( temp < 0 ) temp = ( LON_ADD * 2 ) - temp;
+                grid[1] += ( (int)(temp / LON_SEGMENT ) ).ToString();
+
+                //North, East
+                grid[2] += ((int)((sysLatDeg + (LAT_SEGMENT / 2)) / LAT_SEGMENT)).ToString();
+                grid[2] += ".";
+                grid[2] += ((int)((sysLonDeg + (LON_SEGMENT / 2)) / LON_SEGMENT)).ToString();
+
+                //South, East
+                grid[3] += ((int)((sysLatDeg - (LAT_SEGMENT / 2)) / LAT_SEGMENT)).ToString();
+                grid[3] += ".";
+                grid[3] += ((int)((sysLonDeg + (LON_SEGMENT / 2)) / LON_SEGMENT)).ToString();
+
+                //South, West
+                grid[4] += ((int)((sysLatDeg - (LAT_SEGMENT / 2)) / LAT_SEGMENT)).ToString();
+                grid[4] += ".";
+                temp = (sysLonDeg - (LON_SEGMENT / 2));
+                if (temp < 0) temp = (LON_ADD * 2) - temp;
+                grid[4] += ((int)(temp / LON_SEGMENT)).ToString();
+
+                //Same, West
+                grid[5] += ((int)(sysLatDeg / LAT_SEGMENT)).ToString();
+                grid[5] += ".";
+                temp = (sysLonDeg - (LON_SEGMENT / 2));
+                if (temp < 0) temp = (LON_ADD * 2) - temp;
+                grid[5] += ((int)(temp / LON_SEGMENT)).ToString();
+
+                //North, Same
+                grid[6] += ((int)((sysLatDeg + (LAT_SEGMENT / 2)) / LAT_SEGMENT)).ToString();
+                grid[6] += ".";
+                grid[6] += ((int)(sysLonDeg / LON_SEGMENT)).ToString();
+
+                //Same, East
+                grid[7] += ((int)(sysLatDeg / LAT_SEGMENT)).ToString();
+                grid[7] += ".";
+                grid[7] += ((int)((sysLonDeg + (LON_SEGMENT / 2)) / LON_SEGMENT)).ToString();
+
+                //South, Same
+                grid[8] += ((int)((sysLatDeg - (LAT_SEGMENT / 2)) / LAT_SEGMENT)).ToString();
+                grid[8] += ".";
+                grid[8] += ((int)(sysLonDeg / LON_SEGMENT)).ToString();
+            }
+        }
+
+        public float getLat(){
+            return lat;
+        }
+
+        public float getLon()
+        {
+            return lon;
+        }
+
+        public float getSysLat()
+        {
+            return sysLat;
+        }
+
+        public float getSysLon()
+        {
+            return sysLon;
+        }
+
+        public string[] getGrids()
+        {
+            string[] output = new string[GRID_COUNT];
+            for( int i = 0; i < GRID_COUNT; i++ )
+                output[i] = grid[i];
+
+            return output;
+        }
+
+        public static int getGridCount()
+        {
+            return GRID_COUNT;
         }
     }
 }
