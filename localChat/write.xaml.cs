@@ -22,8 +22,8 @@ namespace localChat
 
             if (!gotId)
             {
-                //byte[] myDeviceID = (byte[])Microsoft.Phone.Info.DeviceExtendedProperties.GetValue("DeviceUniqueId");
-                myId = "fsafasf";// Convert.ToBase64String(myDeviceID);
+                byte[] myDeviceID = (byte[])Microsoft.Phone.Info.DeviceExtendedProperties.GetValue("DeviceUniqueId");
+                myId = Convert.ToBase64String(myDeviceID);
                 gotId = true;
             }
         }
