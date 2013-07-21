@@ -10,9 +10,9 @@ using Microsoft.Phone.Shell;
 
 namespace localChat
 {
-    public partial class Page1 : PhoneApplicationPage
+    public partial class WritePage : PhoneApplicationPage
     {
-        public Page1()
+        public WritePage()
         {
             InitializeComponent();
         }

@@ -31,21 +31,53 @@
     <!--TitlePanel contains the name of the application and page title-->
 		<StackPanel x:Name="TitlePanel" Grid.Row="0" Margin="12,17,0,28">
 			<TextBlock x:Name="PageTitle" Text="Local Chat Message Detail" Style="{StaticResource PhoneTextNormalStyle}"/>
-			<TextBlock x:Name="Title" Text="{Binding Title}" Margin="9,-7,0,0" Style="{StaticResource PhoneTextTitle1Style}"/>
+			<TextBlock x:Name="Title" Text="{Binding Title}" Margin="9,-7,0,0" Style="{StaticResource PhoneTextTitle1Style}">
+				<TextBlock.Foreground>
+					<SolidColorBrush Color="{StaticResource PhoneAccentColor}"/>
+				</TextBlock.Foreground>
+			</TextBlock>
 			<StackPanel Margin="9,0,0,0" Orientation="Horizontal">
-				<TextBlock x:Name="byText" Margin="0" Style="{StaticResource PhoneTextNormalStyle}" Text="By "/>
-				<TextBlock x:Name="Author" Text="{Binding Author}" Margin="0" Style="{StaticResource PhoneTextNormalStyle}"/>
-				<TextBlock x:Name="onText" Margin="0" Style="{StaticResource PhoneTextNormalStyle}" Text="on "/>
-				<TextBlock x:Name="Date" Text="{Binding Date}" Margin="0" Style="{StaticResource PhoneTextNormalStyle}"/>
-				<TextBlock x:Name="spaceText" Margin="0" Style="{StaticResource PhoneTextNormalStyle}" Text=" "/>
-				<TextBlock x:Name="Time" Text="{Binding Time}" Margin="0" Style="{StaticResource PhoneTextNormalStyle}"/>
+				<TextBlock x:Name="byText" Margin="0" Style="{StaticResource PhoneTextNormalStyle}" Text="By ">
+					<TextBlock.Foreground>
+						<SolidColorBrush Color="{StaticResource PhoneForegroundColor}"/>
+					</TextBlock.Foreground>
+				</TextBlock>
+				<TextBlock x:Name="Author" Text="{Binding Author}" Margin="0" Style="{StaticResource PhoneTextNormalStyle}">
+					<TextBlock.Foreground>
+						<SolidColorBrush Color="{StaticResource PhoneForegroundColor}"/>
+					</TextBlock.Foreground>
+				</TextBlock>
+				<TextBlock x:Name="onText" Margin="0" Style="{StaticResource PhoneTextNormalStyle}" Text="on ">
+					<TextBlock.Foreground>
+						<SolidColorBrush Color="{StaticResource PhoneForegroundColor}"/>
+					</TextBlock.Foreground>
+				</TextBlock>
+				<TextBlock x:Name="Date" Text="{Binding Date}" Margin="0" Style="{StaticResource PhoneTextNormalStyle}">
+					<TextBlock.Foreground>
+						<SolidColorBrush Color="{StaticResource PhoneForegroundColor}"/>
+					</TextBlock.Foreground>
+				</TextBlock>
+				<TextBlock x:Name="spaceText" Margin="0" Style="{StaticResource PhoneTextNormalStyle}" Text=" ">
+					<TextBlock.Foreground>
+						<SolidColorBrush Color="{StaticResource PhoneForegroundColor}"/>
+					</TextBlock.Foreground>
+				</TextBlock>
+				<TextBlock x:Name="Time" Text="{Binding Time}" Margin="0" Style="{StaticResource PhoneTextNormalStyle}">
+					<TextBlock.Foreground>
+						<SolidColorBrush Color="{StaticResource PhoneForegroundColor}"/>
+					</TextBlock.Foreground>
+				</TextBlock>
 			</StackPanel>
 		</StackPanel>
 
         <!--ContentPanel contains details text. Place additional content here-->
 		<Grid x:Name="ContentPanel" Margin="12,165,12,0" Grid.RowSpan="2">
 			<edc:Callout AnchorPoint="0.063,1.078" CalloutStyle="Rectangle" Content="Callout" Fill="#FFF4F4F5" FontSize="14.666999816894531" HorizontalAlignment="Left" Height="580" Stroke="Black" VerticalAlignment="Top" Width="444" Opacity="0.5"/>
-			<TextBlock x:Name="Message" Text="{Binding Msg}" TextWrapping="Wrap" Style="{StaticResource PhoneTextNormalStyle}"/>
+			<TextBlock x:Name="Message" Text="{Binding Msg}" TextWrapping="Wrap" Style="{StaticResource PhoneTextNormalStyle}">
+				<TextBlock.Foreground>
+					<SolidColorBrush Color="#FFFFFFFF"/>
+				</TextBlock.Foreground>
+			</TextBlock>
 		</Grid>
 
 	</Grid>
