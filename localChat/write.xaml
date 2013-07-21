@@ -10,8 +10,7 @@
     FontSize="{StaticResource PhoneFontSizeNormal}"
     Foreground="{StaticResource PhoneForegroundBrush}"
     SupportedOrientations="Portrait" Orientation="Portrait"
-    mc:Ignorable="d"
-    shell:SystemTray.IsVisible="True">
+    mc:Ignorable="d">
 
     <!--LayoutRoot is the root grid where all page content is placed-->
     <Grid x:Name="LayoutRoot" Background="Transparent">
@@ -22,19 +21,19 @@
 
         <!--TitlePanel contains the name of the application and page title-->
         <StackPanel Grid.Row="0" Margin="12,17,0,28">
-            <TextBlock Text="Local Chat" Style="{StaticResource PhoneTextNormalStyle}"/>
-            <TextBlock Text="Create A Post" Margin="9,-7,0,0" Style="{StaticResource PhoneTextTitle1Style}"/>
+            <TextBlock x:Name="Page_Title_Text" Text="Local Chat" Style="{StaticResource PhoneTextNormalStyle}"/>
+            <TextBlock x:Name="Post_Tile_Text" Text="Create A Post" Margin="9,-7,0,0" Style="{StaticResource PhoneTextTitle1Style}"/>
         </StackPanel>
 
         <!--ContentPanel - place additional content here-->
         <Grid x:Name="ContentPanel" Margin="10,151,14,10" Grid.RowSpan="2">
-        	<TextBox HorizontalAlignment="Left" Height="352" TextWrapping="Wrap" Text="Your text here" VerticalAlignment="Top" Width="456" Margin="0,87,0,0"/>
-        	<TextBlock HorizontalAlignment="Left" Margin="327,427,0,0" TextWrapping="Wrap" Text="0 of 500 used" VerticalAlignment="Top"/>
-        	<Button Content="Post" HorizontalAlignment="Left" Margin="206,542,0,-7" VerticalAlignment="Top" Width="245"/>
-        	<TextBlock HorizontalAlignment="Left" Margin="0,-7,0,0" TextWrapping="Wrap" Text="Category" VerticalAlignment="Top"/>
-        	<TextBox HorizontalAlignment="Left" Height="72" Margin="0,25,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="456"/>
-        	<Slider HorizontalAlignment="Left" Margin="10,487,0,0" VerticalAlignment="Top" Width="392"/>
-        	<TextBlock HorizontalAlignment="Left" Margin="10,455,0,0" TextWrapping="Wrap" Text="How fard away shoud this be visable?" VerticalAlignment="Top"/>
+        	<TextBox x:Name="Message_Post_Box" HorizontalAlignment="Left" Height="352" TextWrapping="Wrap" Text="Your text here" VerticalAlignment="Top" Width="456" Margin="0,87,0,0"/>
+        	<TextBlock x:Name="Less_than_500_char_text" HorizontalAlignment="Left" Margin="327,427,0,0" TextWrapping="Wrap" Text="0 of 500 used" VerticalAlignment="Top"/>
+        	<Button x:Name="Post_Button" Content="Post" HorizontalAlignment="Left" Margin="206,542,0,-7" VerticalAlignment="Top" Width="245"/>
+        	<TextBlock x:Name="Title_Text" HorizontalAlignment="Left" Margin="0,-7,0,0" TextWrapping="Wrap" Text="Title" VerticalAlignment="Top"/>
+        	<TextBox x:Name="Message_Title_Box" HorizontalAlignment="Left" Height="72" Margin="0,25,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="456"/>
+        	<Slider x:Name="Distance_Slider" HorizontalAlignment="Left" Margin="10,487,0,0" VerticalAlignment="Top" Width="392" Value="1"/>
+        	<TextBlock x:Name="How_far_text" HorizontalAlignment="Left" Margin="10,455,0,0" TextWrapping="Wrap" Text="How far away shoud this be visable?" VerticalAlignment="Top"/>
 
         </Grid>
     </Grid>

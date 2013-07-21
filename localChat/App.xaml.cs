@@ -7,11 +7,30 @@ using System.Windows.Navigation;
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
 using localChat.Resources;
+using localChat.ViewModels;
 
 namespace localChat
 {
     public partial class App : Application
     {
+        private static MessageGroup readMsgList = null;
+
+        /// <summary>
+        /// A static ViewModel used by the views to bind against.
+        /// </summary>
+        /// <returns>The MainViewModel object.</returns>
+        public static MessageGroup ReadMsgList
+        {
+            get
+            {
+                // Delay creation of the view model until necessary
+                if (readMsgList == null)
+                    readMsgList = new MessageGroup();
+
+                return readMsgList;
+            }
+        }
+
         /// <summary>
         /// Provides easy access to the root frame of the Phone Application.
         /// </summary>
@@ -45,7 +64,7 @@ namespace localChat
                 //Application.Current.Host.Settings.EnableRedrawRegions = true;
 
                 // Enable non-production analysis visualization mode,
-                // which shows areas of a page that are handed off to GPU with a colored overlay.
+                // which shows areas of a page that are handed off GPU with a colored overlay.
                 //Application.Current.Host.Settings.EnableCacheVisualization = true;
 
                 // Prevent the screen from turning off while under the debugger by disabling
@@ -54,7 +73,6 @@ namespace localChat
                 // and consume battery power when the user is not using the phone.
                 PhoneApplicationService.Current.UserIdleDetectionMode = IdleDetectionMode.Disabled;
             }
-
         }
 
         // Code to execute when the application is launching (eg, from Start)
@@ -67,12 +85,18 @@ namespace localChat
         // This code will not execute when the application is first launched
         private void Application_Activated(object sender, ActivatedEventArgs e)
         {
+            // Ensure that application state is restored appropriately
+            if (!App.ReadMsgList.IsDataLoaded)
+            {
+                App.ReadMsgList.LoadData();
+            }
         }
 
         // Code to execute when the application is deactivated (sent to background)
         // This code will not execute when the application is closing
         private void Application_Deactivated(object sender, DeactivatedEventArgs e)
         {
+            // Ensure that required application state is persisted here.
         }
 
         // Code to execute when the application is closing (eg, user hit Back)

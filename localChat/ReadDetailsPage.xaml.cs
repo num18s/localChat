@@ -11,10 +11,10 @@ using localChat.Resources;
 
 namespace localChat
 {
-    public partial class MainPage : PhoneApplicationPage
+    public partial class ReadDetailsPage : PhoneApplicationPage
     {
         // Constructor
-        public MainPage()
+        public ReadDetailsPage()
         {
             InitializeComponent();
 
@@ -22,9 +22,18 @@ namespace localChat
             //BuildLocalizedApplicationBar();
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        // When page is navigated to set data context to selected item in list
+        protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            NavigationService.Navigate(new Uri("/ReadPanorama.xaml", UriKind.Relative));
+            if (DataContext == null)
+            {
+                string selectedIndex = "";
+                if (NavigationContext.QueryString.TryGetValue("selectedItem", out selectedIndex))
+                {
+                    int index = int.Parse(selectedIndex);
+                    DataContext = App.ReadMsgList.Items[index];
+                }
+            }
         }
 
         // Sample code for building a localized ApplicationBar
