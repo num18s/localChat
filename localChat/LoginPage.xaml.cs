@@ -11,10 +11,10 @@ using localChat.Resources;
 
 namespace localChat
 {
-    public partial class MainPage : PhoneApplicationPage
+    public partial class LoginPage : PhoneApplicationPage
     {
         // Constructor
-        public MainPage()
+        public LoginPage()
         {
             InitializeComponent();
 

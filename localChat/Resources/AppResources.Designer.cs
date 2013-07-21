@@ -103,7 +103,18 @@ namespace localChat.Resources
         }
 
         /// <summary>
-        ///   Looks up a localized string similar to button.
+        ///   Looks up a localized string similar to Sample Runtime Property Value.
+        /// </summary>
+        public static string SampleProperty
+        {
+            get
+            {
+                return ResourceManager.GetString("SampleProperty", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to button text.
         /// </summary>
         public static string AppBarButtonText
         {
