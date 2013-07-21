@@ -8,7 +8,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
 
-namespace localChat.ViewModels
+namespace localChat
 {
     public class MessageItem : INotifyPropertyChanged
     {

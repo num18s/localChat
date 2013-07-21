@@ -7,7 +7,6 @@ using System.Windows.Navigation;
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
 using localChat.Resources;
-using localChat.ViewModels;
 
 namespace localChat
 {
