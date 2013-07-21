@@ -96,6 +96,9 @@
     </Compile>
     <Compile Include="latLon.cs" />
     <Compile Include="LocalizedStrings.cs" />
+    <Compile Include="LoginPage.xaml.cs">
+      <DependentUpon>LoginPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="mathPlus.cs" />
     <Compile Include="ReadDetailsPage.xaml.cs">
       <DependentUpon>ReadDetailsPage.xaml</DependentUpon>
@@ -123,6 +126,9 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </ApplicationDefinition>
+    <Page Include="LoginPage.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="ReadDetailsPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
