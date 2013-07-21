@@ -14,7 +14,7 @@ namespace localChat
         private static int GRID_COUNT = 9;
 
         private float lat, lon;
-        private float sysLat, sysLon;
+        private int sysLat, sysLon;
         private string[] grid = new string[GRID_COUNT];
 
         public latLon(float lat, float lon)
@@ -22,8 +22,8 @@ namespace localChat
             //Set variables
             this.lat = lat;
             this.lon = lon;
-            sysLat = this.lat + LAT_ADD + REMOVE_DECIMAL;
-            sysLon = this.lon + LON_ADD + REMOVE_DECIMAL;
+            sysLat = (int)( ( this.lat + LAT_ADD ) * REMOVE_DECIMAL );
+            sysLon = (int)( ( this.lon + LON_ADD ) * REMOVE_DECIMAL );
 
             //Calculate local sysLat/Lon without minutes (degrees only)
             //Use to calculate grids
@@ -113,12 +113,12 @@ namespace localChat
             return lon;
         }
 
-        public float getSysLat()
+        public int getSysLat()
         {
             return sysLat;
         }
 
-        public float getSysLon()
+        public int getSysLon()
         {
             return sysLon;
         }

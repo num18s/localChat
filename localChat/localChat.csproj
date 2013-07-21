@@ -94,11 +94,15 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="DB.cs" />
+    <Compile Include="dataSource.cs" />
+    <Compile Include="DBRead.cs" />
     <Compile Include="latLon.cs" />
     <Compile Include="LocalizedStrings.cs" />
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="mathPlus.cs" />
     <Compile Include="ReadPanorama.xaml.cs">
       <DependentUpon>ReadPanorama.xaml</DependentUpon>
     </Compile>
@@ -208,6 +212,9 @@
   </ItemGroup>
   <ItemGroup>
     <DesignTimeOnly Include="SampleData\AlertData\AlertData.xsd" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\$(TargetFrameworkIdentifier)\$(TargetFrameworkVersion)\Microsoft.$(TargetFrameworkIdentifier).$(TargetFrameworkVersion).Overrides.targets" />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\$(TargetFrameworkIdentifier)\$(TargetFrameworkVersion)\Microsoft.$(TargetFrameworkIdentifier).CSharp.targets" />

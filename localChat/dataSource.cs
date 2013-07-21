@@ -13,6 +13,8 @@ namespace localChat
 
         private static int R = 6371 * 1000;//6371 circuferance of earth in kilometers, converted to meeters
 
+        private DB db = new DB();
+
         public dataSource( string key ){
             this.key = key;
         }
@@ -55,7 +57,22 @@ namespace localChat
 
             if (gridI < 0) return false;
 
-            //Do DB work
+            StringBuilder output = new StringBuilder("");
+            db.setOutput( output );
+
+            db.write(0
+                , nwGrid[gridI]
+                , position.getLat()
+                , position.getLon()
+                , position.getSysLat()
+                , position.getSysLon()
+                , nw.getSysLat()
+                , sw.getSysLat()
+                , nw.getSysLon()
+                , ne.getSysLon()
+                , radiusMeters
+                , msg
+            );
 
             return true;
         }
