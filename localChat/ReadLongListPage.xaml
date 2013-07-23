@@ -67,11 +67,28 @@
                           		<SolidColorBrush Color="{StaticResource PhoneAccentColor}"/>
                           	</TextBlock.Foreground>
                           </TextBlock>
-                          <TextBlock x:Name="Message" Text="{Binding Msg}" TextWrapping="Wrap" Margin="12,-6,12,0" Style="{StaticResource PhoneTextSubtleStyle}">
-                          	<TextBlock.Foreground>
-                          		<SolidColorBrush Color="{StaticResource PhoneForegroundColor}"/>
-                          	</TextBlock.Foreground>
-                          </TextBlock>
+                          <StackPanel Margin="12,0" Orientation="Horizontal">
+                          	<TextBlock x:Name="onText" TextWrapping="Wrap" Margin="0" Style="{StaticResource PhoneTextSubtleStyle}" Text="On ">
+                          		<TextBlock.Foreground>
+                          			<SolidColorBrush Color="{StaticResource PhoneForegroundColor}"/>
+                          		</TextBlock.Foreground>
+                          	</TextBlock>
+                          	<TextBlock x:Name="Date" Text="{Binding Date}" TextWrapping="Wrap" Margin="0" Style="{StaticResource PhoneTextSubtleStyle}">
+                          		<TextBlock.Foreground>
+                          			<SolidColorBrush Color="{StaticResource PhoneForegroundColor}"/>
+                          		</TextBlock.Foreground>
+                          	</TextBlock>
+                          	<TextBlock x:Name="atText" TextWrapping="Wrap" Margin="0" Style="{StaticResource PhoneTextSubtleStyle}" Text=" at ">
+                          		<TextBlock.Foreground>
+                          			<SolidColorBrush Color="{StaticResource PhoneForegroundColor}"/>
+                          		</TextBlock.Foreground>
+                          	</TextBlock>
+                          	<TextBlock x:Name="Time" Text="{Binding Time}" TextWrapping="Wrap" Margin="0" Style="{StaticResource PhoneTextSubtleStyle}">
+                          		<TextBlock.Foreground>
+                          			<SolidColorBrush Color="{StaticResource PhoneForegroundColor}"/>
+                          		</TextBlock.Foreground>
+                          	</TextBlock>
+                          </StackPanel>
                       </StackPanel>
                     </DataTemplate>
                 </phone:LongListSelector.ItemTemplate>
