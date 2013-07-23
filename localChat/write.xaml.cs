@@ -33,18 +33,24 @@ namespace localChat
             String title = this.Message_Title_Box.Text;
             String message = this.Message_Post_Box.Text;
             int id = App.ReadMsgList.CurrentItemCount();
+			int radiusMeters = 100;
 
-            MessageItem outgoingMsg = new MessageItem()
-                    {
-                        ID = id.ToString(),
-                        Date = DateTime.Now.ToString("MM/dd/yyyy"),
-                        Time = DateTime.Now.ToString("HH:mm:ss tt"),
-                        Title = title,
-                        Author = myId,
-                        Msg = message
-                    };
+            // MessageItem outgoingMsg = new MessageItem()
+                    // {
+                        // ID = id.ToString(),
+                        // Date = DateTime.Now.ToString("MM/dd/yyyy"),
+                        // Time = DateTime.Now.ToString("HH:mm:ss tt"),
+                        // Title = title,
+                        // Author = myId,
+                        // Msg = message
+                    // };
 
-            App.ReadMsgList.Items.Add(outgoingMsg);
+			/* progresss bar... */
+			
+			/* wait for message back from post to the clod.. */
+			write(radiusMeters, title, message);
+
+            //App.ReadMsgList.Items.Add(outgoingMsg);
 
             // Navigate to the new page
             NavigationService.Navigate(new Uri("/ReadLongListPage.xaml", UriKind.Relative));
