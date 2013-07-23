@@ -8,7 +8,7 @@ using System.Net;
 using System.IO;
 using System.Threading;
 
-namespace test
+namespace localChat
 {
     class DB
     {
@@ -52,6 +52,7 @@ namespace test
             , int sysLonStart
             , int sysLonEnd
             , int radiusMeters
+            , string title
             , string msg
         )
         {
@@ -66,6 +67,7 @@ namespace test
             parameter += "&cf_sys_lon_start=" + sysLonStart.ToString();
             parameter += "&cf_sys_lon_end=" + sysLonEnd.ToString();
             parameter += "&cf_radius_meters=" + radiusMeters.ToString();
+            parameter += "&cf_title=" + title;
             parameter += "&cf_msg=" + msg;
 
             Uri writeUri = new Uri(writeUrl + parameter, UriKind.Absolute);
