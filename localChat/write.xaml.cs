@@ -48,7 +48,8 @@ namespace localChat
 			/* progresss bar... */
 			
 			/* wait for message back from post to the clod.. */
-			write(radiusMeters, title, message);
+            dataSource ds = new dataSource(myId);
+			ds.write(radiusMeters, title, message);
 
             //App.ReadMsgList.Items.Add(outgoingMsg);
 
