@@ -101,6 +101,8 @@
     <Compile Include="mathPlus.cs" />
     <Compile Include="ReadPanorama.xaml.cs">
       <DependentUpon>ReadPanorama.xaml</DependentUpon>
+    <Compile Include="ReadDetailsPage.xaml.cs">
+      <DependentUpon>ReadDetailsPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="SampleData\AlertData\AlertData.xaml.cs">
       <DependentUpon>AlertData.xaml</DependentUpon>
@@ -116,6 +118,9 @@
       <DependentUpon>write.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ReadPanorama.xaml.cs">
+      <DependentUpon>ReadPanorama.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Resources\AppResources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -137,6 +142,13 @@
     </Page>
     <Page Include="SampleData\CurrentData\CurrentData.xaml">
       <Generator>MSBuild:MarkupCompilePass1</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <DesignData Include="SampleData\IncomingMessageSampleData.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </DesignData>
+    <Page Include="ReadPanorama.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Settings.xaml">
