@@ -96,20 +96,24 @@
     </Compile>
     <Compile Include="DB.cs" />
     <Compile Include="dataSource.cs" />
-    <Compile Include="DBRead.cs" />
     <Compile Include="latLon.cs" />
     <Compile Include="LocalizedStrings.cs" />
-    <Compile Include="LoginPage.xaml.cs">
-      <DependentUpon>LoginPage.xaml</DependentUpon>
-    </Compile>
     <Compile Include="mathPlus.cs" />
     <Compile Include="ReadPanorama.xaml.cs">
       <DependentUpon>ReadPanorama.xaml</DependentUpon>
-    <Compile Include="ReadDetailsPage.xaml.cs">
-      <DependentUpon>ReadDetailsPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ReadLongListPage.xaml.cs">
-      <DependentUpon>ReadLongListPage.xaml</DependentUpon>
+    <Compile Include="SampleData\AlertData\AlertData.xaml.cs">
+      <DependentUpon>AlertData.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SampleData\CurrentData\CurrentData.xaml.cs">
+      <DependentUpon>CurrentData.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Settings.xaml.cs">
+      <DependentUpon>Settings.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UIThread.cs" />
+    <Compile Include="write.xaml.cs">
+      <DependentUpon>write.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Resources\AppResources.Designer.cs">
@@ -117,39 +121,30 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>AppResources.resx</DependentUpon>
     </Compile>
-    <Compile Include="Settings.xaml.cs">
-      <DependentUpon>Settings.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="MessageItems\MessageItem.cs" />
-    <Compile Include="MessageItems\MessageGroup.cs" />
-    <Compile Include="Write.xaml.cs">
-      <DependentUpon>Write.xaml</DependentUpon>
-    </Compile>
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </ApplicationDefinition>
-    <Page Include="LoginPage.xaml">
+    <Page Include="ReadPanorama.xaml">
+      <Generator>MSBuild:MarkupCompilePass1</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="ReadDetailsPage.xaml">
-      <Generator>MSBuild:Compile</Generator>
+    <Page Include="SampleData\AlertData\AlertData.xaml">
+      <Generator>MSBuild:MarkupCompilePass1</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="ReadLongListPage.xaml">
+    <Page Include="SampleData\CurrentData\CurrentData.xaml">
+      <Generator>MSBuild:MarkupCompilePass1</Generator>
       <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
     </Page>
-    <DesignData Include="SampleData\IncomingMessageSampleData.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </DesignData>
     <Page Include="Settings.xaml">
+      <Generator>MSBuild:MarkupCompilePass1</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Write.xaml">
+    <Page Include="write.xaml">
+      <Generator>MSBuild:MarkupCompilePass1</Generator>
       <SubType>Designer</SubType>
     </Page>
   </ItemGroup>

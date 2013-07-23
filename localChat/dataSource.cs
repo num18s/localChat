@@ -4,77 +4,101 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace localChat
+using System.Net;
+using System.IO;
+using System.Threading;
+
+namespace test
 {
-    class dataSource
+    class DB
     {
-        private string key;
-        private int userID;
+        private string logInUrl = "https://securec55.ezhostingserver.com/feildofbattlecards-com/localChat/test.html";
+        private string readUrl = "https://securec55.ezhostingserver.com/feildofbattlecards-com/localChat/test.html";
+        private string writeUrl = "http://feildofbattlecards-com.securec55.ezhostingserver.com/localChat/create_msg.cfm";
+        private string logUrl = "https://securec55.ezhostingserver.com/feildofbattlecards-com/localChat/test.html";
 
-        private static int R = 6371 * 1000;//6371 circuferance of earth in kilometers, converted to meeters
+        private StringBuilder output = null;
 
-        private DB db = new DB();
+        WebClient client = new WebClient();
+        private EventWaitHandle asyncWait = new ManualResetEvent(false);
 
-        public dataSource( string key ){
-            this.key = key;
+        public DB()
+        {
+            client.OpenReadCompleted += new OpenReadCompletedEventHandler(getOutput);
         }
 
-        bool write(float lat, float lon, int radiusMeters, string msg)
+        public void setOutput(StringBuilder output)
         {
-            latLon position = new latLon(lat, lon);
-            double r = (double)radiusMeters / (double)R;
-            int gridI = -1;
+            output.Clear();
+            this.output = output;
+        }
 
-            double latRad = mathPlus.DegreeToRadian( (double)position.getLat() );
-            float latStart = (float)mathPlus.RadianToDegree(latRad - r);
-            float latEnd = (float)mathPlus.RadianToDegree(latRad + r);
+        public void read()
+        {
+            Uri readUri = new Uri(readUrl, UriKind.Absolute);
 
-            double lonRad = mathPlus.DegreeToRadian((double)position.getLon());
-            double tLon = Math.Asin(Math.Sin(r) / Math.Cos(latRad));
-            float lonStart = (float)mathPlus.RadianToDegree(lonRad - tLon);
-            float lonEnd = (float)mathPlus.RadianToDegree(lonRad + tLon);
+            client.OpenReadAsync(readUri);
+            asyncWait.WaitOne();
+        }
 
-            latLon nw = new latLon(latStart, lonStart);
-            latLon ne = new latLon(latStart, lonEnd);
-            latLon se = new latLon(latEnd, lonEnd);
-            latLon sw = new latLon(latEnd, lonStart);
-            
-            string[] nwGrid = nw.getGrids();
-            string[] neGrid = ne.getGrids();
-            string[] seGrid = se.getGrids();
-            string[] swGrid = sw.getGrids();
+        public void write(long user_id
+            , string grid
+            , float lat
+            , float lon
+            , int sysLat
+            , int sysLon
+            , int sysLatStart
+            , int sysLatEnd
+            , int sysLonStart
+            , int sysLonEnd
+            , int radiusMeters
+            , string msg
+        )
+        {
+            string parameter = "?cf_user_id=" + user_id.ToString();
+            parameter += "&cf_grid=" + grid.ToString();
+            parameter += "&cf_lat=" + lat.ToString();
+            parameter += "&cf_lon=" + lon.ToString();
+            parameter += "&cf_sys_lat=" + sysLat.ToString();
+            parameter += "&cf_sys_lon=" + sysLon.ToString();
+            parameter += "&cf_sys_lat_start=" + sysLatStart.ToString();
+            parameter += "&cf_sys_lat_end=" + sysLatEnd.ToString();
+            parameter += "&cf_sys_lon_start=" + sysLonStart.ToString();
+            parameter += "&cf_sys_lon_end=" + sysLonEnd.ToString();
+            parameter += "&cf_radius_meters=" + radiusMeters.ToString();
+            parameter += "&cf_msg=" + msg;
 
-            for (int i = 0; i < latLon.getGridCount(); i++)
+            Uri writeUri = new Uri(writeUrl + parameter, UriKind.Absolute);
+
+            client.OpenReadAsync(writeUri);
+            asyncWait.WaitOne();
+        }
+
+        private void getOutput(Object sender, OpenReadCompletedEventArgs e)
+        {
+            Stream reply = null;
+            StreamReader reader = null;
+
+            try
             {
-                if (nwGrid[i] == neGrid[i]
-                && nwGrid[i] == seGrid[i]
-                && nwGrid[i] == swGrid[i])
+                reply = (Stream)e.Result;
+                reader = new StreamReader(reply);
+                output.Append(reader.ReadToEnd());
+            }
+            finally
+            {
+                if (reader != null)
                 {
-                    gridI = i;
-                    break;
+                    reader.Close();
+                }
+
+                if (reply != null)
+                {
+                    reply.Close();
                 }
             }
-
-            if (gridI < 0) return false;
-
-            StringBuilder output = new StringBuilder("");
-            db.setOutput( output );
-
-            db.write(0
-                , nwGrid[gridI]
-                , position.getLat()
-                , position.getLon()
-                , position.getSysLat()
-                , position.getSysLon()
-                , nw.getSysLat()
-                , sw.getSysLat()
-                , nw.getSysLon()
-                , ne.getSysLon()
-                , radiusMeters
-                , msg
-            );
-
-            return true;
+            output = null;
+            asyncWait.Set();
         }
     }
 }

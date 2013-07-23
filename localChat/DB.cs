@@ -8,7 +8,7 @@ using System.Net;
 using System.IO;
 using System.Threading;
 
-namespace localChat
+namespace test
 {
     class DB
     {
@@ -41,7 +41,7 @@ namespace localChat
             asyncWait.WaitOne();
         }
 
-        public void write( long user_id
+        public void write(long user_id
             , string grid
             , float lat
             , float lon
@@ -51,7 +51,7 @@ namespace localChat
             , int sysLatEnd
             , int sysLonStart
             , int sysLonEnd
-            , int radiusMeters 
+            , int radiusMeters
             , string msg
         )
         {
