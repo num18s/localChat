@@ -102,6 +102,8 @@
       <DependentUpon>LoginPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="mathPlus.cs" />
+    <Compile Include="msg.cs" />
+    <Compile Include="readData.cs" />
     <Compile Include="ReadDetailsPage.xaml.cs">
       <DependentUpon>ReadDetailsPage.xaml</DependentUpon>
     </Compile>

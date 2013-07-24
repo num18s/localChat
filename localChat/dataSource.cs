@@ -94,11 +94,18 @@ namespace localChat
         {
             readData output = new readData();
             msg next = new msg();
-            msg.msgID = 1;
-            msg.userID = 0;
-            msg.createDate = new DateTime( now() );
-            string title, userName;
-            float lat, lon;
+            next.msgID = 1;
+            next.userID = 0;
+            next.createDate = DateTime.Now;
+            next.title = "TEST, not using DB";
+            next.msgBody = "TEST, not using DB";
+            next.userName = "Mr. Cuddles";
+            next.lat = (float)48.0;
+            next.lon = (float)-122.0;
+
+            output.addData(next);
+
+            return output;
         }
     }
 }
