@@ -8,23 +8,22 @@ namespace localChat
 {
     class readData
     {
-        struct msg
-        {
-            long msgID, userID;
-            DateTime createDate;
-            string title, userName;
-            float lat, lon;
-        }
-
-        public msg[] msgs = new msg[50];
-        public int length = 0;
+        private msg[] msgs = new msg[50];
+        private int length = 0;
 
         public readData() { }
 
-        public void addData(msg input)
-        {
-            msg[length] = input;
+        public void addData( msg input ){
+            msgs[length] = input;
             length++;
+        }
+
+        public msg getMsg( int i ){
+            return msgs[i];
+        }
+
+        public int getLength(){
+            return length;
         }
     }
 }
