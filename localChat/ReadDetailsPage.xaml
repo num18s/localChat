@@ -13,6 +13,12 @@
     FontSize="{StaticResource PhoneFontSizeNormal}"
     Foreground="{StaticResource PhoneForegroundBrush}"
     SupportedOrientations="Portrait"  Orientation="Portrait">
+    <phone:PhoneApplicationPage.ApplicationBar>
+        <shell:ApplicationBar Mode="Minimized">
+            <shell:ApplicationBarIconButton x:Name="Previous" IconUri="/Assets/AppBar/back.png" IsEnabled="True" Text="Previous"/>
+            <shell:ApplicationBarIconButton x:Name="Next" IconUri="/Assets/AppBar/next.png" IsEnabled="True" Text="Next"/>
+        </shell:ApplicationBar>
+    </phone:PhoneApplicationPage.ApplicationBar>
 
     <!--Data context is set to sample data above and first item in sample data collection below and LayoutRoot contains the root grid where all other page content is placed-->
 	<Grid x:Name="LayoutRoot" Background="Transparent" d:DataContext="{Binding Items[0]}">
@@ -69,7 +75,7 @@
 
         <!--ContentPanel contains details text. Place additional content here-->
 		<Grid x:Name="ContentPanel" Margin="12,5,12,0" Grid.Row="1">
-			<edc:Callout AnchorPoint="0.063,1.078" CalloutStyle="Rectangle" Content="Callout" Fill="#FFF4F4F5" FontSize="14.666999816894531" HorizontalAlignment="Left" Height="563" Stroke="Black" VerticalAlignment="Top" Width="444" Opacity="0.5"/>
+			<edc:Callout AnchorPoint="0.063,1.078" CalloutStyle="Rectangle" Content="Callout" Fill="#FFF4F4F5" FontSize="14.666999816894531" HorizontalAlignment="Left" Height="526" Stroke="Black" VerticalAlignment="Top" Width="444" Opacity="0.5"/>
 			<TextBlock x:Name="Message" Text="{Binding Msg}" TextWrapping="Wrap" Style="{StaticResource PhoneTextNormalStyle}" Margin="12,0,12,45">
 				<TextBlock.Foreground>
 					<SolidColorBrush Color="#FFFFFFFF"/>

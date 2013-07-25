@@ -52,7 +52,7 @@
         	<Slider x:Name="Distance_Slider" HorizontalAlignment="Center" VerticalAlignment="Center" Width="437" Value="500" ValueChanged="Distance_Slider_ValueChanged" Minimum="100" Margin="10,497,9,81" SmallChange="1" Maximum="10000" LargeChange="10" Height="79"/>
         	<StackPanel Margin="0,497,0,77" Orientation="Horizontal">
         		<TextBlock x:Name="minMile" HorizontalAlignment="Left" TextWrapping="Wrap" Text="100 Meters" VerticalAlignment="Bottom" FontSize="{StaticResource PhoneFontSizeSmall}"/>
-        		<TextBlock x:Name="space" HorizontalAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Bottom" FontSize="{StaticResource PhoneFontSizeSmall}" Width="280"/>
+        		<TextBlock x:Name="space" HorizontalAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Bottom" FontSize="{StaticResource PhoneFontSizeSmall}" Width="270"/>
         		<TextBlock x:Name="maxMile" HorizontalAlignment="Right" TextWrapping="Wrap" Text="10K Meters" VerticalAlignment="Bottom" FontSize="{StaticResource PhoneFontSizeSmall}"/>
         	</StackPanel>
         	<Button x:Name="Post_Button" Content="Post" HorizontalAlignment="Left" Margin="211,585,0,0" VerticalAlignment="Top" Width="245" Click="Post_Button_Click"/>

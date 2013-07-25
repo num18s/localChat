@@ -13,6 +13,8 @@ namespace localChat
 {
     public partial class ReadLongListPage : PhoneApplicationPage
     {
+        private Microsoft.Phone.Shell.ProgressIndicator pi;
+
         // Constructor
         public ReadLongListPage()
         {
@@ -30,7 +32,18 @@ namespace localChat
         {
             if (!App.ReadMsgList.IsDataLoaded)
             {
+                /* progresss bar... */
+                pi = new Microsoft.Phone.Shell.ProgressIndicator();
+                pi.IsIndeterminate = true;
+                pi.Text = "Receiving message, please wait...";
+                pi.IsVisible = true;
+                Microsoft.Phone.Shell.SystemTray.SetIsVisible(this, true);
+                Microsoft.Phone.Shell.SystemTray.SetProgressIndicator(this, pi);
+
                 App.ReadMsgList.LoadData();
+
+                pi.IsVisible = false;
+                Microsoft.Phone.Shell.SystemTray.SetIsVisible(this, false);
             }
         }
 

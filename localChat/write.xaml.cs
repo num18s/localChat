@@ -8,6 +8,7 @@ using System.Windows.Navigation;
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
 using localChat.Resources;
+using System.Threading;
 
 namespace localChat
 {
@@ -49,7 +50,7 @@ namespace localChat
                          Msg = message
                      };
 
-			/* progresss bar... */
+            /* progresss bar... */
             pi = new Microsoft.Phone.Shell.ProgressIndicator();
             pi.IsIndeterminate = true;
             pi.Text = "Posting message, please wait...";
@@ -57,14 +58,27 @@ namespace localChat
             Microsoft.Phone.Shell.SystemTray.SetIsVisible(this, true);
             Microsoft.Phone.Shell.SystemTray.SetProgressIndicator(this, pi);
 
-			/* wait for message back from post to the clod.. */
-            dataSource ds = new dataSource(myId);
-			ds.write(radiusMeters, title, message);
-                        
-            App.ReadMsgList.Items.Add(outgoingMsg);
+            ThreadStart starter = delegate { Post_Button_Click_Work(title, message, id, radiusMeters); };
+
+            Thread work = new Thread(starter);
+            work.Start();
+
+            ///* wait for message back from post to the clod.. */
+            //dataSource ds = new dataSource(myId);
+            //ds.write(radiusMeters, title, message);
+
+            //App.ReadMsgList.Items.Add(outgoingMsg);
 
             // Navigate to the new page
             NavigationService.Navigate(new Uri("/ReadLongListPage.xaml", UriKind.Relative));
+        }
+
+        private void Post_Button_Click_Work(string title, string message, int id, int radiusMeters)
+        {
+            dataSource ds = new dataSource(myId);
+            ds.write(radiusMeters, title, message);
+
+            //NavigationService.Navigate(new Uri("/ReadLongListPage.xaml", UriKind.Relative));
         }
 
         private void Distance_Slider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
