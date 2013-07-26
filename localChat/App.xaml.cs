@@ -13,7 +13,7 @@ namespace localChat
     public partial class App : Application
     {
         private static MessageGroup readMsgList = null;
-
+        
         /// <summary>
         /// A static ViewModel used by the views to bind against.
         /// </summary>

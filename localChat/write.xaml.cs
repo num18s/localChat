@@ -42,7 +42,7 @@ namespace localChat
 
             MessageItem outgoingMsg = new MessageItem()
                      {
-                         ID = id.ToString(),
+                         dbMsgID = id.ToString(),
                          Date = DateTime.Now.ToString("MM/dd/yyyy"),
                          Time = DateTime.Now.ToString("HH:mm:ss tt"),
                          Title = title,
@@ -63,7 +63,7 @@ namespace localChat
             Thread work = new Thread(starter);
             work.Start();
 
-            ///* wait for message back from post to the clod.. */
+            ///* wait for message back from post to the cloud.. */
             //dataSource ds = new dataSource(myId);
             //ds.write(radiusMeters, title, message);
 

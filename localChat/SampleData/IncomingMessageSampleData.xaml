@@ -5,13 +5,13 @@
     SampleProperty="Sample Text Property Value">
 
     <vm:MessageGroup.Items>
-	
-		<vm:MessageItem ID = "0" Date = "1/2/2013" Time = "12:53:40AM" Author = "runtime one" Title = "Maecenas praesent accumsan bibendum" Msg = "Facilisi faucibus habitant inceptos interdum lobortis nascetur pharetra placerat pulvinar sagittis senectus sociosqu"/>
-        <vm:MessageItem ID = "1" Date = "1/2/2013" Time = "12:53:40AM" Author = "runtime two" Title = "Dictumst eleifend facilisi faucibus" Msg = "Suscipit torquent ultrices vehicula volutpat maecenas praesent accumsan bibendum dictumst eleifend facilisi faucibus"/>
-        <vm:MessageItem ID = "2" Date = "1/2/2013" Time = "12:53:40AM" Author = "runtime three" Title = "Habitant inceptos interdum lobortis" Msg = "Habitant inceptos interdum lobortis nascetur pharetra placerat pulvinar sagittis senectus sociosqu suscipit torquent"/>
-        <vm:MessageItem ID = "3" Date = "1/2/2013" Time = "12:53:40AM" Author = "runtime four" Title = "Nascetur pharetra placerat pulvinar" Msg = "Ultrices vehicula volutpat maecenas praesent accumsan bibendum dictumst eleifend facilisi faucibus habitant inceptos"/>
-        <vm:MessageItem ID = "4" Date = "1/2/2013" Time = "12:53:40AM" Author = "runtime five" Title = "Maecenas praesent accumsan bibendum" Msg = "Maecenas praesent accumsan bibendum dictumst eleifend facilisi faucibus habitant inceptos interdum lobortis nascetur"/>
-        <vm:MessageItem ID = "5" Date = "1/2/2013" Time = "12:53:40AM" Author = "runtime six" Title = "Dictumst eleifend facilisi faucibus" Msg = "Pharetra placerat pulvinar sagittis senectus sociosqu suscipit torquent ultrices vehicula volutpat maecenas praesent"/>
+
+        <vm:MessageItem dbMsgID = "0" Date = "1/2/2013" Time = "12:53:40AM" Author = "runtime one" Title = "Maecenas praesent accumsan bibendum" Msg = "Facilisi faucibus habitant inceptos interdum lobortis nascetur pharetra placerat pulvinar sagittis senectus sociosqu"/>
+        <vm:MessageItem dbMsgID = "1" Date = "1/2/2013" Time = "12:53:40AM" Author = "runtime two" Title = "Dictumst eleifend facilisi faucibus" Msg = "Suscipit torquent ultrices vehicula volutpat maecenas praesent accumsan bibendum dictumst eleifend facilisi faucibus"/>
+        <vm:MessageItem dbMsgID = "2" Date = "1/2/2013" Time = "12:53:40AM" Author = "runtime three" Title = "Habitant inceptos interdum lobortis" Msg = "Habitant inceptos interdum lobortis nascetur pharetra placerat pulvinar sagittis senectus sociosqu suscipit torquent"/>
+        <vm:MessageItem dbMsgID = "3" Date = "1/2/2013" Time = "12:53:40AM" Author = "runtime four" Title = "Nascetur pharetra placerat pulvinar" Msg = "Ultrices vehicula volutpat maecenas praesent accumsan bibendum dictumst eleifend facilisi faucibus habitant inceptos"/>
+        <vm:MessageItem dbMsgID = "4" Date = "1/2/2013" Time = "12:53:40AM" Author = "runtime five" Title = "Maecenas praesent accumsan bibendum" Msg = "Maecenas praesent accumsan bibendum dictumst eleifend facilisi faucibus habitant inceptos interdum lobortis nascetur"/>
+        <vm:MessageItem dbMsgID = "5" Date = "1/2/2013" Time = "12:53:40AM" Author = "runtime six" Title = "Dictumst eleifend facilisi faucibus" Msg = "Pharetra placerat pulvinar sagittis senectus sociosqu suscipit torquent ultrices vehicula volutpat maecenas praesent"/>
 
     </vm:MessageGroup.Items>
 
