@@ -31,7 +31,22 @@ namespace localChat
                 if (NavigationContext.QueryString.TryGetValue("selectedItem", out selectedIndex))
                 {
                     int index = int.Parse(selectedIndex);
-                    DataContext = App.ReadMsgList.Items[index];
+
+                    readData readMsg = new readData();
+                    msg curMsg = readMsg.getMsg(index);
+                    MessageItem curReadMsg = new MessageItem()
+                    {
+                        ID = curMsg.msgID.ToString(),
+                        Date = curMsg.createDate.Date.ToString("MM/dd/yyyy"),
+                        Time = curMsg.createDate.Date.ToString("HH:mm:ss tt"),
+                        Title = curMsg.title,
+                        Author = curMsg.userName,
+                        Msg = curMsg.msgBody
+                    };
+
+                    DataContext = curReadMsg;
+
+                    //DataContext = App.ReadMsgList.Items[index];
                 }
             }
         }

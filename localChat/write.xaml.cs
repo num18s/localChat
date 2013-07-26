@@ -33,7 +33,7 @@ namespace localChat
             pageLoaded = true;
         }
 
-        private void Post_Button_Click(object sender, RoutedEventArgs e)
+        private void PostButton_Click(object sender, EventArgs e)
         {
             String title = this.Message_Title_Box.Text;
             String message = this.Message_Post_Box.Text;

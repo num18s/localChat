@@ -11,9 +11,14 @@
     Foreground="{StaticResource PhoneForegroundBrush}"
     SupportedOrientations="Portrait" Orientation="Portrait"
     mc:Ignorable="d">
+	<phone:PhoneApplicationPage.ApplicationBar>
+		<shell:ApplicationBar>
+            <shell:ApplicationBarIconButton x:Name="PostButton" Click="PostButton_Click" IconUri="/Assets/AppBar/check.png" IsEnabled="True" Text="Post"/>
+		</shell:ApplicationBar>
+	</phone:PhoneApplicationPage.ApplicationBar>
 
     <!--LayoutRoot is the root grid where all page content is placed-->
-    <Grid x:Name="LayoutRoot" Background="Transparent">
+    <Grid x:Name="LayoutRoot" Background="Transparent" Margin="0,0,0,-72">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
@@ -55,7 +60,6 @@
         		<TextBlock x:Name="space" HorizontalAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Bottom" FontSize="{StaticResource PhoneFontSizeSmall}" Width="270"/>
         		<TextBlock x:Name="maxMile" HorizontalAlignment="Right" TextWrapping="Wrap" Text="10K Meters" VerticalAlignment="Bottom" FontSize="{StaticResource PhoneFontSizeSmall}"/>
         	</StackPanel>
-        	<Button x:Name="Post_Button" Content="Post" HorizontalAlignment="Left" Margin="211,585,0,0" VerticalAlignment="Top" Width="245" Click="Post_Button_Click"/>
 
         </Grid>
     </Grid>

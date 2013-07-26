@@ -15,6 +15,8 @@ namespace localChat
     {
         private Microsoft.Phone.Shell.ProgressIndicator pi;
 
+        private static readData readMsg = null;
+
         // Constructor
         public ReadLongListPage()
         {
@@ -40,8 +42,30 @@ namespace localChat
                 Microsoft.Phone.Shell.SystemTray.SetIsVisible(this, true);
                 Microsoft.Phone.Shell.SystemTray.SetProgressIndicator(this, pi);
 
-                App.ReadMsgList.LoadData();
+                //App.ReadMsgList.LoadData();
+                if (readMsg == null)
+                {
+                    readMsg = new readData();
+                }
 
+                int numMsg = readMsg.getLength();
+
+                for (int i = 0; i < numMsg; i++)
+                {
+                    msg curMsg = readMsg.getMsg(i);
+                    MessageItem incomingMsg = new MessageItem()
+                    {
+                        ID = curMsg.msgID.ToString(),
+                        Date = curMsg.createDate.Date.ToString("MM/dd/yyyy"),
+                        Time = curMsg.createDate.Date.ToString("HH:mm:ss tt"),
+                        Title = curMsg.title,
+                        Author = curMsg.userName,
+                        Msg = curMsg.msgBody
+                    };
+
+                    App.ReadMsgList.Items.Add(incomingMsg);
+                }
+                                
                 pi.IsVisible = false;
                 Microsoft.Phone.Shell.SystemTray.SetIsVisible(this, false);
             }
