@@ -9,7 +9,7 @@ namespace localChat
     public class readData
     {
         static public statusMsg status;
-        static public msg[] msgs;
+        static public msg[] msgs = new msg[50];
         static public int length;
 
         public readData()

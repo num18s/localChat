@@ -129,7 +129,7 @@ namespace localChat
 
         private void About_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("This app brought you by the hard working people like Matthew Dryden and Bohao She.  Please enjoy our hard work and let us know what you think!  Thank you.");
+            MessageBox.Show("This app is brought you by the hard working people like Matthew Dryden and Bohao She.  Please enjoy our hard work and let us know what you think!  Thank you.");
             //Do work for your application here.
         }
 
