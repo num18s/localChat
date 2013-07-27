@@ -8,27 +8,26 @@ namespace localChat
 {
     public class readData
     {
-        public statusMsg status;
-        public msg[] msgs;
-        public int length;
+        static public statusMsg status;
+        static public msg[] msgs = new msg[50];
+        static public int length;
 
         public readData()
         {
-
             //public long msgID, userID;
             //public string userName, title, msgBody;
             //public DateTime createDate;
             //public float lat, lon;
 
-            for (length = 0; length < 50; )
+            for (; length < 50; )
             {
                 msg temp = new msg()
                 {
-                    msgID = length,
-                    title = "msg" + length,
+                    msgID = (length+1),
+                    title = "msg" + (length+1),
                     createDate = DateTime.Now,
-                    msgBody = "testing msg " + length,
-                    userName = "user " + length
+                    msgBody = "testing msg " + (length+2),
+                    userName = "user " + (length+3)
                 };
                 addData(temp);
             }

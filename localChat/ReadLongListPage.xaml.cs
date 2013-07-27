@@ -8,7 +8,6 @@ using System.Windows.Navigation;
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
 using localChat.Resources;
-
 using System.Threading;
 
 namespace localChat
@@ -36,47 +35,56 @@ namespace localChat
         {
             if (!App.ReadMsgList.IsDataLoaded)
             {
-                /* progresss bar... */
-                pi = new Microsoft.Phone.Shell.ProgressIndicator();
-                pi.IsIndeterminate = true;
-                pi.Text = "Receiving message, please wait...";
-                pi.IsVisible = true;
-                Microsoft.Phone.Shell.SystemTray.SetIsVisible(this, true);
-                Microsoft.Phone.Shell.SystemTray.SetProgressIndicator(this, pi);
-
                 App.ReadMsgList.LoadData();
 
                 if (readMsg == null)
                 {
                     readMsg = new readData();
                 }
-
-                /*
-                 * Push all the msg from DB to MessageGroup so we can keep
-                 * a list of latest 50 message from DB
-                 */
-                int numMsg = readMsg.getLength();
-                for (int i = 0; i < numMsg; i++)
-                {
-                    msg curDBMsg = readMsg.getMsg(i);
-                    MessageItem incomingMsg = new MessageItem()
-                    {
-                        dbMsgID = curDBMsg.msgID.ToString(),
-                        Date = curDBMsg.createDate.Date.ToString("MM/dd/yyyy"),
-                        Time = curDBMsg.createDate.Date.ToString("HH:mm:ss tt"),
-                        Title = curDBMsg.title,
-                        //Author = curDBMsg.userName,
-                        //Msg = curDBMsg.msgBody
-                    };
-
-                    /* Add to local list for retrive later.. */
-                    App.ReadMsgList.Items.Add(incomingMsg);
-                }
-
-                pi.IsVisible = false;
-                Microsoft.Phone.Shell.SystemTray.SetIsVisible(this, false);
-                DataContext = App.ReadMsgList;
             }
+
+            /* Remove all all back entry from the stack.. */
+            if (NavigationService != null && NavigationService.CanGoBack)
+            {
+                while (NavigationService.RemoveBackEntry() != null)
+                {
+                    NavigationService.RemoveBackEntry();
+                }
+            }
+
+            /* progresss bar... */
+            pi = new Microsoft.Phone.Shell.ProgressIndicator();
+            pi.IsIndeterminate = true;
+            pi.Text = "Receiving message, please wait...";
+            pi.IsVisible = true;
+            Microsoft.Phone.Shell.SystemTray.SetIsVisible(this, true);
+            Microsoft.Phone.Shell.SystemTray.SetProgressIndicator(this, pi);
+            /*
+              * Push all the msg from DB to MessageGroup so we can keep
+              * a list of latest 50 message from DB
+              */
+            int numMsg = readMsg.getLength();
+            for (int i = 0; i < numMsg; i++)
+            {
+                msg curDBMsg = readMsg.getMsg(i);
+                MessageItem incomingMsg = new MessageItem()
+                {
+                    dbMsgID = curDBMsg.msgID.ToString(),
+                    Date = curDBMsg.createDate.Date.ToString("MM/dd/yyyy"),
+                    Time = curDBMsg.createDate.Date.ToString("HH:mm:ss tt"),
+                    Title = curDBMsg.title,
+                    //Author = curDBMsg.userName,
+                    //Msg = curDBMsg.msgBody
+                };
+
+                /* Add to local list for retrive later.. */
+                App.ReadMsgList.Items.Add(incomingMsg);
+            }
+
+            pi.IsVisible = false;
+            Microsoft.Phone.Shell.SystemTray.SetIsVisible(this, false);
+            DataContext = App.ReadMsgList;
+
         }
 
         // Handle selection changed on LongListSelector
@@ -110,7 +118,6 @@ namespace localChat
         {
             dataSource ds = new dataSource("12345678910");
             ds.read();
-            //Do work for your application here.
         }
 
         private void Settings_Click(object sender, EventArgs e)
@@ -122,8 +129,22 @@ namespace localChat
 
         private void About_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("About works!");
+            MessageBox.Show("This app is brought you by the hard working people like Matthew Dryden and Bohao She.  Please enjoy our hard work and let us know what you think!  Thank you.");
             //Do work for your application here.
+        }
+
+
+        //UNUSED...
+        private void ReadLongListPage_BackKeyPress(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            if (NavigationService.CanGoBack)
+            {
+                /* Handel all the file saving... */
+
+                throw new Exception("ExitAppException");    // only way I can find to exit the app...
+            }
+            else
+                e.Cancel = true; // Tell the system that we got it..
         }
 
         // Sample code for building a localized ApplicationBar
