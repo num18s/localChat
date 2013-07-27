@@ -31,13 +31,13 @@ namespace localChat
                 string msgId = "";
                 if (NavigationContext.QueryString.TryGetValue("selectedItem", out msgId))
                 {
-                    int index = int.Parse(msgId);   // cast for DB retrival..
+                    int index = App.ReadMsgList.getCurMsgIndex(msgId);
 
                     readData readMsg = new readData();  //TODO: this one currently will create a new object and rebuild 50 msg... not working...
                     msg curMsg = readMsg.getMsg(index);
                     curReadMsg = new MessageItem()
                     {
-                        //dbMsgID = curMsg.msgID.ToString(),
+                        dbMsgID = curMsg.msgID.ToString(),
                         Date = curMsg.createDate.Date.ToString("MM/dd/yyyy"),
                         Time = curMsg.createDate.Date.ToString("HH:mm:ss tt"),
                         Title = curMsg.title,
@@ -76,6 +76,13 @@ namespace localChat
 
             string msgId = App.ReadMsgList.Items[i].dbMsgID;
             NavigationService.Navigate(new Uri("/ReadDetailsPage.xaml?selectedItem=" + msgId, UriKind.Relative));
+        }
+
+        private void ReadDetailsPage_BackKeyPress(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            e.Cancel = true; // Tell the system that we got it..
+                        
+            NavigationService.Navigate(new Uri("/ReadLongListPage.xaml", UriKind.Relative));
         }
 
         // Sample code for building a localized ApplicationBar

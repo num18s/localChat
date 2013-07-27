@@ -12,9 +12,10 @@
     FontFamily="{StaticResource PhoneFontFamilyNormal}"
     FontSize="{StaticResource PhoneFontSizeNormal}"
     Foreground="{StaticResource PhoneForegroundBrush}"
-    SupportedOrientations="Portrait"  Orientation="Portrait">
+    SupportedOrientations="Portrait"  Orientation="Portrait"
+    BackKeyPress="ReadDetailsPage_BackKeyPress">
     <phone:PhoneApplicationPage.ApplicationBar>
-        <shell:ApplicationBar Mode="Minimized">
+        <shell:ApplicationBar Mode="Default">
             <shell:ApplicationBarIconButton x:Name="Prev" Click="readDetailPrev_click" IconUri="/Assets/AppBar/back.png" IsEnabled="True" Text="Prev"/>
             <shell:ApplicationBarIconButton x:Name="Next" Click="readDetailNext_click" IconUri="/Assets/AppBar/next.png" IsEnabled="True" Text="Next"/>
         </shell:ApplicationBar>
@@ -54,7 +55,7 @@
 					</TextBlock.Foreground>
 				</TextBlock>
 			</StackPanel>
-			<StackPanel Height="27" Orientation="Horizontal" Margin="12,0,285,0">
+			<StackPanel Height="27" Orientation="Horizontal" Margin="12,0,0,0">
 				<TextBlock x:Name="Date" Text="{Binding Date}" Margin="0" Style="{StaticResource PhoneTextNormalStyle}">
 					<TextBlock.Foreground>
 						<SolidColorBrush Color="{StaticResource PhoneForegroundColor}"/>
@@ -75,7 +76,7 @@
 
         <!--ContentPanel contains details text. Place additional content here-->
 		<Grid x:Name="ContentPanel" Margin="12,5,12,0" Grid.Row="1">
-			<edc:Callout AnchorPoint="0.063,1.078" CalloutStyle="Rectangle" Content="Callout" Fill="#FFF4F4F5" FontSize="14.666999816894531" HorizontalAlignment="Left" Height="526" Stroke="Black" VerticalAlignment="Top" Width="444" Opacity="0.5"/>
+			<edc:Callout AnchorPoint="0.063,1.078" CalloutStyle="Rectangle" Content="Callout" Fill="#FFF4F4F5" FontSize="14.666999816894531" HorizontalAlignment="Left" Height="491" Stroke="Black" VerticalAlignment="Top" Width="444" Opacity="0.5"/>
 			<TextBlock x:Name="Message" Text="{Binding Msg}" TextWrapping="Wrap" Style="{StaticResource PhoneTextNormalStyle}" Margin="12,0,12,45">
 				<TextBlock.Foreground>
 					<SolidColorBrush Color="#FFFFFFFF"/>
