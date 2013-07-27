@@ -132,9 +132,10 @@ namespace localChat
             return output;
         }
 
-        public static int getGridCount()
+        public int getGridCount()
         {
-            return GRID_COUNT;
+            int output = GRID_COUNT;
+            return output;
         }
     }
 }

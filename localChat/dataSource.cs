@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 using System.Device.Location;
+using Newtonsoft.Json;
 
 namespace localChat
 {
@@ -54,7 +55,7 @@ namespace localChat
             string[] seGrid = se.getGrids();
             string[] swGrid = sw.getGrids();
 
-            for (int i = 0; i < latLon.getGridCount(); i++)
+            for (int i = 0; i < position.getGridCount(); i++)
             {
                 if (nwGrid[i] == neGrid[i]
                 && nwGrid[i] == seGrid[i]
@@ -87,23 +88,32 @@ namespace localChat
                 , msg
             );
 
+            statusMsg status = JsonConvert.DeserializeObject<statusMsg>(output.ToString());
+
             return true;
         }
 
         public readData read()
         {
-            readData output = new readData();
-            msg next = new msg();
-            next.msgID = 1;
-            next.userID = 0;
-            next.createDate = DateTime.Now;
-            next.title = "TEST, not using DB";
-            next.msgBody = "TEST, not using DB";
-            next.userName = "Mr. Cuddles";
-            next.lat = (float)48.0;
-            next.lon = (float)-122.0;
+            GeoCoordinateWatcher getPosition = new GeoCoordinateWatcher();
+            getPosition.TryStart(false, TimeSpan.FromMilliseconds(1000));
 
-            output.addData(next);
+            float lat = (float)getPosition.Position.Location.Latitude;
+            float lon = (float)getPosition.Position.Location.Longitude;
+
+            getPosition.Stop();
+            getPosition.Dispose();
+
+            latLon position = new latLon(lat, lon);
+
+            StringBuilder htmlOutput = new StringBuilder("");
+
+            DB db = new DB();
+            db.setOutput(htmlOutput);
+
+            db.read(position);
+
+            readData output = JsonConvert.DeserializeObject<readData>(htmlOutput.ToString());
 
             return output;
         }

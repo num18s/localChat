@@ -8,6 +8,7 @@ using System.Windows.Navigation;
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
 using localChat.Resources;
+using System.Threading;
 
 namespace localChat
 {
@@ -48,13 +49,23 @@ namespace localChat
 			/* progresss bar... */
 			
 			/* wait for message back from post to the clod.. */
-            dataSource ds = new dataSource(myId);
-			ds.write(radiusMeters, title, message);
+            /*dataSource ds = new dataSource(myId);
+			ds.write(radiusMeters, title, message);*/
+
+            ThreadStart starter = delegate { Post_Button_Click_Work(title, message, id, radiusMeters); };
+            Thread work = new Thread(starter);
+            work.Start();
 
             //App.ReadMsgList.Items.Add(outgoingMsg);
 
             // Navigate to the new page
             NavigationService.Navigate(new Uri("/ReadLongListPage.xaml", UriKind.Relative));
+        }
+
+        private void Post_Button_Click_Work(string title, string message, int id, int radiusMeters)
+        {
+            dataSource ds = new dataSource(myId);
+            ds.write(radiusMeters, title, message);
         }
     }
 }

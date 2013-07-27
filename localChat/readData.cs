@@ -6,10 +6,11 @@ using System.Threading.Tasks;
 
 namespace localChat
 {
-    class readData
+    public class readData
     {
-        private msg[] msgs = new msg[50];
-        private int length = 0;
+        public statusMsg status;
+        public msg[] msgs;
+        public int length;
 
         public readData() { }
 

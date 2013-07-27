@@ -13,7 +13,7 @@ namespace localChat
     class DB
     {
         private string logInUrl = "https://securec55.ezhostingserver.com/feildofbattlecards-com/localChat/test.html";
-        private string readUrl = "https://securec55.ezhostingserver.com/feildofbattlecards-com/localChat/test.html";
+        private string readUrl = "http://feildofbattlecards-com.securec55.ezhostingserver.com/localChat/read_msg.cfm";
         private string writeUrl = "http://feildofbattlecards-com.securec55.ezhostingserver.com/localChat/create_msg.cfm";
         private string logUrl = "https://securec55.ezhostingserver.com/feildofbattlecards-com/localChat/test.html";
 
@@ -33,12 +33,21 @@ namespace localChat
             this.output = output;
         }
 
-        public void read()
+        public void read( latLon position )
         {
-            Uri readUri = new Uri(readUrl, UriKind.Absolute);
+            string[] grids = position.getGrids();
+
+            string parameter = "?cf_gridP=" + grids[0];
+            for (int i = 1; i < position.getGridCount(); i++)
+                parameter += "&cf_grid" + i + "=" + grids[i];
+            
+            parameter += "&cf_sys_lat=" + position.getSysLat();
+            parameter += "&cf_sys_lon=" + position.getSysLon();
+
+            Uri readUri = new Uri(readUrl + parameter, UriKind.Absolute);
 
             client.OpenReadAsync(readUri);
-            asyncWait.WaitOne();
+            asyncWait.WaitOne(2000);
         }
 
         public void write(long user_id
@@ -73,7 +82,7 @@ namespace localChat
             Uri writeUri = new Uri(writeUrl + parameter, UriKind.Absolute);
 
             client.OpenReadAsync(writeUri);
-            asyncWait.WaitOne();
+            asyncWait.WaitOne(2000);
         }
 
         private void getOutput(Object sender, OpenReadCompletedEventArgs e)

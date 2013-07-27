@@ -9,6 +9,8 @@ using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
 using localChat.Resources;
 
+using System.Threading;
+
 namespace localChat
 {
     public partial class ReadLongListPage : PhoneApplicationPage
@@ -57,9 +59,17 @@ namespace localChat
 
         private void Refresh_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("Refresh button works!");
+            Thread work = new Thread(new ThreadStart(Refresh_Click_Work));
+            work.Start();
+        }
+
+        private void Refresh_Click_Work()
+        {
+            dataSource ds = new dataSource("12345678910");
+            ds.read();
             //Do work for your application here.
         }
+
         private void Settings_Click(object sender, EventArgs e)
         {
             //MessageBox.Show("Settings button works!");
