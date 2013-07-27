@@ -61,18 +61,28 @@ namespace localChat
             return this.Items.Count;
         }
 
+        public int getCurMsgIndex(string curMsgId)
+        {
+            for (int i = 0; i < this.Items.Count; i++)
+            {
+                if (this.Items[i].dbMsgID.Equals(curMsgId))
+                    return i;
+            }
+            return -1;
+        }
+
         /// <summary>
         /// Creates and adds a few ItemViewModel objects into the Items collection.
         /// </summary>
         public void LoadData()
         {
             // Sample data; replace with real data
-            this.Items.Add(new MessageItem() { ID = "0", Date = "1/2/2013", Time = "12:53:40AM", Title = "runtime one", Author = "Maecenas praesent accumsan bibendum", Msg = "Facilisi faucibus habitant inceptos interdum lobortis nascetur pharetra placerat pulvinar sagittis senectus sociosqu" });
-            this.Items.Add(new MessageItem() { ID = "1", Date = "12/25/2012", Time = "2:30:45PM", Title = "runtime two", Author = "Dictumst eleifend facilisi faucibus", Msg = "Suscipit torquent ultrices vehicula volutpat maecenas praesent accumsan bibendum dictumst eleifend facilisi faucibus" });
-            //this.Items.Add(new MessageItem() { ID = "2", Date = "1/2/2013", Time = "12:53:40AM", Title = "runtime three", Author = "Habitant inceptos interdum lobortis", Msg = "Habitant inceptos interdum lobortis nascetur pharetra placerat pulvinar sagittis senectus sociosqu suscipit torquent" });
-            //this.Items.Add(new MessageItem() { ID = "3", Date = "1/2/2013", Time = "12:53:40AM", Title = "runtime four", Author = "Nascetur pharetra placerat pulvinar", Msg = "Ultrices vehicula volutpat maecenas praesent accumsan bibendum dictumst eleifend facilisi faucibus habitant inceptos" });
-            //this.Items.Add(new MessageItem() { ID = "4", Date = "1/2/2013", Time = "12:53:40AM", Title = "runtime five", Author = "Maecenas praesent accumsan bibendum", Msg = "Maecenas praesent accumsan bibendum dictumst eleifend facilisi faucibus habitant inceptos interdum lobortis nascetur" });
-            //this.Items.Add(new MessageItem() { ID = "5", Date = "1/2/2013", Time = "12:53:40AM", Title = "runtime six", Author = "Dictumst eleifend facilisi faucibus", Msg = "Pharetra placerat pulvinar sagittis senectus sociosqu suscipit torquent ultrices vehicula volutpat maecenas praesent" });
+            //this.Items.Add(new MessageItem() { dbMsgID = "0", Date = "1/2/2013", Time = "12:53:40AM", Title = "runtime one", Author = "Maecenas praesent accumsan bibendum", Msg = "Facilisi faucibus habitant inceptos interdum lobortis nascetur pharetra placerat pulvinar sagittis senectus sociosqu" });
+            //this.Items.Add(new MessageItem() { dbMsgID = "1", Date = "12/25/2012", Time = "2:30:45PM", Title = "runtime two", Author = "Dictumst eleifend facilisi faucibus", Msg = "Suscipit torquent ultrices vehicula volutpat maecenas praesent accumsan bibendum dictumst eleifend facilisi faucibus" });
+            //this.Items.Add(new MessageItem() { dbMsgID = "2", Date = "1/2/2013", Time = "12:53:40AM", Title = "runtime three", Author = "Habitant inceptos interdum lobortis", Msg = "Habitant inceptos interdum lobortis nascetur pharetra placerat pulvinar sagittis senectus sociosqu suscipit torquent" });
+            //this.Items.Add(new MessageItem() { dbMsgID = "3", Date = "1/2/2013", Time = "12:53:40AM", Title = "runtime four", Author = "Nascetur pharetra placerat pulvinar", Msg = "Ultrices vehicula volutpat maecenas praesent accumsan bibendum dictumst eleifend facilisi faucibus habitant inceptos" });
+            //this.Items.Add(new MessageItem() { dbMsgID = "4", Date = "1/2/2013", Time = "12:53:40AM", Title = "runtime five", Author = "Maecenas praesent accumsan bibendum", Msg = "Maecenas praesent accumsan bibendum dictumst eleifend facilisi faucibus habitant inceptos interdum lobortis nascetur" });
+            //this.Items.Add(new MessageItem() { dbMsgID = "5", Date = "1/2/2013", Time = "12:53:40AM", Title = "runtime six", Author = "Dictumst eleifend facilisi faucibus", Msg = "Pharetra placerat pulvinar sagittis senectus sociosqu suscipit torquent ultrices vehicula volutpat maecenas praesent" });
             
             this.IsDataLoaded = true;
         }

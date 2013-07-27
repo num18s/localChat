@@ -15,6 +15,10 @@ namespace localChat
 {
     public partial class ReadLongListPage : PhoneApplicationPage
     {
+        private Microsoft.Phone.Shell.ProgressIndicator pi;
+
+        private static readData readMsg = null;
+
         // Constructor
         public ReadLongListPage()
         {
@@ -32,7 +36,46 @@ namespace localChat
         {
             if (!App.ReadMsgList.IsDataLoaded)
             {
+                /* progresss bar... */
+                pi = new Microsoft.Phone.Shell.ProgressIndicator();
+                pi.IsIndeterminate = true;
+                pi.Text = "Receiving message, please wait...";
+                pi.IsVisible = true;
+                Microsoft.Phone.Shell.SystemTray.SetIsVisible(this, true);
+                Microsoft.Phone.Shell.SystemTray.SetProgressIndicator(this, pi);
+
                 App.ReadMsgList.LoadData();
+
+                if (readMsg == null)
+                {
+                    readMsg = new readData();
+                }
+
+                /*
+                 * Push all the msg from DB to MessageGroup so we can keep
+                 * a list of latest 50 message from DB
+                 */
+                int numMsg = readMsg.getLength();
+                for (int i = 0; i < numMsg; i++)
+                {
+                    msg curDBMsg = readMsg.getMsg(i);
+                    MessageItem incomingMsg = new MessageItem()
+                    {
+                        dbMsgID = curDBMsg.msgID.ToString(),
+                        Date = curDBMsg.createDate.Date.ToString("MM/dd/yyyy"),
+                        Time = curDBMsg.createDate.Date.ToString("HH:mm:ss tt"),
+                        Title = curDBMsg.title,
+                        //Author = curDBMsg.userName,
+                        //Msg = curDBMsg.msgBody
+                    };
+
+                    /* Add to local list for retrive later.. */
+                    App.ReadMsgList.Items.Add(incomingMsg);
+                }
+
+                pi.IsVisible = false;
+                Microsoft.Phone.Shell.SystemTray.SetIsVisible(this, false);
+                DataContext = App.ReadMsgList;
             }
         }
 
@@ -44,13 +87,13 @@ namespace localChat
                 return;
 
             // Navigate to the new page
-            NavigationService.Navigate(new Uri("/ReadDetailsPage.xaml?selectedItem=" + (IncomingMessageLLS.SelectedItem as MessageItem).ID, UriKind.Relative));
+            NavigationService.Navigate(new Uri("/ReadDetailsPage.xaml?selectedItem=" + (IncomingMessageLLS.SelectedItem as MessageItem).dbMsgID, UriKind.Relative));
 
             // Reset selected item to null (no selection)
             IncomingMessageLLS.SelectedItem = null;
         }
-		
-		 private void Write_Click(object sender, EventArgs e)
+
+        private void Write_Click(object sender, EventArgs e)
         {
             //MessageBox.Show("Write button works!");
             //Do work for your application here.

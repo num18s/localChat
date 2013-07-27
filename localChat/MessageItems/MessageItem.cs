@@ -12,23 +12,23 @@ namespace localChat
 {
     public class MessageItem : INotifyPropertyChanged
     {
-        private string _id;
+        private string _dbMsgId;
         /// <summary>
         /// Sample ViewModel property; this property is used to identify the object.
         /// </summary>
         /// <returns></returns>
-        public string ID
+        public string dbMsgID
         {
             get
             {
-                return _id;
+                return _dbMsgId;
             }
             set
             {
-                if (value != _id)
+                if (value != _dbMsgId)
                 {
-                    _id = value;
-                    NotifyPropertyChanged("ID");
+                    _dbMsgId = value;
+                    NotifyPropertyChanged("dbMsgID");
                 }
             }
         }

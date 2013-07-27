@@ -13,6 +13,7 @@ namespace localChat
 {
     public partial class ReadDetailsPage : PhoneApplicationPage
     {
+        MessageItem curReadMsg;
         // Constructor
         public ReadDetailsPage()
         {
@@ -27,13 +28,54 @@ namespace localChat
         {
             if (DataContext == null)
             {
-                string selectedIndex = "";
-                if (NavigationContext.QueryString.TryGetValue("selectedItem", out selectedIndex))
+                string msgId = "";
+                if (NavigationContext.QueryString.TryGetValue("selectedItem", out msgId))
                 {
-                    int index = int.Parse(selectedIndex);
-                    DataContext = App.ReadMsgList.Items[index];
+                    int index = int.Parse(msgId);   // cast for DB retrival..
+
+                    readData readMsg = new readData();  //TODO: this one currently will create a new object and rebuild 50 msg... not working...
+                    msg curMsg = readMsg.getMsg(index);
+                    curReadMsg = new MessageItem()
+                    {
+                        //dbMsgID = curMsg.msgID.ToString(),
+                        Date = curMsg.createDate.Date.ToString("MM/dd/yyyy"),
+                        Time = curMsg.createDate.Date.ToString("HH:mm:ss tt"),
+                        Title = curMsg.title,
+                        Author = curMsg.userName,
+                        Msg = curMsg.msgBody
+                    };
+
+                    DataContext = curReadMsg;
+
+                    //DataContext = App.ReadMsgList.Items[index];
                 }
             }
+        }
+
+        private void readDetailPrev_click(object sender, EventArgs e)
+        {
+            /* get the current msg index */
+            int i = App.ReadMsgList.getCurMsgIndex(curReadMsg.dbMsgID);
+
+            /* get the previous msgId in a circular buffer */
+            if (i == 0) i = App.ReadMsgList.CurrentItemCount() - 1;
+            else i--;
+
+            string msgId = App.ReadMsgList.Items[i].dbMsgID;
+            NavigationService.Navigate(new Uri("/ReadDetailsPage.xaml?selectedItem=" + msgId, UriKind.Relative));
+        }
+
+        private void readDetailNext_click(object sender, EventArgs e)
+        {
+            /* get the current msg index */
+            int i = App.ReadMsgList.getCurMsgIndex(curReadMsg.dbMsgID);
+
+            /* get the next msgId in a circular buffer */
+            if (i == (App.ReadMsgList.CurrentItemCount() - 1)) i = 0;
+            else i++;
+
+            string msgId = App.ReadMsgList.Items[i].dbMsgID;
+            NavigationService.Navigate(new Uri("/ReadDetailsPage.xaml?selectedItem=" + msgId, UriKind.Relative));
         }
 
         // Sample code for building a localized ApplicationBar
