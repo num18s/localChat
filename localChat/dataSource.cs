@@ -117,5 +117,19 @@ namespace localChat
 
             return output;
         }
+
+        public readData readDetails( long msg_id )
+        {
+            StringBuilder htmlOutput = new StringBuilder("");
+
+            DB db = new DB();
+            db.setOutput(htmlOutput);
+
+            db.readDetails(msg_id);
+
+            readData output = JsonConvert.DeserializeObject<readData>(htmlOutput.ToString());
+
+            return output;
+        }
     }
 }

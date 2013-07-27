@@ -14,6 +14,7 @@ namespace localChat
     {
         private string logInUrl = "https://securec55.ezhostingserver.com/feildofbattlecards-com/localChat/test.html";
         private string readUrl = "http://feildofbattlecards-com.securec55.ezhostingserver.com/localChat/read_msg.cfm";
+        private string readDetailsUrl = "http://feildofbattlecards-com.securec55.ezhostingserver.com/localChat/read_msg_details.cfm";
         private string writeUrl = "http://feildofbattlecards-com.securec55.ezhostingserver.com/localChat/create_msg.cfm";
         private string logUrl = "https://securec55.ezhostingserver.com/feildofbattlecards-com/localChat/test.html";
 
@@ -45,6 +46,16 @@ namespace localChat
             parameter += "&cf_sys_lon=" + position.getSysLon();
 
             Uri readUri = new Uri(readUrl + parameter, UriKind.Absolute);
+
+            client.OpenReadAsync(readUri);
+            asyncWait.WaitOne(2000);
+        }
+
+        public void readDetails(long msg_id)
+        {
+            string parameter = "?cf_msg_id=" + msg_id;
+
+            Uri readUri = new Uri(readDetailsUrl + parameter, UriKind.Absolute);
 
             client.OpenReadAsync(readUri);
             asyncWait.WaitOne(2000);
