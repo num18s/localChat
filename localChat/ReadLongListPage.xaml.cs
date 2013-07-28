@@ -9,6 +9,7 @@ using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
 using localChat.Resources;
 using System.Threading;
+using System.ComponentModel;
 
 namespace localChat
 {
@@ -17,14 +18,18 @@ namespace localChat
         private Microsoft.Phone.Shell.ProgressIndicator pi;
 
         private static readData readMsg = null;
+        private BackgroundWorker bw;
 
         // Constructor
         public ReadLongListPage()
         {
             InitializeComponent();
+            this.bw = new System.ComponentModel.BackgroundWorker();
+            this.bw.DoWork += new System.ComponentModel.DoWorkEventHandler(this.refreshDoWork);
+            this.bw.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.refreshCompleted);
 
             // Set the data context of the LongListSelector control to the sample data
-            DataContext = App.ReadMsgList;
+            //DataContext = App.ReadMsgList;
 
             // Sample code to localize the ApplicationBar
             //BuildLocalizedApplicationBar();
@@ -33,16 +38,6 @@ namespace localChat
         // Load data for the ViewModel Items
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            if (!App.ReadMsgList.IsDataLoaded)
-            {
-                App.ReadMsgList.LoadData();
-
-                if (readMsg == null)
-                {
-                    readMsg = new readData();
-                }
-            }
-
             /* Remove all all back entry from the stack.. */
             if (NavigationService != null && NavigationService.CanGoBack)
             {
@@ -52,6 +47,11 @@ namespace localChat
                 }
             }
 
+            refreshData();
+        }
+
+        private void refreshData()
+        {
             /* progresss bar... */
             pi = new Microsoft.Phone.Shell.ProgressIndicator();
             pi.IsIndeterminate = true;
@@ -59,32 +59,68 @@ namespace localChat
             pi.IsVisible = true;
             Microsoft.Phone.Shell.SystemTray.SetIsVisible(this, true);
             Microsoft.Phone.Shell.SystemTray.SetProgressIndicator(this, pi);
-            /*
-              * Push all the msg from DB to MessageGroup so we can keep
-              * a list of latest 50 message from DB
-              */
-            int numMsg = readMsg.getLength();
-            for (int i = 0; i < numMsg; i++)
+
+            if (!App.ReadMsgList.IsDataLoaded)
             {
-                msg curDBMsg = readMsg.getMsg(i);
-                MessageItem incomingMsg = new MessageItem()
-                {
-                    dbMsgID = curDBMsg.msgID.ToString(),
-                    Date = curDBMsg.createDate.Date.ToString("MM/dd/yyyy"),
-                    Time = curDBMsg.createDate.Date.ToString("HH:mm:ss tt"),
-                    Title = curDBMsg.title,
-                    //Author = curDBMsg.userName,
-                    //Msg = curDBMsg.msgBody
-                };
+                //App.ReadMsgList.LoadData();
 
-                /* Add to local list for retrive later.. */
-                App.ReadMsgList.Items.Add(incomingMsg);
+                readMsg = new readData();
+                this.bw.RunWorkerAsync();
             }
+        }
 
-            pi.IsVisible = false;
-            Microsoft.Phone.Shell.SystemTray.SetIsVisible(this, false);
-            DataContext = App.ReadMsgList;
+        private void refreshDoWork(object sender, DoWorkEventArgs e)
+        {
+            dataSource ds = new dataSource("12345678910");
+            readData passBack = ds.read();
+            e.Result = passBack;
+        }
 
+        private void refreshCompleted(
+            object sender, 
+            RunWorkerCompletedEventArgs e)
+        {   
+            if (e.Cancelled)
+            {
+                // The user canceled the operation.
+                MessageBox.Show("Operation was canceled");
+            }
+            else if (e.Error != null)
+            {
+                // There was an error during the operation. 
+                string msg = String.Format("An error occurred: {0}", e.Error.Message);
+                MessageBox.Show(msg);
+            }
+            else
+            {
+                /*
+                * Push all the msg from DB to MessageGroup so we can keep
+                * a list of latest 50 message from DB
+                */
+                readMsg = (readData)e.Result;
+
+                int numMsg = readMsg.getLength();
+                for (int i = 0; i < numMsg; i++)
+                {
+                    msg curDBMsg = readMsg.getMsg(i);
+                    MessageItem incomingMsg = new MessageItem()
+                    {
+                        dbMsgID = curDBMsg.msgID.ToString(),
+                        Date = curDBMsg.createDate.Date.ToString("MM/dd/yyyy"),
+                        Time = curDBMsg.createDate.Date.ToString("HH:mm:ss tt"),
+                        Title = curDBMsg.title,
+                        //Author = curDBMsg.userName,
+                        //Msg = curDBMsg.msgBody
+                    };
+
+                    /* Add to local list for retrive later.. */
+                    App.ReadMsgList.Items.Add(incomingMsg);
+                }
+
+                pi.IsVisible = false;
+                Microsoft.Phone.Shell.SystemTray.SetIsVisible(this, false);
+                DataContext = App.ReadMsgList;
+            }
         }
 
         // Handle selection changed on LongListSelector

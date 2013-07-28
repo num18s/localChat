@@ -6,7 +6,7 @@ using System.Windows.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 
-namespace localChat
+namespace testList
 {
     //Code from http://stackoverflow.com/questions/3420282/unauthorizedaccessexception-invalid-cross-thread-access-in-silverlight-applicat
     //How to use: UIThread.Invoke(() => txtOutput.Text = output.ToString() );
