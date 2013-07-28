@@ -101,28 +101,34 @@ namespace localChat
 
         private void readDetailPrev_click(object sender, EventArgs e)
         {
-            /* get the current msg index */
-            int i = App.ReadMsgList.getCurMsgIndex(curReadMsg.dbMsgID);
+            if (curReadMsg != null)
+            {
+                /* get the current msg index */
+                int i = App.ReadMsgList.getCurMsgIndex(curReadMsg.dbMsgID);
 
-            /* get the previous msgId in a circular buffer */
-            if (i == 0) i = App.ReadMsgList.CurrentItemCount() - 1;
-            else i--;
+                /* get the previous msgId in a circular buffer */
+                if (i == 0) i = App.ReadMsgList.CurrentItemCount() - 1;
+                else i--;
 
-            string msgId = App.ReadMsgList.Items[i].dbMsgID;
-            NavigationService.Navigate(new Uri("/ReadDetailsPage.xaml?selectedItem=" + msgId, UriKind.Relative));
+                string msgId = App.ReadMsgList.Items[i].dbMsgID;
+                NavigationService.Navigate(new Uri("/ReadDetailsPage.xaml?selectedItem=" + msgId, UriKind.Relative));
+            }
         }
 
         private void readDetailNext_click(object sender, EventArgs e)
         {
-            /* get the current msg index */
-            int i = App.ReadMsgList.getCurMsgIndex(curReadMsg.dbMsgID);
+            if (curReadMsg != null)
+            {
+                /* get the current msg index */
+                int i = App.ReadMsgList.getCurMsgIndex(curReadMsg.dbMsgID);
 
-            /* get the next msgId in a circular buffer */
-            if (i == (App.ReadMsgList.CurrentItemCount() - 1)) i = 0;
-            else i++;
+                /* get the next msgId in a circular buffer */
+                if (i == (App.ReadMsgList.CurrentItemCount() - 1)) i = 0;
+                else i++;
 
-            string msgId = App.ReadMsgList.Items[i].dbMsgID;
-            NavigationService.Navigate(new Uri("/ReadDetailsPage.xaml?selectedItem=" + msgId, UriKind.Relative));
+                string msgId = App.ReadMsgList.Items[i].dbMsgID;
+                NavigationService.Navigate(new Uri("/ReadDetailsPage.xaml?selectedItem=" + msgId, UriKind.Relative));
+            }
         }
 
         private void ReadDetailsPage_BackKeyPress(object sender, System.ComponentModel.CancelEventArgs e)

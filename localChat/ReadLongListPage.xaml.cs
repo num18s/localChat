@@ -66,8 +66,9 @@ namespace localChat
 
             if (!App.ReadMsgList.IsDataLoaded)
             {
-                this.bw.RunWorkerAsync();
+                App.ReadMsgList.LoadData(); // Get all the saved messags...
             }
+            this.bw.RunWorkerAsync();
         }
 
         private void refreshDoWork(object sender, DoWorkEventArgs e)
@@ -78,9 +79,9 @@ namespace localChat
         }
 
         private void refreshCompleted(
-            object sender, 
+            object sender,
             RunWorkerCompletedEventArgs e)
-        {   
+        {
             if (e.Cancelled)
             {
                 // The user canceled the operation.
@@ -119,8 +120,12 @@ namespace localChat
                             //Msg = curDBMsg.msgBody
                         };
 
-                        /* Add to local list for retrive later.. */
-                        App.ReadMsgList.Items.Add(incomingMsg);
+                        /* Only add message if is not already loaded in the message list.. */
+                        if (App.ReadMsgList.getCurMsgIndex(incomingMsg.dbMsgID) == -1)
+                        {
+                            /* Add to local list for retrive later.. */
+                            App.ReadMsgList.Items.Add(incomingMsg);
+                        }
                     }
                 }
                 pi.IsVisible = false;
@@ -170,17 +175,17 @@ namespace localChat
 
 
         //UNUSED...
-        private void ReadLongListPage_BackKeyPress(object sender, System.ComponentModel.CancelEventArgs e)
-        {
-            if (NavigationService.CanGoBack)
-            {
-                /* Handel all the file saving... */
+        //private void ReadLongListPage_BackKeyPress(object sender, System.ComponentModel.CancelEventArgs e)
+        //{
+        //    if (NavigationService.CanGoBack)
+        //    {
+        //        /* Handel all the file saving... */
 
-                throw new Exception("ExitAppException");    // only way I can find to exit the app...
-            }
-            else
-                e.Cancel = true; // Tell the system that we got it..
-        }
+        //        throw new Exception("ExitAppException");    // only way I can find to exit the app...
+        //    }
+        //    else
+        //        e.Cancel = true; // Tell the system that we got it..
+        //}
 
         // Sample code for building a localized ApplicationBar
         //private void BuildLocalizedApplicationBar()
