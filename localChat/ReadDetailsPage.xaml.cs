@@ -9,15 +9,23 @@ using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
 using localChat.Resources;
 
+using System.ComponentModel;
+
 namespace localChat
 {
     public partial class ReadDetailsPage : PhoneApplicationPage
     {
-        MessageItem curReadMsg;
+        private int msgID;
+        private MessageItem curReadMsg;
+        private BackgroundWorker bw;
+        
         // Constructor
         public ReadDetailsPage()
         {
             InitializeComponent();
+            this.bw = new System.ComponentModel.BackgroundWorker();
+            this.bw.DoWork += new System.ComponentModel.DoWorkEventHandler(this.getMsgDoWork);
+            this.bw.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.getMsgComplete);
 
             // Sample code to localize the ApplicationBar
             //BuildLocalizedApplicationBar();
@@ -26,15 +34,51 @@ namespace localChat
         // When page is navigated to set data context to selected item in list
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
+            string strMsgId = "";
+            if (NavigationContext.QueryString.TryGetValue("selectedItem", out strMsgId))
+            msgID = Convert.ToInt32(strMsgId);
+
             if (DataContext == null)
             {
-                string msgId = "";
-                if (NavigationContext.QueryString.TryGetValue("selectedItem", out msgId))
-                {
-                    int index = App.ReadMsgList.getCurMsgIndex(msgId);
+                getMsg();
+                
+            }
+        }
 
-                    readData readMsg = new readData();  //TODO: this one currently will create a new object and rebuild 50 msg... not working...
-                    msg curMsg = readMsg.getMsg(index);
+        private void getMsg()
+        {
+            this.bw.RunWorkerAsync(msgID);
+        }
+
+        private void getMsgDoWork(object sender, DoWorkEventArgs e)
+        {
+            int msgID = (int)e.Argument;
+            dataSource ds = new dataSource("12345678910");
+            readData passBack = ds.readDetails(msgID);
+            e.Result = passBack;
+        }
+
+        private void getMsgComplete(object sender, RunWorkerCompletedEventArgs e)
+        {
+            if (e.Cancelled)
+            {
+                // The user canceled the operation.
+                MessageBox.Show("Operation was canceled");
+            }
+            else if (e.Error != null)
+            {
+                // There was an error during the operation. 
+                string msg = String.Format("An error occurred: {0}", e.Error.Message);
+                MessageBox.Show(msg);
+            }
+            else
+            {
+                readData msgOutput = (readData)e.Result;
+                //Error Handling, need to provide feedback to the user
+                if (msgOutput != null)
+                {
+                    msg curMsg = msgOutput.getMsg(0);
+
                     curReadMsg = new MessageItem()
                     {
                         dbMsgID = curMsg.msgID.ToString(),
@@ -46,8 +90,6 @@ namespace localChat
                     };
 
                     DataContext = curReadMsg;
-
-                    //DataContext = App.ReadMsgList.Items[index];
                 }
             }
         }

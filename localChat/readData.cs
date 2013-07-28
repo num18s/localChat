@@ -22,7 +22,9 @@ namespace localChat
             length++;
         }
 
-        public msg getMsg( int i ){
+        public msg getMsg( int i )
+        {
+            if( i > length ) return null;
             return msgs[i];
         }
 

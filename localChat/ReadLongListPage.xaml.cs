@@ -62,9 +62,6 @@ namespace localChat
 
             if (!App.ReadMsgList.IsDataLoaded)
             {
-                //App.ReadMsgList.LoadData();
-
-                readMsg = new readData();
                 this.bw.RunWorkerAsync();
             }
         }
@@ -99,24 +96,26 @@ namespace localChat
                 */
                 readMsg = (readData)e.Result;
 
-                int numMsg = readMsg.getLength();
-                for (int i = 0; i < numMsg; i++)
+                if (readMsg != null)
                 {
-                    msg curDBMsg = readMsg.getMsg(i);
-                    MessageItem incomingMsg = new MessageItem()
+                    int numMsg = readMsg.getLength();
+                    for (int i = 0; i < numMsg; i++)
                     {
-                        dbMsgID = curDBMsg.msgID.ToString(),
-                        Date = curDBMsg.createDate.Date.ToString("MM/dd/yyyy"),
-                        Time = curDBMsg.createDate.Date.ToString("HH:mm:ss tt"),
-                        Title = curDBMsg.title,
-                        //Author = curDBMsg.userName,
-                        //Msg = curDBMsg.msgBody
-                    };
+                        msg curDBMsg = readMsg.getMsg(i);
+                        MessageItem incomingMsg = new MessageItem()
+                        {
+                            dbMsgID = curDBMsg.msgID.ToString(),
+                            Date = curDBMsg.createDate.Date.ToString("MM/dd/yyyy"),
+                            Time = curDBMsg.createDate.Date.ToString("HH:mm:ss tt"),
+                            Title = curDBMsg.title,
+                            //Author = curDBMsg.userName,
+                            //Msg = curDBMsg.msgBody
+                        };
 
-                    /* Add to local list for retrive later.. */
-                    App.ReadMsgList.Items.Add(incomingMsg);
+                        /* Add to local list for retrive later.. */
+                        App.ReadMsgList.Items.Add(incomingMsg);
+                    }
                 }
-
                 pi.IsVisible = false;
                 Microsoft.Phone.Shell.SystemTray.SetIsVisible(this, false);
                 DataContext = App.ReadMsgList;
@@ -146,14 +145,7 @@ namespace localChat
 
         private void Refresh_Click(object sender, EventArgs e)
         {
-            Thread work = new Thread(new ThreadStart(Refresh_Click_Work));
-            work.Start();
-        }
-
-        private void Refresh_Click_Work()
-        {
-            dataSource ds = new dataSource("12345678910");
-            ds.read();
+            refreshData();
         }
 
         private void Settings_Click(object sender, EventArgs e)

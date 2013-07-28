@@ -107,6 +107,10 @@ namespace localChat
                 reader = new StreamReader(reply);
                 output.Append(reader.ReadToEnd());
             }
+            catch (System.Reflection.TargetInvocationException)
+            {
+                //Do Nothing
+            }
             finally
             {
                 if (reader != null)
