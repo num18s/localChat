@@ -20,6 +20,8 @@ namespace localChat
 
         private StringBuilder output = null;
 
+        const int DB_PULL_WAIT_TIME = 5000;   //ms
+
         WebClient client = new WebClient();
         private EventWaitHandle asyncWait = new ManualResetEvent(false);
 
@@ -48,7 +50,7 @@ namespace localChat
             Uri readUri = new Uri(readUrl + parameter, UriKind.Absolute);
 
             client.OpenReadAsync(readUri);
-            asyncWait.WaitOne(2000);
+            asyncWait.WaitOne(DB_PULL_WAIT_TIME);
         }
 
         public void readDetails(long msg_id)
@@ -58,7 +60,7 @@ namespace localChat
             Uri readUri = new Uri(readDetailsUrl + parameter, UriKind.Absolute);
 
             client.OpenReadAsync(readUri);
-            asyncWait.WaitOne(2000);
+            asyncWait.WaitOne(DB_PULL_WAIT_TIME);
         }
 
         public void write(long user_id
@@ -93,7 +95,7 @@ namespace localChat
             Uri writeUri = new Uri(writeUrl + parameter, UriKind.Absolute);
 
             client.OpenReadAsync(writeUri);
-            asyncWait.WaitOne(2000);
+            asyncWait.WaitOne(DB_PULL_WAIT_TIME);
         }
 
         private void getOutput(Object sender, OpenReadCompletedEventArgs e)

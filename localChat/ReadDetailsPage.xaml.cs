@@ -88,7 +88,7 @@ namespace localChat
                     {
                         dbMsgID = curMsg.msgID.ToString(),
                         Date = curMsg.createDate.Date.ToString("MM/dd/yyyy"),
-                        Time = curMsg.createDate.Date.ToString("HH:mm:ss tt"),
+                        Time = curMsg.createDate.TimeOfDay.ToString(),
                         Title = curMsg.title,
                         Author = curMsg.userName,
                         Msg = curMsg.msgBody
