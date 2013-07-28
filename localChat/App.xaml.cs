@@ -13,6 +13,12 @@ namespace localChat
     public partial class App : Application
     {
         private static MessageGroup readMsgList = null;
+        public int userID{get; set; }
+        
+        public static new App Current
+        {
+            get { return Application.Current as App; }
+        }
         
         /// <summary>
         /// A static ViewModel used by the views to bind against.
@@ -41,6 +47,9 @@ namespace localChat
         /// </summary>
         public App()
         {
+            dataSource ds = new dataSource("12345678910");
+            userID = ds.getUserID();
+
             // Global handler for uncaught exceptions.
             UnhandledException += Application_UnhandledException;
 

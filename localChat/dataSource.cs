@@ -21,6 +21,20 @@ namespace localChat
             this.key = key;
         }
 
+        public dataSource(int userID)
+        {
+            this.userID = userID;
+        }
+
+        private dataSource(dataSource toCopy)
+        {
+            this.key = toCopy.key;
+            this.userID = toCopy.userID;
+        }
+
+        public string getKey() { return key; }
+        public int getUserID() { return userID; }
+
         public bool write(int radiusMeters, string title, string msg)
         {
             GeoCoordinateWatcher getPosition = new GeoCoordinateWatcher();

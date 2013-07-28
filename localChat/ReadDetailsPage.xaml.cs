@@ -63,20 +63,25 @@ namespace localChat
             if (e.Cancelled)
             {
                 // The user canceled the operation.
-                MessageBox.Show("Operation was canceled");
+                MessageBox.Show("An error occurred, please try again");
             }
             else if (e.Error != null)
             {
                 // There was an error during the operation. 
-                string msg = String.Format("An error occurred: {0}", e.Error.Message);
-                MessageBox.Show(msg);
+                MessageBox.Show("An error occurred, please try again");
             }
             else
             {
                 readData msgOutput = (readData)e.Result;
                 //Error Handling, need to provide feedback to the user
-                if (msgOutput != null)
+                if (msgOutput == null)
                 {
+                    //msg is null, reason unknown
+                    MessageBox.Show("An error occurred, please try again");
+                }
+                else
+                {
+
                     msg curMsg = msgOutput.getMsg(0);
 
                     curReadMsg = new MessageItem()

@@ -28,11 +28,15 @@ namespace localChat
             this.bw.DoWork += new System.ComponentModel.DoWorkEventHandler(this.refreshDoWork);
             this.bw.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.refreshCompleted);
 
-            // Set the data context of the LongListSelector control to the sample data
-            //DataContext = App.ReadMsgList;
-
-            // Sample code to localize the ApplicationBar
-            //BuildLocalizedApplicationBar();
+            if (App.Current.userID == 0)
+            {
+                dataSource ds = new dataSource(App.Current.userID);
+                App.Current.userID = ds.getUserID();
+            }
+            else
+            {
+                dataSource ds = new dataSource(App.Current.userID);
+            }
         }
 
         // Load data for the ViewModel Items
@@ -80,13 +84,12 @@ namespace localChat
             if (e.Cancelled)
             {
                 // The user canceled the operation.
-                MessageBox.Show("Operation was canceled");
+                MessageBox.Show("An error occurred, please try again");
             }
             else if (e.Error != null)
             {
                 // There was an error during the operation. 
-                string msg = String.Format("An error occurred: {0}", e.Error.Message);
-                MessageBox.Show(msg);
+                MessageBox.Show("An error occurred, please try again");
             }
             else
             {
@@ -96,7 +99,11 @@ namespace localChat
                 */
                 readMsg = (readData)e.Result;
 
-                if (readMsg != null)
+                if (readMsg == null)
+                {
+                    MessageBox.Show("An error occurred, please try again");
+                }
+                else
                 {
                     int numMsg = readMsg.getLength();
                     for (int i = 0; i < numMsg; i++)
