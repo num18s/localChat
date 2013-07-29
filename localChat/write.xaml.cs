@@ -89,8 +89,8 @@ namespace localChat
         {
             if (pageLoaded)
             {
-                int radiusMiles = (int)Distance_Slider.Value;
-                curMileValue.Text = radiusMiles.ToString();
+                int radiusMeters = (int)Distance_Slider.Value;
+                curMeterValue.Text = radiusMeters.ToString();
             }
         }
     }
