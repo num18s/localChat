@@ -64,11 +64,13 @@ namespace localChat
             {
                 // The user canceled the operation.
                 MessageBox.Show("An error occurred, please try again");
+                App.SaveDebugEntry("ReadDetailsPage.getMsgComplete: Canceld");
             }
             else if (e.Error != null)
             {
                 // There was an error during the operation. 
                 MessageBox.Show("An error occurred, please try again");
+                App.SaveDebugEntry("ReadDetailsPage.getMsgComplete: error occured");
             }
             else
             {
@@ -78,6 +80,7 @@ namespace localChat
                 {
                     //msg is null, reason unknown
                     MessageBox.Show("An error occurred, please try again");
+                    App.SaveDebugEntry("ReadDetailsPage.getMsgComplete: null readMsg");
                 }
                 else
                 {

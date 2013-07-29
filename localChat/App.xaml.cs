@@ -36,6 +36,23 @@ namespace localChat
             }
         }
 
+        public static async void SaveDebugEntry(string message)
+        {
+            string timeStampString = string.Format("{0:g}", DateTime.Now) + System.Environment.NewLine;
+
+            // Add the new text onto the end of the log
+            string debugMsg = timeStampString + message + System.Environment.NewLine;
+
+            await FileStorageOperations.SaveToLocalFolderAsync(debugMsg, "debug.txt");
+        }
+
+        public static async void SaveMsgEntry(string message)
+        {
+            await FileStorageOperations.SaveToLocalFolderAsync(message, "userData.log");
+        }
+
+
+
         /// <summary>
         /// Provides easy access to the root frame of the Phone Application.
         /// </summary>

@@ -19,6 +19,7 @@ namespace localChat
 
         private static readData readMsg = null;
         private BackgroundWorker bw;
+        private bool doingRefresh = false;
 
         // Constructor
         public ReadLongListPage()
@@ -56,6 +57,7 @@ namespace localChat
 
         private void refreshData()
         {
+            doingRefresh = true;
             /* progresss bar... */
             pi = new Microsoft.Phone.Shell.ProgressIndicator();
             pi.IsIndeterminate = true;
@@ -86,11 +88,15 @@ namespace localChat
             {
                 // The user canceled the operation.
                 MessageBox.Show("An error occurred, please try again");
+
+               App.SaveDebugEntry("ReadLongListPage.refreshComplete: Canceld");
             }
             else if (e.Error != null)
             {
                 // There was an error during the operation. 
                 MessageBox.Show("An error occurred, please try again");
+
+                App.SaveDebugEntry("ReadLongListPage.refreshComplete: error occured");
             }
             else
             {
@@ -103,9 +109,13 @@ namespace localChat
                 if (readMsg == null)
                 {
                     MessageBox.Show("An error occurred, please try again");
+
+                    App.SaveDebugEntry("ReadLongListPage.refreshComplete: null readMsg");
                 }
                 else
                 {
+                   //test... App.SaveDebugEntry("ReadLongListPage.refreshComplete: test...");
+
                     int numMsg = readMsg.getLength();
                     for (int i = 0; i < numMsg; i++)
                     {
@@ -131,6 +141,7 @@ namespace localChat
                 }
                 pi.IsVisible = false;
                 Microsoft.Phone.Shell.SystemTray.SetIsVisible(this, false);
+                doingRefresh = false;
                 DataContext = App.ReadMsgList;
             }
         }
@@ -158,7 +169,8 @@ namespace localChat
 
         private void Refresh_Click(object sender, EventArgs e)
         {
-            refreshData();
+            if(!doingRefresh)
+                refreshData();
         }
 
         private void Settings_Click(object sender, EventArgs e)
