@@ -11,6 +11,12 @@
     Foreground="{StaticResource PhoneForegroundBrush}"
     SupportedOrientations="Portrait" Orientation="Portrait"
     mc:Ignorable="d">
+	<phone:PhoneApplicationPage.ApplicationBar>
+		<shell:ApplicationBar>
+			<shell:ApplicationBarIconButton x:Name="SaveButton" IconUri="/Assets/AppBar/save.png" IsEnabled="True" Text="Save"/>
+			<shell:ApplicationBarIconButton x:Name="CancelButton" IconUri="/Assets/AppBar/cancel.png" IsEnabled="True" Text="Cancel"/>
+		</shell:ApplicationBar>
+	</phone:PhoneApplicationPage.ApplicationBar>
 
     <!--LayoutRoot is the root grid where all page content is placed-->
     <Grid x:Name="LayoutRoot" Background="Transparent">
@@ -18,77 +24,60 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-    	<StackPanel x:Name="message_recieve_settings_sp" Margin="12,0,0,18" Orientation="Vertical">
-    		<TextBlock x:Name="receive_settings_page_title" Text="Message Recieve Settings" Style="{StaticResource PhoneTextNormalStyle}" Margin="0" FontSize="{StaticResource PhoneFontSizeLarge}"/>
-    		<StackPanel x:Name="receive_radius_sp" Orientation="Vertical" Margin="0,20,0,0">
-    			<StackPanel x:Name="recieve_radius_sp" Orientation="Horizontal">
-    				<TextBlock x:Name="receive_radius_title" Text="Message Receive Radius " Style="{StaticResource PhoneTextNormalStyle}" Margin="0" FontSize="{StaticResource PhoneFontSizeMedium}" HorizontalAlignment="Left"/>
-    				<StackPanel x:Name="receive_radius_current_value_sp" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center" RenderTransformOrigin="0.37,0.611" Margin="150,0,80,0">
-    					<TextBlock x:Name="receive_radius_value" Style="{StaticResource PhoneTextNormalStyle}" Margin="0" FontSize="{StaticResource PhoneFontSizeNormal}" Text="x" HorizontalAlignment="Right"/>
-    					<TextBlock x:Name="receive_radius_unit" Style="{StaticResource PhoneTextNormalStyle}" Margin="0" FontSize="{StaticResource PhoneFontSizeNormal}" Text=" Mile" HorizontalAlignment="Right"/>
-
-    				</StackPanel>
-
-    			</StackPanel>
-    			<StackPanel x:Name="message_slide_bar_sp" Orientation="Horizontal">
-    				<TextBlock x:Name="min_slider_recieve_radius" Style="{StaticResource PhoneTextNormalStyle}" Margin="0" FontSize="{StaticResource PhoneFontSizeSmall}" Text="0.2 Mile" HorizontalAlignment="Left" VerticalAlignment="Bottom"/>
-    				<Slider x:Name="slider_receive_radius" HorizontalAlignment="Center" VerticalAlignment="Top" LargeChange="10" Minimum="0.2" Value="2" Width="350" Height="87" BorderThickness="1" BorderBrush="White" Margin="0" FontSize="{StaticResource PhoneFontSizeNormal}">
-    					<Slider.Background>
-    						<SolidColorBrush Color="{StaticResource PhoneAccentColor}"/>
-    					</Slider.Background>
-    				</Slider>
-    				<TextBlock x:Name="max_slider_receive_radius" Style="{StaticResource PhoneTextNormalStyle}" Margin="0" FontSize="{StaticResource PhoneFontSizeNormal}" Text="1 Mile" HorizontalAlignment="Right" VerticalAlignment="Bottom"/>
-    			</StackPanel>
+    	<StackPanel x:Name="message_recieve_settings_sp" Margin="12,0,0,10" Orientation="Vertical" Grid.RowSpan="2">
+    		<TextBlock x:Name="receive_settings_page_title" Text="Message Recieve Settings" Style="{StaticResource PhoneTextNormalStyle}" Margin="0" FontSize="{StaticResource PhoneFontSizeLarge}" Height="60"/>
+    		<StackPanel x:Name="recieve_radius_sp" Orientation="Horizontal" Height="42">
+    			<TextBlock x:Name="receive_radius_title" Text="Message Receive Radius:" Style="{StaticResource PhoneTextNormalStyle}" Margin="0" FontSize="{StaticResource PhoneFontSizeMedium}" HorizontalAlignment="Left"/>
+    			<TextBox x:Name="curMeterValue" TextWrapping="Wrap" Text="500" FontSize="{StaticResource PhoneFontSizeNormal}" Margin="0,-18,0,-10"/>
+    			<TextBlock x:Name="receive_radius_unit" Style="{StaticResource PhoneTextNormalStyle}" Margin="0" FontSize="{StaticResource PhoneFontSizeNormal}" Text="Meters" VerticalAlignment="Top"/>
 
     		</StackPanel>
-    		<StackPanel x:Name="old_message_time_sp" Orientation="Vertical" Margin="0,20,0,0">
-    			<StackPanel x:Name="message_recieve_old_time_title" Orientation="Horizontal">
-    				<TextBlock x:Name="keep_time_title" Text="Message Keep time " Style="{StaticResource PhoneTextNormalStyle}" Margin="0" FontSize="{StaticResource PhoneFontSizeMedium}" HorizontalAlignment="Left"/>
-    				<StackPanel x:Name="keep_time_current_sp" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center" RenderTransformOrigin="0.37,0.611" Margin="200,0,0,0">
-    					<TextBlock x:Name="keep_time_value" Style="{StaticResource PhoneTextNormalStyle}" Margin="0" FontSize="{StaticResource PhoneFontSizeNormal}" Text="x" HorizontalAlignment="Right"/>
-    					<TextBlock x:Name="keep_time_unit" Style="{StaticResource PhoneTextNormalStyle}" Margin="0" FontSize="{StaticResource PhoneFontSizeNormal}" HorizontalAlignment="Right" Text=" Days"/>
-
-    				</StackPanel>
-
+    		<StackPanel x:Name="message_slide_bar_sp">
+    			<Slider x:Name="slider_receive_radius" HorizontalAlignment="Center" VerticalAlignment="Top" LargeChange="10" Minimum="100" Value="500" Width="458" Height="87" BorderThickness="1" BorderBrush="White" FontSize="{StaticResource PhoneFontSizeNormal}" Margin="0,0,10,0" Maximum="10000" ValueChanged="slider_receive_radius_ValueChanged">
+    				<Slider.Background>
+    					<SolidColorBrush Color="{StaticResource PhoneAccentColor}"/>
+    				</Slider.Background>
+    			</Slider>
+    			<StackPanel Height="27" Orientation="Horizontal">
+    				<TextBlock x:Name="min_slider_recieve_radius" Style="{StaticResource PhoneTextNormalStyle}" Margin="0" FontSize="{StaticResource PhoneFontSizeSmall}" Text="100 Meters" HorizontalAlignment="Left" VerticalAlignment="Bottom"/>
+    				<TextBlock x:Name="spaceText" Style="{StaticResource PhoneTextNormalStyle}" Margin="0" FontSize="{StaticResource PhoneFontSizeSmall}" HorizontalAlignment="Left" VerticalAlignment="Bottom" Width="280"/>
+    				<TextBlock x:Name="max_slider_receive_radius" Style="{StaticResource PhoneTextNormalStyle}" Margin="0" FontSize="{StaticResource PhoneFontSizeNormal}" Text="10K Meters" HorizontalAlignment="Right" VerticalAlignment="Bottom"/>
     			</StackPanel>
-    			<StackPanel x:Name="slide_bar_keep_time_sp" Orientation="Horizontal">
-    				<TextBlock x:Name="min_slider_keep_time" Style="{StaticResource PhoneTextNormalStyle}" Margin="0" FontSize="{StaticResource PhoneFontSizeSmall}" Text="1 day" HorizontalAlignment="Left" VerticalAlignment="Bottom"/>
-    				<Slider x:Name="slider_keep_time" HorizontalAlignment="Center" VerticalAlignment="Top" Minimum="1" Value="2" Width="350" Height="87" BorderThickness="1" BorderBrush="White" Margin="0" FontSize="{StaticResource PhoneFontSizeNormal}" Maximum="5">
-    					<Slider.Background>
-    						<SolidColorBrush Color="{StaticResource PhoneAccentColor}"/>
-    					</Slider.Background>
-    				</Slider>
-    				<TextBlock x:Name="max_slider_keep_time" Style="{StaticResource PhoneTextNormalStyle}" Margin="0" FontSize="{StaticResource PhoneFontSizeNormal}" Text="5 days" HorizontalAlignment="Right" VerticalAlignment="Bottom"/>
-    			</StackPanel>
+    		</StackPanel>
+    		<StackPanel x:Name="message_recieve_old_time_title" Orientation="Horizontal" Height="61">
+    			<TextBlock x:Name="keep_time_title" Text="Message Keep time:" Style="{StaticResource PhoneTextNormalStyle}" Margin="0" FontSize="{StaticResource PhoneFontSizeMedium}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+    			<TextBox x:Name="curTimeValue" TextWrapping="Wrap" Text="2" FontSize="{StaticResource PhoneFontSizeNormal}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+    			<TextBlock x:Name="keep_time_unit" Style="{StaticResource PhoneTextNormalStyle}" Margin="0" FontSize="{StaticResource PhoneFontSizeNormal}" HorizontalAlignment="Center" Text=" Days" VerticalAlignment="Center"/>
 
     		</StackPanel>
-    		<StackPanel x:Name="update_interval_sp" Orientation="Vertical" Height="118" Margin="0,20,0,0">
-    			<StackPanel x:Name="message_recieve_update_interval_title" Orientation="Horizontal">
-    				<TextBlock x:Name="receive_update_interval_title" Text="Update Interval" Style="{StaticResource PhoneTextNormalStyle}" Margin="0" FontSize="{StaticResource PhoneFontSizeMedium}" HorizontalAlignment="Left"/>
-    				<StackPanel x:Name="update_current_value" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center" RenderTransformOrigin="0.37,0.611" Margin="200,0,0,0">
-    					<TextBlock x:Name="update_time_value" Style="{StaticResource PhoneTextNormalStyle}" Margin="0" FontSize="{StaticResource PhoneFontSizeNormal}" Text="x" HorizontalAlignment="Right"/>
-    					<TextBlock x:Name="update_time_unit" Style="{StaticResource PhoneTextNormalStyle}" Margin="0" FontSize="{StaticResource PhoneFontSizeNormal}" HorizontalAlignment="Right" Text=" Hrs"/>
+    		<StackPanel x:Name="slide_bar_keep_time_sp" Orientation="Horizontal">
+    			<TextBlock x:Name="min_slider_keep_time" Style="{StaticResource PhoneTextNormalStyle}" Margin="0" FontSize="{StaticResource PhoneFontSizeSmall}" Text="1 day" HorizontalAlignment="Left" VerticalAlignment="Bottom"/>
+    			<Slider x:Name="slider_keep_time" HorizontalAlignment="Center" VerticalAlignment="Top" Minimum="1" Value="2" Width="353" Height="88" BorderThickness="1" BorderBrush="White" Margin="0" FontSize="{StaticResource PhoneFontSizeNormal}" Maximum="30" ValueChanged="slider_keep_time_ValueChanged" SmallChange="1" LargeChange="3">
+    				<Slider.Background>
+    					<SolidColorBrush Color="{StaticResource PhoneAccentColor}"/>
+    				</Slider.Background>
+    			</Slider>
+    			<TextBlock x:Name="max_slider_keep_time" Style="{StaticResource PhoneTextNormalStyle}" Margin="0,0,410,0" FontSize="{StaticResource PhoneFontSizeNormal}" Text="30 days" HorizontalAlignment="Right" VerticalAlignment="Bottom"/>
+    		</StackPanel>
+    		<StackPanel x:Name="message_recieve_update_interval_title" Orientation="Horizontal">
+    			<TextBlock x:Name="receive_update_interval_title" Text="Update Interval:" Style="{StaticResource PhoneTextNormalStyle}" Margin="0" FontSize="{StaticResource PhoneFontSizeMedium}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+    			<TextBox x:Name="curUpTimeValue" TextWrapping="Wrap" Text="3" FontSize="{StaticResource PhoneFontSizeNormal}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+    			<TextBlock x:Name="update_time_unit" Style="{StaticResource PhoneTextNormalStyle}" Margin="0" FontSize="{StaticResource PhoneFontSizeNormal}" HorizontalAlignment="Center" Text=" Hrs" VerticalAlignment="Center"/>
 
-    				</StackPanel>
-
-    			</StackPanel>
-    			<StackPanel x:Name="update_slider_sp" Orientation="Horizontal">
-    				<TextBlock x:Name="min_slider_update_time" Style="{StaticResource PhoneTextNormalStyle}" Margin="0" FontSize="{StaticResource PhoneFontSizeSmall}" Text="1 Hr" HorizontalAlignment="Left" VerticalAlignment="Bottom" RenderTransformOrigin="0.5,0.507"/>
-    				<Slider x:Name="slider_update_time" HorizontalAlignment="Center" VerticalAlignment="Top" Minimum="1" Value="3" Width="350" Height="87" BorderThickness="1" BorderBrush="White" Margin="0" FontSize="{StaticResource PhoneFontSizeNormal}" Maximum="24">
-    					<Slider.Background>
-    						<SolidColorBrush Color="{StaticResource PhoneAccentColor}"/>
-    					</Slider.Background>
-    				</Slider>
+    		</StackPanel>
+    		<StackPanel x:Name="update_slider_sp">
+    			<Slider x:Name="slider_update_time" HorizontalAlignment="Center" VerticalAlignment="Top" Minimum="1" Value="3" Width="458" Height="87" BorderThickness="1" BorderBrush="White" FontSize="{StaticResource PhoneFontSizeNormal}" Maximum="24" Margin="0,0,10,0" ValueChanged="slider_update_time_ValueChanged">
+    				<Slider.Background>
+    					<SolidColorBrush Color="{StaticResource PhoneAccentColor}"/>
+    				</Slider.Background>
+    			</Slider>
+    			<StackPanel Height="21" Orientation="Horizontal">
+    				<TextBlock x:Name="min_slider_update_time" Style="{StaticResource PhoneTextNormalStyle}" Margin="0" FontSize="{StaticResource PhoneFontSizeSmall}" Text="1 Hr" HorizontalAlignment="Left" VerticalAlignment="Bottom" RenderTransformOrigin="0.5,0.507" Width="53"/>
+    				<TextBlock x:Name="UpdateIntervalSpaceText" Style="{StaticResource PhoneTextNormalStyle}" Margin="0" FontSize="{StaticResource PhoneFontSizeSmall}" HorizontalAlignment="Left" VerticalAlignment="Bottom" RenderTransformOrigin="0.5,0.507" Width="355"/>
     				<TextBlock x:Name="max_slider_update_time" Style="{StaticResource PhoneTextNormalStyle}" Margin="0" FontSize="{StaticResource PhoneFontSizeNormal}" Text="24 Hrs" HorizontalAlignment="Right" VerticalAlignment="Bottom"/>
     			</StackPanel>
-
     		</StackPanel>
-    		<CheckBox x:Name="recieve_toast_notificaiton_cb" Content="Recieve Toast Notification" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,20,0,0"/>
-    		<StackPanel x:Name="setting_option_sp" Orientation="Horizontal" Margin="0,20,0,0">
-    			<Button x:Name="setting_save_button" HorizontalAlignment="Left" VerticalAlignment="Top" Content="Save"/>
-    			<Button x:Name="setting_cancel_button" Content="Cancel" HorizontalAlignment="Right" VerticalAlignment="Top"/>
-
-    		</StackPanel>
+    		<CheckBox x:Name="recieve_toast_notificaiton_cb" Content="Recieve Toast Notification" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="72,20,71,0"/>
 
     	</StackPanel>
 
