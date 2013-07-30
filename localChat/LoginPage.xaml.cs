@@ -9,22 +9,53 @@ using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
 using localChat.Resources;
 
+using System.ComponentModel;
+
 namespace localChat
 {
     public partial class LoginPage : PhoneApplicationPage
     {
+        private BackgroundWorker bw;
+
         // Constructor
         public LoginPage()
         {
             InitializeComponent();
 
+            this.bw = new System.ComponentModel.BackgroundWorker();
+            this.bw.DoWork += new System.ComponentModel.DoWorkEventHandler(this.createDSDoWork);
+            this.bw.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.createDSComplete);
+
+            if( App.Current.getDataSource() == null )
+                this.bw.RunWorkerAsync();
             // Sample code to localize the ApplicationBar
             //BuildLocalizedApplicationBar();
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        public void createDSDoWork(object sender, DoWorkEventArgs e)
         {
-            NavigationService.Navigate(new Uri("/ReadPanorama.xaml", UriKind.Relative));
+            App.Current.setDataSource( new dataSource() );
+        }
+
+        public void createDSComplete(object sender, RunWorkerCompletedEventArgs e)
+        {
+            //if( App.Current.getDataSource().getUser().getUsername() == 
+            //NavigationService.Navigate(new Uri("/ReadLongListPage.xaml", UriKind.Relative));
+        }
+
+        private void btnUsername_Click(object sender, RoutedEventArgs e)
+        {
+            NavigationService.Navigate(new Uri("/ReadLongListPage.xaml", UriKind.Relative));
+        }
+
+        private void btnLink_Click(object sender, RoutedEventArgs e)
+        {
+            NavigationService.Navigate(new Uri("/ReadLongListPage.xaml", UriKind.Relative));
+        }
+
+        private void btnNoUsername_Click(object sender, RoutedEventArgs e)
+        {
+            NavigationService.Navigate(new Uri("/ReadLongListPage.xaml", UriKind.Relative));
         }
 
         // Sample code for building a localized ApplicationBar

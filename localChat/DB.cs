@@ -12,7 +12,7 @@ namespace localChat
 {
     class DB
     {
-        private string logInUrl = "https://securec55.ezhostingserver.com/feildofbattlecards-com/localChat/test.html";
+        private string logInUrl = "http://feildofbattlecards-com.securec55.ezhostingserver.com/localChat/login.cfm";
         private string readUrl = "http://feildofbattlecards-com.securec55.ezhostingserver.com/localChat/read_msg.cfm";
         private string readDetailsUrl = "http://feildofbattlecards-com.securec55.ezhostingserver.com/localChat/read_msg_details.cfm";
         private string writeUrl = "http://feildofbattlecards-com.securec55.ezhostingserver.com/localChat/create_msg.cfm";
@@ -34,6 +34,16 @@ namespace localChat
         {
             output.Clear();
             this.output = output;
+        }
+
+        public void login(string imsi)
+        {
+            string parameter = "?cf_imsi=" + imsi;
+
+            Uri logInUri = new Uri(logInUrl + parameter, UriKind.Absolute);
+
+            client.OpenReadAsync(logInUri);
+            asyncWait.WaitOne(DB_PULL_WAIT_TIME);
         }
 
         public void read( latLon position )

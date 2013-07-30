@@ -6,34 +6,104 @@ using System.Threading.Tasks;
 
 using System.Device.Location;
 using Newtonsoft.Json;
+using System.Windows;
 
 namespace localChat
 {
-    class dataSource
+    public class dataSource
     {
-        private string key;
-        private int userID;
+        private User myUser;
 
         private static int R = 6371 * 1000;//6371 circuferance of earth in kilometers, converted to meeters
 
-        public dataSource(string key)
+        public dataSource()
         {
-            this.key = key;
+            byte[] myDeviceID = (byte[])Microsoft.Phone.Info.DeviceExtendedProperties.GetValue("DeviceUniqueId");
+            string myId = Convert.ToBase64String(myDeviceID);
+
+            StringBuilder htmlOutput = new StringBuilder("");
+
+            DB db = new DB();
+            db.setOutput(htmlOutput);
+
+            db.login(myId);
+
+            try
+            {
+                UserReturn output = JsonConvert.DeserializeObject<UserReturn>(htmlOutput.ToString());
+
+                myUser = new User(output.imsiID
+                        , output.userID
+                        , output.imsi
+                        , output.username
+                        , output.email
+                        , output.createDate
+                        , output.modifyDate
+                    );
+            }
+            catch (Newtonsoft.Json.JsonReaderException e)
+            {
+                //MessageBox.Show("An error occurred, please try again");
+
+                App.SaveDebugEntry("dataSource.constructor: JsonSerializationException");
+            }
         }
 
-        public dataSource(int userID)
+        public dataSource(User newUser)
         {
-            this.userID = userID;
+            this.myUser = newUser;
         }
 
-        private dataSource(dataSource toCopy)
+        public dataSource(dataSource toCopy)
         {
-            this.key = toCopy.key;
-            this.userID = toCopy.userID;
+            this.myUser = toCopy.myUser.copy();
         }
 
-        public string getKey() { return key; }
-        public int getUserID() { return userID; }
+        public dataSource copy()
+        {
+            return new dataSource(this);
+        }
+
+        public User getUser() { return myUser; }
+
+        public readData read()
+        {
+            GeoCoordinateWatcher getPosition = new GeoCoordinateWatcher();
+            getPosition.TryStart(false, TimeSpan.FromMilliseconds(1000));
+
+            float lat = (float)getPosition.Position.Location.Latitude;
+            float lon = (float)getPosition.Position.Location.Longitude;
+
+            getPosition.Stop();
+            getPosition.Dispose();
+
+            latLon position = new latLon(lat, lon);
+
+            StringBuilder htmlOutput = new StringBuilder("");
+
+            DB db = new DB();
+            db.setOutput(htmlOutput);
+
+            db.read(position);
+
+            readData output = JsonConvert.DeserializeObject<readData>(htmlOutput.ToString());
+
+            return output;
+        }
+
+        public readData readDetails(long msg_id)
+        {
+            StringBuilder htmlOutput = new StringBuilder("");
+
+            DB db = new DB();
+            db.setOutput(htmlOutput);
+
+            db.readDetails(msg_id);
+
+            readData output = JsonConvert.DeserializeObject<readData>(htmlOutput.ToString());
+
+            return output;
+        }
 
         public bool write(int radiusMeters, string title, string msg)
         {
@@ -105,45 +175,6 @@ namespace localChat
             statusMsg status = JsonConvert.DeserializeObject<statusMsg>(output.ToString());
 
             return true;
-        }
-
-        public readData read()
-        {
-            GeoCoordinateWatcher getPosition = new GeoCoordinateWatcher();
-            getPosition.TryStart(false, TimeSpan.FromMilliseconds(1000));
-
-            float lat = (float)getPosition.Position.Location.Latitude;
-            float lon = (float)getPosition.Position.Location.Longitude;
-
-            getPosition.Stop();
-            getPosition.Dispose();
-
-            latLon position = new latLon(lat, lon);
-
-            StringBuilder htmlOutput = new StringBuilder("");
-
-            DB db = new DB();
-            db.setOutput(htmlOutput);
-
-            db.read(position);
-
-            readData output = JsonConvert.DeserializeObject<readData>(htmlOutput.ToString());
-
-            return output;
-        }
-
-        public readData readDetails( long msg_id )
-        {
-            StringBuilder htmlOutput = new StringBuilder("");
-
-            DB db = new DB();
-            db.setOutput(htmlOutput);
-
-            db.readDetails(msg_id);
-
-            readData output = JsonConvert.DeserializeObject<readData>(htmlOutput.ToString());
-
-            return output;
         }
     }
 }

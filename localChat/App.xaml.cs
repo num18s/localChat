@@ -13,11 +13,21 @@ namespace localChat
     public partial class App : Application
     {
         private static MessageGroup readMsgList = null;
-        public int userID{get; set; }
+        private dataSource ds = null;
         
         public static new App Current
         {
             get { return Application.Current as App; }
+        }
+
+        public dataSource getDataSource()
+        {
+            return ds;
+        }
+
+        public void setDataSource(dataSource ds)
+        {
+            this.ds = ds;
         }
         
         /// <summary>
@@ -64,9 +74,6 @@ namespace localChat
         /// </summary>
         public App()
         {
-            dataSource ds = new dataSource("12345678910");
-            userID = ds.getUserID();
-
             // Global handler for uncaught exceptions.
             UnhandledException += Application_UnhandledException;
 

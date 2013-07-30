@@ -53,7 +53,7 @@ namespace localChat
         private void getMsgDoWork(object sender, DoWorkEventArgs e)
         {
             int msgID = (int)e.Argument;
-            dataSource ds = new dataSource("12345678910");
+            dataSource ds = App.Current.getDataSource();
             readData passBack = ds.readDetails(msgID);
             e.Result = passBack;
         }

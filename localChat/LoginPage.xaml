@@ -47,12 +47,21 @@
         </StackPanel>
 
         <!--ContentPanel - place additional content here-->
-        <Grid x:Name="ContentPanel" Grid.Row="1" Margin="12,0,12,0">
-        	<TextBox HorizontalAlignment="Left" Height="72" Margin="10,75,-10,0" TextWrapping="Wrap" Text="username" VerticalAlignment="Top" Width="456"/>
-        	<TextBlock HorizontalAlignment="Left" Margin="22,28,0,0" TextWrapping="Wrap" Text="Username" VerticalAlignment="Top" Height="42" Width="184" FontSize="29.333"/>
-        	<TextBlock HorizontalAlignment="Left" Margin="22,173,0,0" TextWrapping="Wrap" Text="Password" VerticalAlignment="Top" Height="42" Width="184" FontSize="29.333"/>
-        	<TextBox HorizontalAlignment="Left" Height="72" Margin="10,215,-10,0" TextWrapping="Wrap" Text="******" VerticalAlignment="Top" Width="456"/>
-        	<Button Content="Login" HorizontalAlignment="Left" Margin="168,292,0,0" VerticalAlignment="Top" Height="78" Width="278" Click="Button_Click"/>
+        <Grid x:Name="ContentPanel" Margin="10,142,14,23" Grid.RowSpan="2">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="466*"/>
+                <RowDefinition Height="137*"/>
+            </Grid.RowDefinitions>
+            <TextBox HorizontalAlignment="Left" Height="72" Margin="10,226,-10,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="456"/>
+            <TextBlock HorizontalAlignment="Left" Margin="22,179,0,0" TextWrapping="Wrap" Text="Username" VerticalAlignment="Top" Height="42" Width="184" FontSize="29.333"/>
+            <Button Content="Contiue" HorizontalAlignment="Left" Margin="126,303,0,0" VerticalAlignment="Top" Height="78" Width="320" Click="btnUsername_Click"/>
+            <TextBlock HorizontalAlignment="Left" Margin="10,0,0,0" TextWrapping="Wrap" VerticalAlignment="Top">
+            	<Span>
+            		<Run Text="Welcome to localChat! We see you have not yet provided a username, please take a moment to do so below, or if you are a returning user you may link this phone with an existing account. If you don't want to provide a screen name at this time you can also continue anonymously."/>
+            	</Span>
+            </TextBlock>
+            <Button x:Name="btnLink" Content="Link with Existing Account" HorizontalAlignment="Left" Margin="126,397,0,0" VerticalAlignment="Top" Height="78" Grid.RowSpan="2" Click="btnLink_Click"/>
+            <Button Content="Stay Anonymous" HorizontalAlignment="Left" Margin="126,23,0,0" VerticalAlignment="Top" Width="320" Height="78" Grid.Row="1" Click="btnNoUsername_Click"/>
 
         </Grid>
 

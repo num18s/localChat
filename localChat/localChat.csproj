@@ -94,7 +94,9 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="User.cs" />
     <Compile Include="FileStorageOperations.cs" />
+    <Compile Include="UserReturn.cs" />
     <Compile Include="statusMsg.cs" />
     <Compile Include="DB.cs" />
     <Compile Include="dataSource.cs" />

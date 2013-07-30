@@ -14,7 +14,7 @@
       <Capability Name="ID_CAP_LOCATION" />
     </Capabilities>
     <Tasks>
-      <DefaultTask Name="_default" NavigationPage="ReadLongListPage.xaml" />
+      <DefaultTask Name="_default" NavigationPage="LoginPage.xaml" />
     </Tasks>
     <Tokens>
       <PrimaryToken TokenID="localChatToken" TaskName="_default">

@@ -28,16 +28,6 @@ namespace localChat
             this.bw = new System.ComponentModel.BackgroundWorker();
             this.bw.DoWork += new System.ComponentModel.DoWorkEventHandler(this.refreshDoWork);
             this.bw.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.refreshCompleted);
-
-            if (App.Current.userID == 0)
-            {
-                dataSource ds = new dataSource(App.Current.userID);
-                App.Current.userID = ds.getUserID();
-            }
-            else
-            {
-                dataSource ds = new dataSource(App.Current.userID);
-            }
         }
 
         // Load data for the ViewModel Items
@@ -75,7 +65,7 @@ namespace localChat
 
         private void refreshDoWork(object sender, DoWorkEventArgs e)
         {
-            dataSource ds = new dataSource("12345678910");
+            dataSource ds = App.Current.getDataSource().copy();
             readData passBack = ds.read();
             e.Result = passBack;
         }

@@ -79,7 +79,7 @@ namespace localChat
 
         private void Post_Button_Click_Work(string title, string message, int id, int radiusMeters)
         {
-            dataSource ds = new dataSource(myId);
+            dataSource ds = App.Current.getDataSource();
             ds.write(radiusMeters, title, message);
 
             //NavigationService.Navigate(new Uri("/ReadLongListPage.xaml", UriKind.Relative));
