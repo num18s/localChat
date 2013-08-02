@@ -11,21 +11,32 @@ namespace localChat
 {
     class FileStorageOperations
     {
-        public async static Task SaveToLocalFolderAsync(string logData, string fileName)
+        public async static Task SaveToLocalFolderAsync(string logData, string fileName, bool append)
         {
-            // Get a reference to the Local Folder
-            Windows.Storage.StorageFolder localFolder = Windows.Storage.ApplicationData.Current.LocalFolder;
+		
+			IsolatedStorageFile isoStore = IsolatedStorageFile.GetUserStoreForApplication();
+			if (!isoStore.FileExists(fileName))
+			{
+				IsolatedStorageFileStream dataFile = isoStore.CreateFile(fileName);
+			}
 
-            // Create the file in the local folder, or if it already exists, just open it
-            Windows.Storage.StorageFile storageFile =
-                await localFolder.CreateFileAsync(fileName, CreationCollisionOption.OpenIfExists);
+			StreamWriter writeStream = new StreamWriter(new IsolatedStorageFileStream(fileName, (append)?FileMode.Append:FileMode.Open, isoStore));
+            writeStream.WriteLine(logData);
+            writeStream.Close();
+				
+            // // Get a reference to the Local Folder
+            // Windows.Storage.StorageFolder localFolder = Windows.Storage.ApplicationData.Current.LocalFolder;
 
-            Stream writeStream = await storageFile.OpenStreamForWriteAsync();
-            using (StreamWriter writer = new StreamWriter(writeStream))
-            {
-                await writer.WriteAsync(logData);
-                writer.Close();
-            }
+            // // Create the file in the local folder, or if it already exists, just open it
+            // Windows.Storage.StorageFile storageFile =
+                // await localFolder.CreateFileAsync(fileName, CreationCollisionOption.OpenIfExists);
+
+            // Stream writeStream = await storageFile.OpenStreamForWriteAsync();
+            // using (StreamWriter writer = new StreamWriter(writeStream))
+            // {
+                // await writer.WriteAsync(logData);
+                // writer.Close();
+            // }
         }
 
         public async static Task<string> LoadFromLocalFolderAsync(string fileName)

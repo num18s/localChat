@@ -13,6 +13,7 @@ using System.ComponentModel;
 
 namespace localChat
 {
+
     public partial class ReadLongListPage : PhoneApplicationPage
     {
         private Microsoft.Phone.Shell.ProgressIndicator pi;
@@ -56,7 +57,7 @@ namespace localChat
             Microsoft.Phone.Shell.SystemTray.SetIsVisible(this, true);
             Microsoft.Phone.Shell.SystemTray.SetProgressIndicator(this, pi);
 
-            if (!App.ReadMsgList.IsDataLoaded)
+            //if (!App.ReadMsgList.IsDataLoaded)
             {
                 App.ReadMsgList.LoadData(); // Get all the saved messags...
             }
@@ -104,7 +105,9 @@ namespace localChat
                 }
                 else
                 {
-                   //test... App.SaveDebugEntry("ReadLongListPage.refreshComplete: test...");
+                    //App.SaveDebugEntry("ReadLongListPage.refreshComplete: test...");
+
+                    App.ReadMsgList = new MessageGroup();
 
                     int numMsg = readMsg.getLength();
                     for (int i = 0; i < numMsg; i++)
@@ -122,11 +125,11 @@ namespace localChat
                         };
 
                         /* Only add message if is not already loaded in the message list.. */
-                        if (App.ReadMsgList.getCurMsgIndex(incomingMsg.dbMsgID) == -1)
-                        {
-                            /* Add to local list for retrive later.. */
+                        //if (App.ReadMsgList.getCurMsgIndex(incomingMsg.dbMsgID) == -1)
+                        //{
+                        //    /* Add to local list for retrive later.. */
                             App.ReadMsgList.Items.Add(incomingMsg);
-                        }
+                        //}
                     }
                 }
                 pi.IsVisible = false;

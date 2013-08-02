@@ -44,6 +44,13 @@ namespace localChat
 
                 return readMsgList;
             }
+            set
+            {
+                if (value != readMsgList)
+                {
+                    readMsgList = value;
+                }
+            }
         }
 
         public static async void SaveDebugEntry(string message)
@@ -53,12 +60,12 @@ namespace localChat
             // Add the new text onto the end of the log
             string debugMsg = timeStampString + message + System.Environment.NewLine;
 
-            await FileStorageOperations.SaveToLocalFolderAsync(debugMsg, "debug.txt");
+            await FileStorageOperations.SaveToLocalFolderAsync(debugMsg, "debug.txt", true);
         }
 
         public static async void SaveMsgEntry(string message)
         {
-            await FileStorageOperations.SaveToLocalFolderAsync(message, "userData.log");
+            await FileStorageOperations.SaveToLocalFolderAsync(message, "userData.txt",false);
         }
 
 
