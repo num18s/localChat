@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+using localChat.DataObjects;
+
 using System.Device.Location;
 using Newtonsoft.Json;
 using System.Windows;
@@ -37,14 +39,17 @@ namespace localChat
                         , output.imsi
                         , output.username
                         , output.email
+                        , output.userStatus
                         , output.createDate
                         , output.modifyDate
                     );
             }
             catch (Newtonsoft.Json.JsonReaderException e)
             {
-                //MessageBox.Show("An error occurred, please try again");
-
+                App.SaveDebugEntry("dataSource.constructor: JsonReaderException");
+            }
+            catch (Newtonsoft.Json.JsonSerializationException e)
+            {
                 App.SaveDebugEntry("dataSource.constructor: JsonSerializationException");
             }
         }
@@ -175,6 +180,20 @@ namespace localChat
             statusMsg status = JsonConvert.DeserializeObject<statusMsg>(output.ToString());
 
             return true;
+        }
+
+        public usernameChangeReturn changeUsername(string username)
+        {
+            StringBuilder htmlOutput = new StringBuilder("");
+
+            DB db = new DB();
+            db.setOutput(htmlOutput);
+
+            db.changeUsername(myUser.getUserID(), username);
+
+            usernameChangeReturn output = JsonConvert.DeserializeObject<usernameChangeReturn>(htmlOutput.ToString());
+
+            return output;
         }
     }
 }

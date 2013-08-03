@@ -16,11 +16,13 @@ namespace localChat
         private string readUrl = "http://feildofbattlecards-com.securec55.ezhostingserver.com/localChat/read_msg.cfm";
         private string readDetailsUrl = "http://feildofbattlecards-com.securec55.ezhostingserver.com/localChat/read_msg_details.cfm";
         private string writeUrl = "http://feildofbattlecards-com.securec55.ezhostingserver.com/localChat/create_msg.cfm";
-        private string logUrl = "https://securec55.ezhostingserver.com/feildofbattlecards-com/localChat/test.html";
+        private string logUrl = "http://feildofbattlecards-com.securec55.ezhostingserver.com/localChat/test.html";
+
+        private string changeUsernameUrl = "http://feildofbattlecards-com.securec55.ezhostingserver.com/localChat/set_username.cfm";
 
         private StringBuilder output = null;
 
-        const int DB_PULL_WAIT_TIME = 5000;   //ms
+        const int DB_PULL_WAIT_TIME = 10000;   //ms
 
         WebClient client = new WebClient();
         private EventWaitHandle asyncWait = new ManualResetEvent(false);
@@ -105,6 +107,17 @@ namespace localChat
             Uri writeUri = new Uri(writeUrl + parameter, UriKind.Absolute);
 
             client.OpenReadAsync(writeUri);
+            asyncWait.WaitOne(DB_PULL_WAIT_TIME);
+        }
+
+        public void changeUsername(long userID, string username)
+        {
+            string parameter = "?cf_user_id=" + userID;
+            parameter += "&cf_username=" + username;
+
+            Uri readUri = new Uri(changeUsernameUrl + parameter, UriKind.Absolute);
+
+            client.OpenReadAsync(readUri);
             asyncWait.WaitOne(DB_PULL_WAIT_TIME);
         }
 

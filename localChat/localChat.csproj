@@ -94,20 +94,21 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
-    <Compile Include="User.cs" />
+    <Compile Include="DataObjects\User.cs" />
+    <Compile Include="DataObjects\usernameChangeReturn.cs" />
     <Compile Include="FileStorageOperations.cs" />
-    <Compile Include="UserReturn.cs" />
-    <Compile Include="statusMsg.cs" />
+    <Compile Include="DataObjects\UserReturn.cs" />
+    <Compile Include="DataObjects\statusMsg.cs" />
     <Compile Include="DB.cs" />
     <Compile Include="dataSource.cs" />
-    <Compile Include="latLon.cs" />
+    <Compile Include="DataObjects\latLon.cs" />
     <Compile Include="LocalizedStrings.cs" />
     <Compile Include="LoginPage.xaml.cs">
       <DependentUpon>LoginPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="mathPlus.cs" />
-    <Compile Include="msg.cs" />
-    <Compile Include="readData.cs" />
+    <Compile Include="DataObjects\msg.cs" />
+    <Compile Include="DataObjects\readData.cs" />
     <Compile Include="ReadDetailsPage.xaml.cs">
       <DependentUpon>ReadDetailsPage.xaml</DependentUpon>
     </Compile>
@@ -125,6 +126,9 @@
     </Compile>
     <Compile Include="MessageItems\MessageItem.cs" />
     <Compile Include="MessageItems\MessageGroup.cs" />
+    <Compile Include="SplashScreen.xaml.cs">
+      <DependentUpon>SplashScreen.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Write.xaml.cs">
       <DependentUpon>Write.xaml</DependentUpon>
     </Compile>
@@ -151,6 +155,10 @@
     </DesignData>
     <Page Include="Settings.xaml">
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="SplashScreen.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Write.xaml">
       <SubType>Designer</SubType>
@@ -219,6 +227,7 @@
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\$(TargetFrameworkIdentifier)\$(TargetFrameworkVersion)\Microsoft.$(TargetFrameworkIdentifier).$(TargetFrameworkVersion).Overrides.targets" />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\$(TargetFrameworkIdentifier)\$(TargetFrameworkVersion)\Microsoft.$(TargetFrameworkIdentifier).CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.

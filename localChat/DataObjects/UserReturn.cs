@@ -12,6 +12,7 @@ namespace localChat
         public string imsi;
         public long imsiID, userID;
         public string username, email;
+        public int userStatus;
         public DateTime createDate, modifyDate;
 
         public UserReturn() { }

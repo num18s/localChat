@@ -10,14 +10,16 @@ namespace localChat
     {
         private string imsi, username, email;
         private long imsiID, userID;
+        private int status;
         private DateTime createDate, modifyDate;
 
-        public User(long imsiID, long userID, string imsi, string username, string email, DateTime createDate, DateTime modifyDate)
+        public User(long imsiID, long userID, string imsi, string username, string email, int status, DateTime createDate, DateTime modifyDate)
         {
             this.imsiID = imsiID;
             this.userID = userID;
             this.imsi = imsi;
             this.username = username;
+            this.status = status;
             this.email = email;
             this.createDate = createDate;
             this.modifyDate = modifyDate;
@@ -25,7 +27,7 @@ namespace localChat
 
         public User copy()
         {
-            return new User(imsiID, userID, imsi, username, email, createDate, modifyDate);
+            return new User(imsiID, userID, imsi, username, email, status, createDate, modifyDate);
         }
 
         public long getImsiID() { return imsiID; }
@@ -37,6 +39,8 @@ namespace localChat
         public string getUsername() { return username; }
 
         public string getEmail() { return email; }
+
+        public int getStatus() { return status; }
 
         public DateTime getCreateDate() { return createDate; }
 
