@@ -99,14 +99,14 @@
     <Compile Include="FileStorageOperations.cs" />
     <Compile Include="DataObjects\UserReturn.cs" />
     <Compile Include="DataObjects\statusMsg.cs" />
-    <Compile Include="DB.cs" />
-    <Compile Include="dataSource.cs" />
+    <Compile Include="Classes\DB.cs" />
+    <Compile Include="Classes\dataSource.cs" />
     <Compile Include="DataObjects\latLon.cs" />
     <Compile Include="LocalizedStrings.cs" />
     <Compile Include="LoginPage.xaml.cs">
       <DependentUpon>LoginPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="mathPlus.cs" />
+    <Compile Include="Classes\mathPlus.cs" />
     <Compile Include="DataObjects\msg.cs" />
     <Compile Include="DataObjects\readData.cs" />
     <Compile Include="ReadDetailsPage.xaml.cs">
