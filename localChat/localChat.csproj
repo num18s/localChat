@@ -96,7 +96,7 @@
     </Compile>
     <Compile Include="DataObjects\User.cs" />
     <Compile Include="DataObjects\usernameChangeReturn.cs" />
-    <Compile Include="FileStorageOperations.cs" />
+    <Compile Include="DataObjects\FileStorageOperations.cs" />
     <Compile Include="DataObjects\UserReturn.cs" />
     <Compile Include="DataObjects\statusMsg.cs" />
     <Compile Include="Classes\DB.cs" />
