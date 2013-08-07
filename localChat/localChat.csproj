@@ -94,6 +94,7 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="DataObjects\readSettings.cs" />
     <Compile Include="DataObjects\User.cs" />
     <Compile Include="DataObjects\usernameChangeReturn.cs" />
     <Compile Include="DataObjects\FileStorageOperations.cs" />

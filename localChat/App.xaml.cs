@@ -14,6 +14,7 @@ namespace localChat
     {
         private static MessageGroup readMsgList = null;
         private dataSource ds = null;
+        private static readSettings rs = null;
         
         public static new App Current
         {
@@ -49,6 +50,25 @@ namespace localChat
                 if (value != readMsgList)
                 {
                     readMsgList = value;
+                }
+            }
+        }
+
+        public static readSettings ReadSettings
+        {
+            get
+            {
+                // Delay creation of the view model until necessary
+                if (rs == null)
+                    rs = new readSettings();
+
+                return rs;
+            }
+            set
+            {
+                if (value != rs)
+                {
+                    rs = value;
                 }
             }
         }
