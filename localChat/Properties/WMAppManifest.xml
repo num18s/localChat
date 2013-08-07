@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Deployment xmlns="http://schemas.microsoft.com/windowsphone/2012/deployment" AppPlatformVersion="8.0">
   <DefaultLanguage xmlns="" code="en-US" />
-  <App xmlns="" ProductID="{0539df5a-b557-4c5d-be19-2ea1835f1c10}" Title="localChat" RuntimeType="Silverlight" Version="1.0.0.0" Genre="apps.normal" Author="localChat author" Description="" Publisher="localChat" PublisherID="{071b4ac4-e3ea-4d3c-9177-ad6552de98b0}">
+  <App xmlns="" ProductID="{0539df5a-b557-4c5d-be19-2ea1835f1c10}" Title="earReach" RuntimeType="Silverlight" Version="1.0.0.0" Genre="apps.normal" Author="Matthew Dryden &amp; Bohao She" Description="" Publisher="earReach" PublisherID="{071b4ac4-e3ea-4d3c-9177-ad6552de98b0}">
     <IconPath IsRelative="true" IsResource="false">Assets\ApplicationIcon.png</IconPath>
     <Capabilities>
       <Capability Name="ID_CAP_NETWORKING" />
@@ -22,17 +22,20 @@
           <SmallImageURI IsRelative="true" IsResource="false">Assets\Tiles\FlipCycleTileSmall.png</SmallImageURI>
           <Count>0</Count>
           <BackgroundImageURI IsRelative="true" IsResource="false">Assets\Tiles\FlipCycleTileMedium.png</BackgroundImageURI>
-          <Title>localChat</Title>
+          <Title>earReach</Title>
           <BackContent>
           </BackContent>
           <BackBackgroundImageURI>
           </BackBackgroundImageURI>
           <BackTitle>
           </BackTitle>
+          <LargeBackgroundImageURI IsRelative="true" IsResource="false">Assets\Tiles\FlipCycleTileLarge.png</LargeBackgroundImageURI>
+          <LargeBackContent />
+          <LargeBackBackgroundImageURI IsRelative="true" IsResource="false">
+          </LargeBackBackgroundImageURI>
           <DeviceLockImageURI>
           </DeviceLockImageURI>
-          <HasLarge>
-          </HasLarge>
+          <HasLarge>True</HasLarge>
         </TemplateFlip>
       </PrimaryToken>
     </Tokens>

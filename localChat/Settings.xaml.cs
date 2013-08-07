@@ -46,6 +46,17 @@ namespace localChat
                 curUpTimeValue.Text = upTime.ToString();
             }
         }
+
+        private void SaveButton_Click(object sender, EventArgs e)
+        {
+            NavigationService.Navigate(new Uri("/ReadLongListPage.xaml", UriKind.Relative));
+        }
+
+        private void CancelButton_Click(object sender, EventArgs e)
+        {
+            NavigationService.Navigate(new Uri("/ReadLongListPage.xaml", UriKind.Relative));
+        }
+        
     }
 
 }

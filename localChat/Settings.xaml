@@ -13,8 +13,8 @@
     mc:Ignorable="d">
 	<phone:PhoneApplicationPage.ApplicationBar>
 		<shell:ApplicationBar>
-			<shell:ApplicationBarIconButton x:Name="SaveButton" IconUri="/Assets/AppBar/save.png" IsEnabled="True" Text="Save"/>
-			<shell:ApplicationBarIconButton x:Name="CancelButton" IconUri="/Assets/AppBar/cancel.png" IsEnabled="True" Text="Cancel"/>
+            <shell:ApplicationBarIconButton x:Name="SaveButton" Click="SaveButton_Click" IconUri="/Assets/AppBar/save.png" IsEnabled="True" Text="Save"/>
+			<shell:ApplicationBarIconButton x:Name="CancelButton" Click="CancelButton_Click" IconUri="/Assets/AppBar/cancel.png" IsEnabled="True" Text="Cancel"/>
 		</shell:ApplicationBar>
 	</phone:PhoneApplicationPage.ApplicationBar>
 
