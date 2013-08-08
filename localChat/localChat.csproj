@@ -94,6 +94,8 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Classes\ErrorType.cs" />
+    <Compile Include="Classes\LogIO.cs" />
     <Compile Include="DataObjects\readSettings.cs" />
     <Compile Include="DataObjects\User.cs" />
     <Compile Include="DataObjects\usernameChangeReturn.cs" />
