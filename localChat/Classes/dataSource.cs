@@ -52,6 +52,8 @@ namespace localChat
             {
                 App.SaveDebugEntry("dataSource.constructor: JsonSerializationException");
             }
+
+            uploadErrorLog();
         }
 
         public dataSource(User newUser)
@@ -194,6 +196,58 @@ namespace localChat
             usernameChangeReturn output = JsonConvert.DeserializeObject<usernameChangeReturn>(htmlOutput.ToString());
 
             return output;
+        }
+
+        public void uploadErrorLog()
+        {
+            LogIO.clearLog();
+            LogIO.logError("testing, testing, 123");
+            LogIO.logError("testing, testing, 456");
+            LogIO.logError("testing, testing, 789");
+            List<string> test = LogIO.getLog();
+
+            string line = "1|dataSource|uploadErrorLog|Testing, Testing, 123";
+            bool good = false;
+            int pipe = 0;
+            int nextPipe = line.IndexOf("|");
+
+            int id = 0;
+            string objectName, methodName, msg;
+            objectName = methodName = msg = "";
+            ErrorType output = null;
+
+            if (nextPipe > 0)
+            {
+                try
+                {
+                    id = int.Parse(line.Substring(0, line.IndexOf("|")));
+                }
+                catch (FormatException e) { }
+
+                pipe = nextPipe + 1;
+                nextPipe = line.IndexOf("|", pipe);
+
+                if (nextPipe > 0)
+                {
+                    objectName = line.Substring(pipe, nextPipe - pipe);
+
+                    pipe = nextPipe + 1;
+                    nextPipe = line.IndexOf("|", pipe);
+
+                    if (nextPipe > 0)
+                    {
+                        methodName = line.Substring(pipe, nextPipe - pipe);
+                        msg = line.Substring(nextPipe + 1);
+                        good = true;
+                    }
+                }
+            }
+
+            if( good )
+                output = new ErrorType( id, objectName, methodName, msg );
+
+            //List<ErrorType>
+            test = test;
         }
     }
 }
