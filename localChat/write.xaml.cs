@@ -60,13 +60,12 @@ namespace localChat
         {
             InitializeComponent();
 
-            if (!gotId)
-            {
-                byte[] myDeviceID = (byte[])Microsoft.Phone.Info.DeviceExtendedProperties.GetValue("DeviceUniqueId");
-                myId = Convert.ToBase64String(myDeviceID);
-                gotId = true;
-            }
             pageLoaded = true;
+
+            int distance = (int)Distance_Slider.Value;
+            curMeterValue.Text = distances[distance];
+
+            chkShowLocation.IsChecked = false;
         }
 
         private void PostButton_Click(object sender, EventArgs e)
@@ -79,6 +78,7 @@ namespace localChat
                 int id = App.ReadMsgList.CurrentItemCount();
                 int distance = (int)Distance_Slider.Value;
                 int radiusMeters = distancesMeter[distance];
+                bool showLocation = chkShowLocation.IsChecked;
 
                 MessageItem outgoingMsg = new MessageItem()
                          {
@@ -98,7 +98,8 @@ namespace localChat
                 Microsoft.Phone.Shell.SystemTray.SetIsVisible(this, true);
                 Microsoft.Phone.Shell.SystemTray.SetProgressIndicator(this, pi);
 
-                ThreadStart starter = delegate { Post_Button_Click_Work(title, message, id, radiusMeters); };
+
+                ThreadStart starter = delegate { Post_Button_Click_Work(title, message, id, radiusMeters, showLocation); };
 
                 Thread work = new Thread(starter);
                 work.Start();
@@ -114,9 +115,10 @@ namespace localChat
             }
         }
 
-        private void Post_Button_Click_Work(string title, string message, int id, int radiusMeters)
+        private void Post_Button_Click_Work(string title, string message, int id, int radiusMeters, bool showLocation)
         {
             dataSource ds = App.Current.getDataSource();
+            
             ds.write(radiusMeters, title, message);
 
             //NavigationService.Navigate(new Uri("/ReadLongListPage.xaml", UriKind.Relative));

@@ -86,6 +86,7 @@ namespace localChat
             , int sysLonStart
             , int sysLonEnd
             , int radiusMeters
+            , bool showLocation
             , string title
             , string msg
         )
@@ -101,6 +102,15 @@ namespace localChat
             parameter += "&cf_sys_lon_start=" + sysLonStart.ToString();
             parameter += "&cf_sys_lon_end=" + sysLonEnd.ToString();
             parameter += "&cf_radius_meters=" + radiusMeters.ToString();
+            parameter += "&cf_show_location=";
+            if (showLocation)
+            {
+                parameter += "1";
+            }
+            else
+            {
+                parameter += "0";
+            }
             parameter += "&cf_title=" + title;
             parameter += "&cf_msg=" + msg;
 

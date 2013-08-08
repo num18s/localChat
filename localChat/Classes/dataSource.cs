@@ -112,7 +112,7 @@ namespace localChat
             return output;
         }
 
-        public bool write(int radiusMeters, string title, string msg)
+        public bool write(int radiusMeters, string title, string msg, bool showLocation)
         {
             GeoCoordinateWatcher getPosition = new GeoCoordinateWatcher();
             getPosition.TryStart(false, TimeSpan.FromMilliseconds(1000));
@@ -175,6 +175,7 @@ namespace localChat
                 , nw.getSysLon()
                 , ne.getSysLon()
                 , radiusMeters
+                , showLocation
                 , title
                 , msg
             );
