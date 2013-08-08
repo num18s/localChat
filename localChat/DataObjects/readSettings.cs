@@ -8,7 +8,7 @@ namespace localChat
 {
     public class readSettings
     {
-        public int radiusMeters;
+        public int radiusMetersIndx;
         public int keepTime;
         public int upTime;
         public bool recieveToastNotificaiton;
@@ -16,7 +16,7 @@ namespace localChat
         public readSettings()
         {
             /* Test.. */
-            radiusMeters = 1000;
+            radiusMetersIndx = 5;
             keepTime = 21;
             upTime = 15;
             recieveToastNotificaiton = true;

@@ -37,11 +37,10 @@
         	<TextBlock x:Name="Less_than_500_char_text" HorizontalAlignment="Left" Margin="327,427,0,0" TextWrapping="Wrap" Text="0 of 500 used" VerticalAlignment="Top"/>
         	<StackPanel Margin="0,-7,-24,610" Orientation="Horizontal">
         		<TextBlock x:Name="Title_Text" HorizontalAlignment="Left" TextWrapping="Wrap" Text="Title   " VerticalAlignment="Top"/>
-        		<ProgressBar x:Name="Progress_Bar" RenderTransformOrigin="2.167,-2.273"/>
         	</StackPanel>
         	<StackPanel Margin="0,455,0,165" Orientation="Horizontal">
         		<TextBlock x:Name="How_far_text" HorizontalAlignment="Left" TextWrapping="Wrap" Text="How far away shoud this be visable?" VerticalAlignment="Top" FontSize="{StaticResource PhoneFontSizeSmall}"/>
-        		<TextBox x:Name="curMeterValue" Text="500" TextWrapping="Wrap" BorderThickness="0" Margin="0,-13,0,-10" IsReadOnly="True" InputScope="Number" Background="Black" FontSize="{StaticResource PhoneFontSizeSmall}">
+        		<TextBox x:Name="curMeterValue" Text="1 Mile" TextWrapping="Wrap" BorderThickness="0" Margin="0,-13,0,-10" IsReadOnly="True" InputScope="Number" Background="Black" FontSize="{StaticResource PhoneFontSizeSmall}">
         			<TextBox.SelectionForeground>
         				<SolidColorBrush Color="{StaticResource PhoneBackgroundColor}"/>
         			</TextBox.SelectionForeground>

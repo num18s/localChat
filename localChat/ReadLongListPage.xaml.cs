@@ -21,6 +21,22 @@ namespace localChat
         private static readData readMsg = null;
         private BackgroundWorker bw;
         private bool doingRefresh = false;
+        
+        private static int[] distancesMeter = { 107,
+            201,
+            402,
+            804,
+            1609,
+            3218,
+            4828,
+            6437,
+            8016,
+            9656,
+            11265,
+            12874,
+            14484,
+            16093
+                                              };
 
         // Constructor
         public ReadLongListPage()

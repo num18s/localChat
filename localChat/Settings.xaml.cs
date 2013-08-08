@@ -14,7 +14,24 @@ namespace localChat
     {
         bool pageLoaded = false;
 
-        int radiusMeters = 500;
+        private static string[] distances = { "1 Block",
+            "1/8 Mile",
+            "1/4 Mile",
+            "1/2 Mile",
+            "3/4 Mile",
+            "1 Mile",
+            "2 Mile",
+            "3 Mile",
+            "4 Mile",
+            "5 Mile",
+            "6 Mile",
+            "7 Mile",
+            "8 Mile",
+            "9 Mile",
+            "10 Mile"
+                                            };
+
+        int radiusMetersIndx = 5;
         int keepTime = 2;
         int upTime = 3;
         bool recieveToastNotificaiton = false;
@@ -23,8 +40,8 @@ namespace localChat
         {
             InitializeComponent();
 
-            slider_receive_radius.Value = App.ReadSettings.radiusMeters;
-            curMeterValue.Text = slider_receive_radius.Value.ToString();
+            slider_receive_radius.Value = App.ReadSettings.radiusMetersIndx;
+            curMeterValue.Text = distances[(int)slider_receive_radius.Value];
 
             slider_keep_time.Value = App.ReadSettings.keepTime;
             curTimeValue.Text = slider_keep_time.Value.ToString();
@@ -41,8 +58,8 @@ namespace localChat
         {
             if (pageLoaded)
             {
-                radiusMeters = (int)slider_receive_radius.Value;
-                curMeterValue.Text = radiusMeters.ToString();
+                radiusMetersIndx = (int)slider_receive_radius.Value;
+                curMeterValue.Text = distances[radiusMetersIndx];
             }
         }
 
@@ -70,7 +87,7 @@ namespace localChat
             if (saveMsg == MessageBoxResult.OK)
             {
                 App.ReadSettings.keepTime = keepTime;
-                App.ReadSettings.radiusMeters = radiusMeters;
+                App.ReadSettings.radiusMetersIndx = radiusMetersIndx;
                 App.ReadSettings.upTime = upTime;
                 App.ReadSettings.recieveToastNotificaiton = recieveToastNotificaiton;
 

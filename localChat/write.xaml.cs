@@ -78,7 +78,7 @@ namespace localChat
                 int id = App.ReadMsgList.CurrentItemCount();
                 int distance = (int)Distance_Slider.Value;
                 int radiusMeters = distancesMeter[distance];
-                bool showLocation = chkShowLocation.IsChecked;
+                bool showLocation = chkShowLocation.IsChecked.Value;
 
                 MessageItem outgoingMsg = new MessageItem()
                          {
@@ -118,8 +118,8 @@ namespace localChat
         private void Post_Button_Click_Work(string title, string message, int id, int radiusMeters, bool showLocation)
         {
             dataSource ds = App.Current.getDataSource();
-            
-            ds.write(radiusMeters, title, message);
+
+            ds.write(radiusMeters, title, message, showLocation);
 
             //NavigationService.Navigate(new Uri("/ReadLongListPage.xaml", UriKind.Relative));
         }
