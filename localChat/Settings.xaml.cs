@@ -91,6 +91,8 @@ namespace localChat
                 App.ReadSettings.upTime = upTime;
                 App.ReadSettings.recieveToastNotificaiton = recieveToastNotificaiton;
 
+                FileStorageOperations.saveReadSettings();
+
                 NavigationService.Navigate(new Uri("/ReadLongListPage.xaml", UriKind.Relative));
             }
         }
