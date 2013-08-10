@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using localChat.Resources;
 
+
 namespace localChat
 {
     public class MessageGroup : INotifyPropertyChanged
@@ -11,6 +12,9 @@ namespace localChat
         public MessageGroup()
         {
             this.Items = new ObservableCollection<MessageItem>();
+
+            /* Get saved msgs.. */
+
         }
 
         /// <summary>
@@ -69,6 +73,15 @@ namespace localChat
                     return i;
             }
             return -1;
+        }
+
+        public bool isInRange(MessageItem curMsg)
+        {
+            if ((App.ReadSettings.latStart <= curMsg.Lat) && (curMsg.Lat <= App.ReadSettings.latEnd) &&
+                (App.ReadSettings.lonStart <= curMsg.Lon) && (curMsg.Lon <= App.ReadSettings.lonEnd))
+                return true;
+                        
+            return false;
         }
 
         /// <summary>

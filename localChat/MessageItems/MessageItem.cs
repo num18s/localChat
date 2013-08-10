@@ -138,6 +138,40 @@ namespace localChat
             }
         }
 
+        public float _lat;
+        public float Lat
+        {
+            get
+            {
+                return _lat;
+            }
+            set
+            {
+                if (value != _lat)
+                {
+                    _lat = value;
+                    NotifyPropertyChanged("Lat");
+                }
+            }
+        }
+        public float _lon;
+        public float Lon
+        {
+            get
+            {
+                return _lon;
+            }
+            set
+            {
+                if (value != _lon)
+                {
+                    _lon = value;
+                    NotifyPropertyChanged("Lon");
+                }
+            }
+        }
+
+
         public event PropertyChangedEventHandler PropertyChanged;
         private void NotifyPropertyChanged(String propertyName)
         {

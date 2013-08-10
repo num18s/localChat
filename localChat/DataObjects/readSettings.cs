@@ -13,6 +13,11 @@ namespace localChat
         public int upTime;
         public bool recieveToastNotificaiton;
 
+        public float latStart;
+        public float latEnd;
+        public float lonStart;
+        public float lonEnd;
+
         public readSettings()
         {
             /* Test.. */

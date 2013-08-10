@@ -11,6 +11,8 @@ using localChat.Resources;
 using System.Threading;
 using System.ComponentModel;
 
+using System.Device.Location;
+
 namespace localChat
 {
 
@@ -21,11 +23,14 @@ namespace localChat
         private static readData readMsg = null;
         private BackgroundWorker bw;
         private bool doingRefresh = false;
-        
+
+        private static int R = 6371 * 1000;//6371 circuferance of earth in kilometers, converted to meeters
+
         private static int[] distancesMeter = { 107,
             201,
             402,
             804,
+            1207,
             1609,
             3218,
             4828,
@@ -75,6 +80,35 @@ namespace localChat
 
             //if (!App.ReadMsgList.IsDataLoaded)
             {
+                /* Get Current location */
+                GeoCoordinateWatcher getPosition = new GeoCoordinateWatcher();
+
+                int geoGetTry = 3; //times...
+                bool gotGeoRespond = false;
+
+                while (geoGetTry-- > 0 || gotGeoRespond == false)
+                {
+                    gotGeoRespond = getPosition.TryStart(false, TimeSpan.FromMilliseconds(1000));
+                }
+
+                float lat = (float)getPosition.Position.Location.Latitude;
+                float lon = (float)getPosition.Position.Location.Longitude;
+
+                getPosition.Stop();
+                getPosition.Dispose();
+
+                latLon position = new latLon(lat, lon);
+                double r = (double)distancesMeter[App.ReadSettings.radiusMetersIndx] / (double)R;
+
+                double latRad = mathPlus.DegreeToRadian((double)position.getLat());
+                App.ReadSettings.latStart = (float)mathPlus.RadianToDegree(latRad - r);
+                App.ReadSettings.latEnd = (float)mathPlus.RadianToDegree(latRad + r);
+
+                double lonRad = mathPlus.DegreeToRadian((double)position.getLon());
+                double tLon = Math.Asin(Math.Sin(r) / Math.Cos(latRad));
+                App.ReadSettings.lonStart = (float)mathPlus.RadianToDegree(lonRad - tLon);
+                App.ReadSettings.lonEnd = (float)mathPlus.RadianToDegree(lonRad + tLon);
+
                 App.ReadMsgList.LoadData(); // Get all the saved messags...
             }
             this.bw.RunWorkerAsync();
@@ -136,16 +170,19 @@ namespace localChat
                             Date = curDBMsg.createDate.Date.ToString("MM/dd/yyyy"),
                             Time = curDBMsg.createDate.TimeOfDay.ToString(),
                             Title = curDBMsg.title,
+                            Lat = curDBMsg.lat,
+                            Lon = curDBMsg.lon
                             //Author = curDBMsg.userName,
                             //Msg = curDBMsg.msgBody
                         };
 
                         /* Only add message if is not already loaded in the message list.. */
                         //if (App.ReadMsgList.getCurMsgIndex(incomingMsg.dbMsgID) == -1)
-                        //{
-                        //    /* Add to local list for retrive later.. */
+                        if(App.ReadMsgList.isInRange(incomingMsg))
+                        {
+                            /* Add to local list for retrive later.. */
                             App.ReadMsgList.Items.Add(incomingMsg);
-                        //}
+                        }
                     }
                 }
                 pi.IsVisible = false;
