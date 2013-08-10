@@ -86,39 +86,40 @@ namespace localChat
         {
             string savedSettings = string.Empty;
 
-            // There's no FileExists method in WinRT, so have to try to get a reference to it
-            // and catch the exception instead
-            StorageFile storageFile = null;
-            bool fileExists = false;
-            try
-            {
-                // See if file exists
-                storageFile = await Windows.Storage.StorageFile.GetFileFromApplicationUriAsync(
-                    new Uri("ms-appdata:///local/" + READ_SETTING));
-                fileExists = true;
-            }
-            catch (FileNotFoundException)
-            {
-                // File doesn't exist
-                fileExists = false;
-            }
+           // There's no FileExists method in WinRT, so have to try to get a reference to it
+           // and catch the exception instead
+           StorageFile storageFile = null;
+           bool fileExists = false;
+           try
+           {
+               // See if file exists
+               storageFile = await Windows.Storage.StorageFile.GetFileFromApplicationUriAsync(
+                   new Uri("ms-appdata:///local/" + READ_SETTING));
+               fileExists = true;
+           }
+           catch (FileNotFoundException)
+           {
+               // File doesn't exist
+               fileExists = false;
+           }
 
-            if (!fileExists)
-            {
-                // Initialize the return data and save a copy to file...
-                App.ReadSettings = new readSettings();
-                saveReadSettings();
-            }
-            else
-            {
-                // File does exists, so open it and read the contents
-                Stream readStream = await storageFile.OpenStreamForReadAsync();
-                using (StreamReader reader = new StreamReader(readStream))
-                {
-                    savedSettings = await reader.ReadToEndAsync();
-                    App.ReadSettings = JsonConvert.DeserializeObject<readSettings>(savedSettings.ToString());
-                }
-            }
+           if (!fileExists)
+           {
+               // Initialize the return data and save a copy to file...
+               App.ReadSettings = new readSettings();
+               saveReadSettings();
+           }
+           else
+           {
+               // File does exists, so open it and read the contents
+               Stream readStream = await storageFile.OpenStreamForReadAsync();
+               using (StreamReader reader = new StreamReader(readStream))
+               {
+                   savedSettings = await reader.ReadToEndAsync();
+                   App.ReadSettings = JsonConvert.DeserializeObject<readSettings>(savedSettings.ToString());
+                   reader.Close();
+               }
+           }
         }
 
         public static async void saveReadSettings()
@@ -132,7 +133,6 @@ namespace localChat
             Stream writeStream = await storageFile.OpenStreamForWriteAsync();
             using (StreamWriter writer = new StreamWriter(writeStream))
             {
-
                 string savedSettings = JsonConvert.SerializeObject(App.ReadSettings);
 
                 await writer.WriteAsync(savedSettings);
