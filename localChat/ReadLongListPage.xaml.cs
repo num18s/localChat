@@ -164,6 +164,12 @@ namespace localChat
                     {
                         msg curDBMsg = readMsg.getMsg(i);
 
+                        TimeSpan keepDays = new System.TimeSpan(App.ReadSettings.keepTime, 0, 0, 0);
+
+                        /* Only add message if is newer than what we want to see */
+                        if (DateTime.Now.Subtract(keepDays).CompareTo(curDBMsg.createDate) > 0)
+                            continue;   // msg is too old..
+
                         MessageItem incomingMsg = new MessageItem()
                         {
                             dbMsgID = curDBMsg.msgID.ToString(),

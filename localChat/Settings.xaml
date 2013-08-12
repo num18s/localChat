@@ -55,7 +55,7 @@
     		</StackPanel>
     		<StackPanel x:Name="message_recieve_update_interval_title" Orientation="Horizontal">
     			<TextBlock x:Name="receive_update_interval_title" Text="Update Interval:" Style="{StaticResource PhoneTextNormalStyle}" Margin="0" FontSize="{StaticResource PhoneFontSizeMedium}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-    			<TextBox x:Name="curUpTimeValue" TextWrapping="Wrap" Text="3" FontSize="{StaticResource PhoneFontSizeNormal}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                <TextBox x:Name="curUpdateIntervalValue" TextWrapping="Wrap" Text="3" FontSize="{StaticResource PhoneFontSizeNormal}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
     			<TextBlock x:Name="update_time_unit" Style="{StaticResource PhoneTextNormalStyle}" Margin="0" FontSize="{StaticResource PhoneFontSizeNormal}" HorizontalAlignment="Center" Text=" Hrs" VerticalAlignment="Center"/>
 
     		</StackPanel>

@@ -10,7 +10,7 @@ namespace localChat
     {
         public int radiusMetersIndx;
         public int keepTime;
-        public int upTime;
+        public int updateInterval;
         public bool recieveToastNotificaiton;
 
         public float latStart;
@@ -23,7 +23,7 @@ namespace localChat
             /* Test.. */
             radiusMetersIndx = 5;
             keepTime = 21;
-            upTime = 15;
+            updateInterval = 15;
             recieveToastNotificaiton = true;
         }
     }

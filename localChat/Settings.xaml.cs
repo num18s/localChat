@@ -33,7 +33,7 @@ namespace localChat
 
         int radiusMetersIndx = 5;
         int keepTime = 2;
-        int upTime = 3;
+        int updateInterval = 3;
         bool recieveToastNotificaiton = false;
 
         public Settings()
@@ -46,8 +46,8 @@ namespace localChat
             slider_keep_time.Value = App.ReadSettings.keepTime;
             curTimeValue.Text = slider_keep_time.Value.ToString();
 
-            slider_update_time.Value = App.ReadSettings.upTime;
-            curUpTimeValue.Text = slider_update_time.Value.ToString();
+            slider_update_time.Value = App.ReadSettings.updateInterval;
+            curUpdateIntervalValue.Text = slider_update_time.Value.ToString();
 
             recieve_toast_notificaiton_cb.IsChecked = App.ReadSettings.recieveToastNotificaiton;
 
@@ -76,8 +76,8 @@ namespace localChat
         {
             if (pageLoaded)
             {
-                upTime = (int)slider_update_time.Value;
-                curUpTimeValue.Text = upTime.ToString();
+                updateInterval = (int)slider_update_time.Value;
+                curUpdateIntervalValue.Text = updateInterval.ToString();
             }
         }
 
@@ -88,7 +88,7 @@ namespace localChat
             {
                 App.ReadSettings.keepTime = keepTime;
                 App.ReadSettings.radiusMetersIndx = radiusMetersIndx;
-                App.ReadSettings.upTime = upTime;
+                App.ReadSettings.updateInterval = updateInterval;
                 App.ReadSettings.recieveToastNotificaiton = recieveToastNotificaiton;
 
                 FileStorageOperations.saveReadSettings();
