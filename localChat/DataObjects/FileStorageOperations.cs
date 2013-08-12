@@ -107,6 +107,7 @@ namespace localChat
            {
                // Initialize the return data and save a copy to file...
                App.ReadSettings = new readSettings();
+               App.ReadSettings.getCurrentLatLonRage();
                saveReadSettings();
            }
            else
@@ -116,8 +117,16 @@ namespace localChat
                using (StreamReader reader = new StreamReader(readStream))
                {
                    savedSettings = await reader.ReadToEndAsync();
-                   App.ReadSettings = JsonConvert.DeserializeObject<readSettings>(savedSettings.ToString());
+                   readSettings temp =  JsonConvert.DeserializeObject<readSettings>(savedSettings.ToString());
                    reader.Close();
+                   if (temp != null && temp.getVersion() == App.ReadSettings.getVersion())
+                       App.ReadSettings = temp;
+                   else
+                   {
+                       App.ReadSettings = new readSettings();
+                       App.ReadSettings.getCurrentLatLonRage();
+                       saveReadSettings();
+                   }
                }
            }
         }
@@ -128,7 +137,7 @@ namespace localChat
 
             // Create the file in the local folder, or if it already exists, just open it
             Windows.Storage.StorageFile storageFile =
-                await localFolder.CreateFileAsync(READ_SETTING, CreationCollisionOption.OpenIfExists);
+                await localFolder.CreateFileAsync(READ_SETTING, CreationCollisionOption.ReplaceExisting);
 
             Stream writeStream = await storageFile.OpenStreamForWriteAsync();
             using (StreamWriter writer = new StreamWriter(writeStream))

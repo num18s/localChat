@@ -24,8 +24,6 @@ namespace localChat
         private BackgroundWorker bw;
         private bool doingRefresh = false;
 
-        private static int R = 6371 * 1000;//6371 circuferance of earth in kilometers, converted to meeters
-
         // Constructor
         public ReadLongListPage()
         {
@@ -64,34 +62,7 @@ namespace localChat
             //if (!App.ReadMsgList.IsDataLoaded)
             {
                 /* Get Current location */
-                GeoCoordinateWatcher getPosition = new GeoCoordinateWatcher();
-
-                int geoGetTry = 3; //times...
-                bool gotGeoRespond = false;
-
-                while (geoGetTry-- > 0 || gotGeoRespond == false)
-                {
-                    gotGeoRespond = getPosition.TryStart(false, TimeSpan.FromMilliseconds(1000));
-                }
-
-                float lat = (float)getPosition.Position.Location.Latitude;
-                float lon = (float)getPosition.Position.Location.Longitude;
-
-                getPosition.Stop();
-                getPosition.Dispose();
-
-                latLon position = new latLon(lat, lon);
-                double r = (double)App.distancesMeter[App.ReadSettings.radiusMetersIndx] / (double)R;
-
-                double latRad = mathPlus.DegreeToRadian((double)position.getLat());
-                App.ReadSettings.latStart = (float)mathPlus.RadianToDegree(latRad - r);
-                App.ReadSettings.latEnd = (float)mathPlus.RadianToDegree(latRad + r);
-
-                double lonRad = mathPlus.DegreeToRadian((double)position.getLon());
-                double tLon = Math.Asin(Math.Sin(r) / Math.Cos(latRad));
-                App.ReadSettings.lonStart = (float)mathPlus.RadianToDegree(lonRad - tLon);
-                App.ReadSettings.lonEnd = (float)mathPlus.RadianToDegree(lonRad + tLon);
-
+                App.ReadSettings.getCurrentLatLonRage();
                 App.ReadMsgList.LoadData(); // Get all the saved messags...
             }
             this.bw.RunWorkerAsync();

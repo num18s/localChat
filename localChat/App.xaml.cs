@@ -12,6 +12,8 @@ namespace localChat
 {
     public partial class App : Application
     {
+        public static int R = 6371 * 1000;//6371 circuferance of earth in kilometers, converted to meeters
+
         public static string[] distances = { "1 Block",
             "1/8 Mile",
             "1/4 Mile",
