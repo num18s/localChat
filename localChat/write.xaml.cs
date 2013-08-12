@@ -14,43 +14,8 @@ namespace localChat
 {
     public partial class WritePage : PhoneApplicationPage
     {
-        bool gotId = false;
         String myId = String.Empty;
         private Microsoft.Phone.Shell.ProgressIndicator pi;
-
-        private static string[] distances = { "1 Block",
-            "1/8 Mile",
-            "1/4 Mile",
-            "1/2 Mile",
-            "3/4 Mile",
-            "1 Mile",
-            "2 Mile",
-            "3 Mile",
-            "4 Mile",
-            "5 Mile",
-            "6 Mile",
-            "7 Mile",
-            "8 Mile",
-            "9 Mile",
-            "10 Mile"
-                                            };
-
-        private static int[] distancesMeter = { 107,
-            201,
-            402,
-            804,
-            1207,
-            1609,
-            3218,
-            4828,
-            6437,
-            8016,
-            9656,
-            11265,
-            12874,
-            14484,
-            16093
-                                            };
 
         bool pageLoaded = false;
 
@@ -61,7 +26,7 @@ namespace localChat
             pageLoaded = true;
 
             int distance = (int)Distance_Slider.Value;
-            curMeterValue.Text = distances[distance];
+            curMeterValue.Text = App.distances[distance];
 
             chkShowLocation.IsChecked = false;
         }
@@ -75,7 +40,7 @@ namespace localChat
                 String message = this.Message_Post_Box.Text;
                 int id = App.ReadMsgList.CurrentItemCount();
                 int distance = (int)Distance_Slider.Value;
-                int radiusMeters = distancesMeter[distance];
+                int radiusMeters = App.distancesMeter[distance];
                 bool showLocation = chkShowLocation.IsChecked.Value;
 
                 MessageItem outgoingMsg = new MessageItem()
@@ -127,7 +92,7 @@ namespace localChat
             if (pageLoaded)
             {
                 int distance = (int)Distance_Slider.Value;
-                curMeterValue.Text = distances[distance];
+                curMeterValue.Text = App.distances[distance];
             }
         }
     }

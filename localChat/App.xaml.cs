@@ -12,6 +12,41 @@ namespace localChat
 {
     public partial class App : Application
     {
+        public static string[] distances = { "1 Block",
+            "1/8 Mile",
+            "1/4 Mile",
+            "1/2 Mile",
+            "3/4 Mile",
+            "1 Mile",
+            "2 Mile",
+            "3 Mile",
+            "4 Mile",
+            "5 Mile",
+            "6 Mile",
+            "7 Mile",
+            "8 Mile",
+            "9 Mile",
+            "10 Mile"
+                                            };
+
+        public static int[] distancesMeter = { 107,
+            201,
+            402,
+            804,
+            1207,
+            1609,
+            3218,
+            4828,
+            6437,
+            8016,
+            9656,
+            11265,
+            12874,
+            14484,
+            16093
+                                            };
+
+
         private static MessageGroup readMsgList = null;
         private dataSource ds = null;
         private static readSettings rs = null;

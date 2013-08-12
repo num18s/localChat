@@ -14,23 +14,6 @@ namespace localChat
     {
         bool pageLoaded = false;
 
-        private static string[] distances = { "1 Block",
-            "1/8 Mile",
-            "1/4 Mile",
-            "1/2 Mile",
-            "3/4 Mile",
-            "1 Mile",
-            "2 Mile",
-            "3 Mile",
-            "4 Mile",
-            "5 Mile",
-            "6 Mile",
-            "7 Mile",
-            "8 Mile",
-            "9 Mile",
-            "10 Mile"
-                                            };
-
         int radiusMetersIndx = 5;
         int keepTime = 2;
         int updateInterval = 3;
@@ -41,7 +24,7 @@ namespace localChat
             InitializeComponent();
 
             slider_receive_radius.Value = App.ReadSettings.radiusMetersIndx;
-            curMeterValue.Text = distances[(int)slider_receive_radius.Value];
+            curMeterValue.Text = App.distances[(int)slider_receive_radius.Value];
 
             slider_keep_time.Value = App.ReadSettings.keepTime;
             curTimeValue.Text = slider_keep_time.Value.ToString();
@@ -59,7 +42,7 @@ namespace localChat
             if (pageLoaded)
             {
                 radiusMetersIndx = (int)slider_receive_radius.Value;
-                curMeterValue.Text = distances[radiusMetersIndx];
+                curMeterValue.Text = App.distances[radiusMetersIndx];
             }
         }
 

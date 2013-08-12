@@ -26,23 +26,6 @@ namespace localChat
 
         private static int R = 6371 * 1000;//6371 circuferance of earth in kilometers, converted to meeters
 
-        private static int[] distancesMeter = { 107,
-            201,
-            402,
-            804,
-            1207,
-            1609,
-            3218,
-            4828,
-            6437,
-            8016,
-            9656,
-            11265,
-            12874,
-            14484,
-            16093
-                                              };
-
         // Constructor
         public ReadLongListPage()
         {
@@ -98,7 +81,7 @@ namespace localChat
                 getPosition.Dispose();
 
                 latLon position = new latLon(lat, lon);
-                double r = (double)distancesMeter[App.ReadSettings.radiusMetersIndx] / (double)R;
+                double r = (double)App.distancesMeter[App.ReadSettings.radiusMetersIndx] / (double)R;
 
                 double latRad = mathPlus.DegreeToRadian((double)position.getLat());
                 App.ReadSettings.latStart = (float)mathPlus.RadianToDegree(latRad - r);
