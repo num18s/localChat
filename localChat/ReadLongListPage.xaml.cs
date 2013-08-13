@@ -152,9 +152,6 @@ namespace localChat
                         }
                     }
 
-                    if(newMsgThisTime > 0)
-                        FileStorageOperations.saveMsgList();
-
                     updateLiveTile(newMsgThisTime);
                 }
                 pi.IsVisible = false;
