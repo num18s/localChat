@@ -24,6 +24,8 @@ namespace localChat
         private BackgroundWorker bw;
         private bool doingRefresh = false;
 
+        private int newMsgThisTime = 0;
+
         // Constructor
         public ReadLongListPage()
         {
@@ -59,7 +61,7 @@ namespace localChat
             Microsoft.Phone.Shell.SystemTray.SetIsVisible(this, true);
             Microsoft.Phone.Shell.SystemTray.SetProgressIndicator(this, pi);
 
-            //if (!App.ReadMsgList.IsDataLoaded)
+            if (!App.ReadMsgList.IsDataLoaded)
             {
                 /* Get Current location */
                 App.ReadSettings.getCurrentLatLonRage();
@@ -111,7 +113,9 @@ namespace localChat
                 {
                     //App.SaveDebugEntry("ReadLongListPage.refreshComplete: test...");
 
-                    App.ReadMsgList = new MessageGroup();
+                    newMsgThisTime = 0;
+
+                    //App.ReadMsgList = new MessageGroup();
 
                     int numMsg = readMsg.getLength();
                     for (int i = 0; i < numMsg; i++)
@@ -131,24 +135,61 @@ namespace localChat
                             Time = curDBMsg.createDate.TimeOfDay.ToString(),
                             Title = curDBMsg.title,
                             Lat = curDBMsg.lat,
-                            Lon = curDBMsg.lon
+                            Lon = curDBMsg.lon,
+                            CreateDate = curDBMsg.createDate
                             //Author = curDBMsg.userName,
                             //Msg = curDBMsg.msgBody
                         };
 
                         /* Only add message if is not already loaded in the message list.. */
-                        //if (App.ReadMsgList.getCurMsgIndex(incomingMsg.dbMsgID) == -1)
-                        if(App.ReadMsgList.isInRange(incomingMsg))
+                        if( (App.ReadMsgList.getCurMsgIndex(incomingMsg.dbMsgID) == -1) &&
+                            (App.ReadMsgList.isInRange(incomingMsg)) )
                         {
                             /* Add to local list for retrive later.. */
-                            App.ReadMsgList.Items.Add(incomingMsg);
+                            /* Always put it at the top since the news one is the last to come in.. */
+                            App.ReadMsgList.Items.Insert(0,incomingMsg);
+                            newMsgThisTime++;
                         }
                     }
+
+                    if(newMsgThisTime > 0)
+                        FileStorageOperations.saveMsgList();
+
+                    updateLiveTile(newMsgThisTime);
                 }
                 pi.IsVisible = false;
                 Microsoft.Phone.Shell.SystemTray.SetIsVisible(this, false);
                 doingRefresh = false;
                 DataContext = App.ReadMsgList;
+            }
+        }
+
+        private void updateLiveTile(int msgCount)
+        {
+            /* Update title contents */
+            var mainTile = ShellTile.ActiveTiles.FirstOrDefault();
+
+            if (null != mainTile)
+            {
+                FlipTileData tileData = new FlipTileData()
+                {
+                    Count = msgCount
+                };
+
+                switch (msgCount)
+                {
+                    case 0:
+                        tileData.BackContent = string.Empty;
+                        break;
+                    case 1:
+                        tileData.BackContent = "You have " + msgCount + " post you have not read!";
+                        break;
+                    default:
+                        tileData.BackContent = "You have " + msgCount + " posts you have not read!";
+                        break;
+                }
+
+                mainTile.Update(tileData);
             }
         }
 

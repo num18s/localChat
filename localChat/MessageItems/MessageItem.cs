@@ -171,6 +171,22 @@ namespace localChat
             }
         }
 
+        public DateTime _createDate;
+        public DateTime CreateDate
+        {
+            get
+            {
+                return _createDate;
+            }
+            set
+            {
+                if (value != _createDate)
+                {
+                    _createDate = value;
+                    NotifyPropertyChanged("Lon");
+                }
+            }
+        }
 
         public event PropertyChangedEventHandler PropertyChanged;
         private void NotifyPropertyChanged(String propertyName)

@@ -14,6 +14,7 @@ namespace localChat
     class FileStorageOperations
     {
         private static string READ_SETTING = "readSetting.txt";
+        private static string MSG_GROUP_LIST = "msgGroup.txt";
 
         public async static Task SaveToLocalFolderAsync(string logData, string fileName, bool append)
         {
@@ -145,6 +146,69 @@ namespace localChat
                 string savedSettings = JsonConvert.SerializeObject(App.ReadSettings);
 
                 await writer.WriteAsync(savedSettings);
+                writer.Close();
+            }
+        }
+
+        public static async void loadMsgList()
+        {
+            string savedMsgs = string.Empty;
+
+            // There's no FileExists method in WinRT, so have to try to get a reference to it
+            // and catch the exception instead
+            StorageFile storageFile = null;
+            bool fileExists = false;
+            try
+            {
+                // See if file exists
+                storageFile = await Windows.Storage.StorageFile.GetFileFromApplicationUriAsync(
+                    new Uri("ms-appdata:///local/" + MSG_GROUP_LIST));
+                fileExists = true;
+            }
+            catch (FileNotFoundException)
+            {
+                // File doesn't exist
+                fileExists = false;
+            }
+
+            if (!fileExists)
+            {
+                // Initialize the return data and save a copy to file...
+                App.ReadMsgList = new MessageGroup();
+            }
+            else
+            {
+                // File does exists, so open it and read the contents
+                Stream readStream = await storageFile.OpenStreamForReadAsync();
+                using (StreamReader reader = new StreamReader(readStream))
+                {
+                    savedMsgs = await reader.ReadToEndAsync();
+                    MessageGroup temp = JsonConvert.DeserializeObject<MessageGroup>(savedMsgs.ToString());
+                    reader.Close();
+                    if (temp != null)
+                        App.ReadMsgList = temp;
+                    else
+                    {
+                        App.ReadMsgList = new MessageGroup();
+                    }
+                }
+            }
+        }
+
+        public static async void saveMsgList()
+        {
+            Windows.Storage.StorageFolder localFolder = Windows.Storage.ApplicationData.Current.LocalFolder;
+
+            // Create the file in the local folder, or if it already exists, just open it
+            Windows.Storage.StorageFile storageFile =
+                await localFolder.CreateFileAsync(MSG_GROUP_LIST, CreationCollisionOption.ReplaceExisting);
+
+            Stream writeStream = await storageFile.OpenStreamForWriteAsync();
+            using (StreamWriter writer = new StreamWriter(writeStream))
+            {
+                string savedMsgs = JsonConvert.SerializeObject(App.ReadMsgList);
+
+                await writer.WriteAsync(savedMsgs);
                 writer.Close();
             }
         }

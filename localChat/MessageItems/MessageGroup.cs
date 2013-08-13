@@ -89,6 +89,20 @@ namespace localChat
         /// </summary>
         public void LoadData()
         {
+            FileStorageOperations.loadMsgList();
+
+            /* Remove message that is too old.. */
+            TimeSpan keepDays = new System.TimeSpan(App.ReadSettings.keepTime, 0, 0, 0);
+
+            int i = 0;
+            for (i = 0; i < App.ReadMsgList.CurrentItemCount(); i++)
+            {
+                /* Only add message if is newer than what we want to see */
+                if (DateTime.Now.Subtract(keepDays).CompareTo(App.ReadMsgList.Items[i].CreateDate) > 0)
+                    // msg is too old..
+                    App.ReadMsgList.Items.Remove(App.ReadMsgList.Items[i]);
+            }
+
             // Sample data; replace with real data
             //this.Items.Add(new MessageItem() { dbMsgID = "0", Date = "1/2/2013", Time = "12:53:40AM", Title = "runtime one", Author = "Maecenas praesent accumsan bibendum", Msg = "Facilisi faucibus habitant inceptos interdum lobortis nascetur pharetra placerat pulvinar sagittis senectus sociosqu" });
             //this.Items.Add(new MessageItem() { dbMsgID = "1", Date = "12/25/2012", Time = "2:30:45PM", Title = "runtime two", Author = "Dictumst eleifend facilisi faucibus", Msg = "Suscipit torquent ultrices vehicula volutpat maecenas praesent accumsan bibendum dictumst eleifend facilisi faucibus" });
@@ -96,8 +110,8 @@ namespace localChat
             //this.Items.Add(new MessageItem() { dbMsgID = "3", Date = "1/2/2013", Time = "12:53:40AM", Title = "runtime four", Author = "Nascetur pharetra placerat pulvinar", Msg = "Ultrices vehicula volutpat maecenas praesent accumsan bibendum dictumst eleifend facilisi faucibus habitant inceptos" });
             //this.Items.Add(new MessageItem() { dbMsgID = "4", Date = "1/2/2013", Time = "12:53:40AM", Title = "runtime five", Author = "Maecenas praesent accumsan bibendum", Msg = "Maecenas praesent accumsan bibendum dictumst eleifend facilisi faucibus habitant inceptos interdum lobortis nascetur" });
             //this.Items.Add(new MessageItem() { dbMsgID = "5", Date = "1/2/2013", Time = "12:53:40AM", Title = "runtime six", Author = "Dictumst eleifend facilisi faucibus", Msg = "Pharetra placerat pulvinar sagittis senectus sociosqu suscipit torquent ultrices vehicula volutpat maecenas praesent" });
-            
-            this.IsDataLoaded = true;
+
+            App.ReadMsgList.IsDataLoaded = true;
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
