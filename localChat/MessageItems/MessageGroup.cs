@@ -84,6 +84,63 @@ namespace localChat
             return false;
         }
 
+        public bool msgInsert(MessageItem curMsg)
+        {
+            /* Check to see if the message is in our range.. */
+            if (!isInRange(curMsg))
+                return false;
+
+            if (this.Items.Count == 0)   /* Just insert it.. */
+            {
+                this.Items.Add(curMsg);
+                return true;
+            }
+
+            /* Now, try to insert the message in to our list in reverse chronological order */
+            /* Assuming the message list is already sorted this way.. */
+            for (int i = 0; i < this.Items.Count; i++)
+            {
+                int result = curMsg.CreateDate.CompareTo(this.Items[i].CreateDate) ;
+
+                if (result > 0) /* Later than the current index one.. */
+                {
+                    this.Items.Insert(i, curMsg);
+                    return true;
+                }
+                else if (result == 0)   /* Same time.. */
+                {
+                    /* Same message.. */
+                    if (curMsg.dbMsgID.Equals(this.Items[i].dbMsgID))
+                    {
+                        return false;
+                    }
+                    else/* Different message but same time.. */
+                    {
+                        this.Items.Insert(i, curMsg);
+                        return true;
+                    }
+                }
+                else /* Earlier than the current index one.. */
+                {
+                    if (i == this.Items.Count - 1)
+                    {
+                        /* 
+                         * This message is even older than the last message
+                         * we have in our list.  So, just add it..
+                         */
+                        this.Items.Add(curMsg);
+                        return true;
+                    }
+                    else
+                    {
+                        //move on to the next one..
+                    }
+                }
+            }
+
+            return false;
+        }
+
         /// <summary>
         /// Creates and adds a few ItemViewModel objects into the Items collection.
         /// </summary>
@@ -94,13 +151,14 @@ namespace localChat
             /* Remove message that is too old.. */
             TimeSpan keepDays = new System.TimeSpan(App.ReadSettings.keepTime, 0, 0, 0);
 
-            int i = 0;
-            for (i = 0; i < App.ReadMsgList.CurrentItemCount(); i++)
+            for (int i = 0; i < App.ReadMsgList.CurrentItemCount();)
             {
                 /* Only add message if is newer than what we want to see */
                 if (DateTime.Now.Subtract(keepDays).CompareTo(App.ReadMsgList.Items[i].CreateDate) > 0)
                     // msg is too old..
                     App.ReadMsgList.Items.Remove(App.ReadMsgList.Items[i]);
+                else
+                    i++;
             }
 
             // Sample data; replace with real data

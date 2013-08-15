@@ -141,17 +141,11 @@ namespace localChat
                             //Msg = curDBMsg.msgBody
                         };
 
-                        /* Only add message if is not already loaded in the message list.. */
-                        if( (App.ReadMsgList.getCurMsgIndex(incomingMsg.dbMsgID) == -1) &&
-                            (App.ReadMsgList.isInRange(incomingMsg)) )
-                        {
-                            /* Add to local list for retrive later.. */
-                            /* Always put it at the top since the news one is the last to come in.. */
-                            App.ReadMsgList.Items.Insert(0,incomingMsg);
+                        if(App.ReadMsgList.msgInsert(incomingMsg))
                             newMsgThisTime++;
-                        }
                     }
 
+                    updateTost(newMsgThisTime);
                     updateLiveTile(newMsgThisTime);
                 }
                 pi.IsVisible = false;
@@ -187,6 +181,29 @@ namespace localChat
                 }
 
                 mainTile.Update(tileData);
+            }
+        }
+
+        private void updateTost(int msgCount)
+        {
+            if(App.ReadSettings.recieveToastNotificaiton)
+            {
+                ShellToast toast = new ShellToast();
+                toast.Title = "New Message Received";
+                switch (msgCount)
+                {
+                    case 0:
+                        toast.Content = "No new post came in this time.";
+                        break;
+                    case 1:
+                        toast.Content = "You have " + msgCount + " post you have not read!";
+                        break;
+                    default:
+                        toast.Content = "You have " + msgCount + " posts you have not read!";
+                        break;
+                }
+
+                toast.Show();
             }
         }
 
