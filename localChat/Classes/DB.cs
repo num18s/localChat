@@ -18,6 +18,8 @@ namespace localChat
         private string writeUrl = "http://feildofbattlecards-com.securec55.ezhostingserver.com/localChat/create_msg.cfm";
         private string logUrl = "http://feildofbattlecards-com.securec55.ezhostingserver.com/localChat/test.html";
 
+        private string getErrorsUrl = "http://feildofbattlecards-com.securec55.ezhostingserver.com/localChat/get_errors.cfm";
+
         private string changeUsernameUrl = "http://feildofbattlecards-com.securec55.ezhostingserver.com/localChat/set_username.cfm";
 
         private StringBuilder output = null;
@@ -125,9 +127,19 @@ namespace localChat
             string parameter = "?cf_user_id=" + userID;
             parameter += "&cf_username=" + username;
 
-            Uri readUri = new Uri(changeUsernameUrl + parameter, UriKind.Absolute);
+            Uri changeUserNameUri = new Uri(changeUsernameUrl + parameter, UriKind.Absolute);
 
-            client.OpenReadAsync(readUri);
+            client.OpenReadAsync(changeUserNameUri);
+            asyncWait.WaitOne(DB_PULL_WAIT_TIME);
+        }
+
+        public void getErrors( int maxErrorID )
+        {
+            string parameter = "?cf_max_error_id=" + maxErrorID;
+
+            Uri getErrorsUri = new Uri(getErrorsUrl + parameter, UriKind.Absolute);
+
+            client.OpenReadAsync(getErrorsUri);
             asyncWait.WaitOne(DB_PULL_WAIT_TIME);
         }
 

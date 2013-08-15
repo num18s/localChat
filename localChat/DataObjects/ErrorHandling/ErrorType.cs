@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+using localChat.DataObjects.ErrorHandling;
+
 namespace localChat
 {
     class ErrorType
@@ -19,6 +21,14 @@ namespace localChat
             msg = _msg;
         }
 
+        public ErrorType(ErrorTypeReturn input)
+        {
+            id = input.errorID;
+            objectName = input.objectName;
+            methodName = input.methodName;
+            msg = input.error;
+        }
+
         public int getID() { return id; }
         public string getObject() { return objectName; }
         public string getMethod() { return methodName; }
@@ -29,14 +39,34 @@ namespace localChat
             if (obj == null) return false;
 
             ErrorType et = obj as ErrorType;
-            if ((System.Object)et == null) return false;
-
-            return Equals( et );
+            if ((System.Object)et != null)
+            {
+                return Equals(et);
+            }
+            else
+            {
+                ErrorNoID e = obj as ErrorNoID;
+                if ((System.Object)e != null)
+                    return Equals(e);
+            }
+                
+            return false;
         }
 
         public bool Equals(ErrorType toCompare)
         {
             if (id == toCompare.id)
+                return true;
+
+            return false;
+        }
+
+        public bool Equals(ErrorNoID toCompare)
+        {
+            if ( objectName == toCompare.getObjectName()
+                    && methodName == toCompare.getMethodName()
+                    && msg == toCompare.getError()
+                )
                 return true;
 
             return false;

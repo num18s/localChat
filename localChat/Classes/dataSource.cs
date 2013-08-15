@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 using localChat.DataObjects;
+using localChat.DataObjects.ErrorHandling;
 
 using System.Device.Location;
 using Newtonsoft.Json;
@@ -52,8 +53,6 @@ namespace localChat
             {
                 App.SaveDebugEntry("dataSource.constructor: JsonSerializationException");
             }
-
-            uploadErrorLog();
         }
 
         public dataSource(User newUser)
@@ -201,54 +200,64 @@ namespace localChat
 
         public void uploadErrorLog()
         {
-            LogIO.clearLog();
-            LogIO.logError("testing, testing, 123");
-            LogIO.logError("testing, testing, 456");
-            LogIO.logError("testing, testing, 789");
-            List<string> test = LogIO.getLog();
+            List<ErrorType> errorTypes = LogIO.getErrorTypes();
+            List<ErrorType> errors = new List<ErrorType>();
+            List<ErrorNoID> log = LogIO.getLog();
+            List<ErrorNoID> toAdd = new List<ErrorNoID>();
 
-            string line = "1|dataSource|uploadErrorLog|Testing, Testing, 123";
-            bool good = false;
-            int pipe = 0;
-            int nextPipe = line.IndexOf("|");
+            foreach ( ErrorNoID error in log ){
+                bool found = false;
 
-            int id = 0;
-            string objectName, methodName, msg;
-            objectName = methodName = msg = "";
-            ErrorType output = null;
-
-            if (nextPipe > 0)
-            {
-                try
-                {
-                    id = int.Parse(line.Substring(0, line.IndexOf("|")));
+                foreach( ErrorType errorType in errorTypes ){
+                    if( errorType.Equals( error ) ){
+                        errors.Add( errorType );
+                        break;
+                    }
                 }
-                catch (FormatException e) { }
 
-                pipe = nextPipe + 1;
-                nextPipe = line.IndexOf("|", pipe);
+                if( !found){
+                    for( int i = 0; i < toAdd.Count; i++ ){
+                        bool newError = true;
 
-                if (nextPipe > 0)
-                {
-                    objectName = line.Substring(pipe, nextPipe - pipe);
-
-                    pipe = nextPipe + 1;
-                    nextPipe = line.IndexOf("|", pipe);
-
-                    if (nextPipe > 0)
-                    {
-                        methodName = line.Substring(pipe, nextPipe - pipe);
-                        msg = line.Substring(nextPipe + 1);
-                        good = true;
+                        for( int j = i + 1; j < toAdd.Count; j++ ){
+                            if( toAdd[i].Equals( toAdd[j] ) ){
+                                newError = false;
+                                break;
+                            }
+                        }
+                        
+                        if( newError ) toAdd.Add( error );
                     }
                 }
             }
 
-            if( good )
-                output = new ErrorType( id, objectName, methodName, msg );
+            if( toAdd.Count != 0 ){
 
-            //List<ErrorType>
-            test = test;
+            }
+        }
+
+        public void uploadErrorLogDB()
+        {
+
+        }
+
+        private List<ErrorType> getErrorTypes(int maxErorrID)
+        {
+            StringBuilder htmlOutput = new StringBuilder("");
+
+            DB db = new DB();
+            db.setOutput(htmlOutput);
+
+            db.getErrors(maxErorrID);
+
+            ErrorTypesReturn jsonReturn = JsonConvert.DeserializeObject<ErrorTypesReturn>(htmlOutput.ToString());
+
+            List<ErrorType> output = new List<ErrorType>();
+
+            for (int i = 0; i < jsonReturn.maxI; i++)
+                output.Add(new ErrorType(jsonReturn.errors[i]));
+
+            return output;
         }
     }
 }

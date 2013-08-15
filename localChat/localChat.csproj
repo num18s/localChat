@@ -94,8 +94,12 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Classes\ErrorType.cs" />
     <Compile Include="Classes\LogIO.cs" />
+    <Compile Include="Classes\UDF.cs" />
+    <Compile Include="DataObjects\ErrorHandling\ErrorNoID.cs" />
+    <Compile Include="DataObjects\ErrorHandling\ErrorType.cs" />
+    <Compile Include="DataObjects\ErrorHandling\ErrorTypeReturn.cs" />
+    <Compile Include="DataObjects\ErrorHandling\ErrorTypesReturn.cs" />
     <Compile Include="DataObjects\readSettings.cs" />
     <Compile Include="DataObjects\User.cs" />
     <Compile Include="DataObjects\usernameChangeReturn.cs" />

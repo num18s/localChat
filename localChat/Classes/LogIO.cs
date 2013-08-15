@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 using System.IO.IsolatedStorage;
 using System.IO;
+using localChat.DataObjects.ErrorHandling;
 
 namespace localChat
 {
@@ -15,7 +16,7 @@ namespace localChat
         private static string ERROR_PATH = "/errorMeta.txt";
         private static int LOG_SIZE = 100;
 
-        static public void logError( string msg ){
+        static public void logError( string objectName, string methodName, string error ){
             using(
                 IsolatedStorageFile store = IsolatedStorageFile.GetUserStoreForApplication() 
             ){
@@ -28,13 +29,13 @@ namespace localChat
                 using( 
                     StreamWriter sw = new StreamWriter( store.OpenFile(LOG_PATH,FileMode.Append,FileAccess.Write ) )
                 ){
-                    sw.WriteLine(msg);
+                    sw.WriteLine(objectName + "|" + methodName + "|" + error);
                 }
 
             }
         }
 
-        static public List<string> getLog()
+        static public List<ErrorNoID> getLog()
         {
             using (
                 IsolatedStorageFile store = IsolatedStorageFile.GetUserStoreForApplication()
@@ -44,10 +45,34 @@ namespace localChat
                     StreamReader sr = new StreamReader(store.OpenFile(LOG_PATH, FileMode.Open, FileAccess.Read))
                 )
                 {
-                    List<string> output = new List<string>(LOG_SIZE);
-                    int i = 0;
-                    while( !sr.EndOfStream )
-                        output.Add( sr.ReadLine() );
+                    List<ErrorNoID> output = new List<ErrorNoID>(LOG_SIZE);
+                    while (!sr.EndOfStream)
+                    {
+                        string line = sr.ReadLine();
+                        bool good = false;
+                        int pipe = 0;
+                        int nextPipe = line.IndexOf("|");
+
+                        string objectName, methodName, msg;
+                        objectName = methodName = msg = "";
+
+                        if (nextPipe > 0)
+                        {
+                            methodName = line.Substring(0, line.IndexOf("|") );
+
+                            pipe = nextPipe + 1;
+                            nextPipe = line.IndexOf("|", pipe);
+
+                            if (nextPipe > 0)
+                            {
+                                msg = line.Substring(pipe, nextPipe - pipe);
+                                good = true;
+                            }
+                        }
+
+                        if (good)
+                            output.Add(new ErrorNoID(objectName, methodName, msg));
+                    }
                     
                     return output;
                 }
