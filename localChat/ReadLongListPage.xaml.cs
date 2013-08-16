@@ -1,4 +1,7 @@
-﻿using System;
+﻿
+#define DEBUG_AGENT
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -12,6 +15,7 @@ using System.Threading;
 using System.ComponentModel;
 
 using System.Device.Location;
+using Microsoft.Phone.Scheduler;
 
 namespace localChat
 {
@@ -46,6 +50,11 @@ namespace localChat
                     NavigationService.RemoveBackEntry();
                 }
             }
+
+            //if (App.ReadSettings.recieveToastNotificaiton)
+            //    StartBackgroundAgent();
+            //else
+            //    StopBackgroundAgent();
 
             refreshData();
         }
@@ -145,7 +154,6 @@ namespace localChat
                             newMsgThisTime++;
                     }
 
-                    updateTost(newMsgThisTime);
                     updateLiveTile(newMsgThisTime);
                 }
                 pi.IsVisible = false;
@@ -184,27 +192,58 @@ namespace localChat
             }
         }
 
-        private void updateTost(int msgCount)
-        {
-            if(App.ReadSettings.recieveToastNotificaiton)
-            {
-                ShellToast toast = new ShellToast();
-                toast.Title = "New Message Received";
-                switch (msgCount)
-                {
-                    case 0:
-                        toast.Content = "No new post came in this time.";
-                        break;
-                    case 1:
-                        toast.Content = "You have " + msgCount + " post you have not read!";
-                        break;
-                    default:
-                        toast.Content = "You have " + msgCount + " posts you have not read!";
-                        break;
-                }
+        PeriodicTask periodicTask = null;
+        string periodicTaskName = "localChat";
 
-                toast.Show();
+        private void RemoveAgent(string name)
+        {
+            try
+            {
+                ScheduledActionService.Remove(name);
             }
+            catch (Exception)
+            {
+            }
+        }
+
+        private void StopBackgroundAgent()
+        {
+            RemoveAgent(periodicTaskName);
+        }
+
+        private void StartBackgroundAgent()
+        {
+            periodicTask = ScheduledActionService.Find(periodicTaskName) as PeriodicTask;
+
+            // If the task already exists and the IsEnabled property is false, background
+            // agents have been disabled by the user
+            if (periodicTask != null && !periodicTask.IsEnabled)
+            {
+                MessageBox.Show("Background agents for this application have been disabled by the user.");
+                return;
+            }
+
+            // If the task already exists and background agents are enabled for the
+            // application, you must remove the task and then add it again to update 
+            // the schedule
+            if (periodicTask != null && periodicTask.IsEnabled)
+            {
+                RemoveAgent(periodicTaskName);
+            }
+
+            periodicTask = new PeriodicTask(periodicTaskName);
+
+            // The description is required for periodic agents. This is the string that the user
+            // will see in the background services Settings page on the device.
+            periodicTask.Description = "EarReach Background Agent";
+            ScheduledActionService.Add(periodicTask);
+
+            // If debugging is enabled, use LaunchForTest to launch the agent in one minute.
+#if(DEBUG_AGENT)
+            ScheduledActionService.LaunchForTest(periodicTaskName, TimeSpan.FromSeconds(App.ReadSettings.updateInterval*60));
+#else
+            ScheduledActionService.LaunchForTest(periodicTaskName, TimeSpan.FromMinutes(App.ReadSettings.updateInterval * 60));
+#endif
         }
 
         // Handle selection changed on LongListSelector
