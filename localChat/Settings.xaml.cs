@@ -17,19 +17,18 @@ namespace localChat
         int radiusMetersIndx = 5;
         int keepTime = 2;
         int updateInterval = 3;
-        bool recieveToastNotificaiton = false;
 
         public Settings()
         {
             InitializeComponent();
 
-            slider_receive_radius.Value = App.ReadSettings.radiusMetersIndx;
+            slider_receive_radius.Value = radiusMetersIndx = App.ReadSettings.radiusMetersIndx;
             curMeterValue.Text = App.distances[(int)slider_receive_radius.Value];
 
-            slider_keep_time.Value = App.ReadSettings.keepTime;
+            slider_keep_time.Value = keepTime = App.ReadSettings.keepTime;
             curTimeValue.Text = slider_keep_time.Value.ToString();
 
-            slider_update_time.Value = App.ReadSettings.updateInterval;
+            slider_update_time.Value = updateInterval = App.ReadSettings.updateInterval;
             curUpdateIntervalValue.Text = slider_update_time.Value.ToString();
 
             recieve_toast_notificaiton_cb.IsChecked = App.ReadSettings.recieveToastNotificaiton;
@@ -72,7 +71,21 @@ namespace localChat
                 App.ReadSettings.keepTime = keepTime;
                 App.ReadSettings.radiusMetersIndx = radiusMetersIndx;
                 App.ReadSettings.updateInterval = updateInterval;
-                App.ReadSettings.recieveToastNotificaiton = recieveToastNotificaiton;
+                App.ReadSettings.recieveToastNotificaiton = recieve_toast_notificaiton_cb.IsChecked.Value;
+
+                /* Update message list to take out message that is too old.. */
+                /* Remove message that is too old.. */
+                TimeSpan keepDays = new System.TimeSpan(App.ReadSettings.keepTime, 0, 0, 0);
+
+                for (int i = 0; i < App.ReadMsgList.CurrentItemCount(); )
+                {
+                    /* Only add message if is newer than what we want to see */
+                    if (DateTime.Now.Subtract(keepDays).CompareTo(App.ReadMsgList.Items[i].CreateDate) > 0)
+                        // msg is too old..
+                        App.ReadMsgList.Items.Remove(App.ReadMsgList.Items[i]);
+                    else
+                        i++;
+                }
 
                 FileStorageOperations.saveReadSettings();
 
@@ -84,15 +97,6 @@ namespace localChat
         {
             NavigationService.Navigate(new Uri("/ReadLongListPage.xaml", UriKind.Relative));
         }
-
-        private void recieve_toast_notificaiton_cb_Checked(object sender, RoutedEventArgs e)
-        {
-            if (pageLoaded)
-            {
-                recieveToastNotificaiton = recieve_toast_notificaiton_cb.IsChecked.Value;
-            }
-        }
-        
     }
 
 }
