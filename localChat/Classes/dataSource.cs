@@ -31,6 +31,12 @@ namespace localChat
 
             db.login(myId);
 
+            if (htmlOutput.Length == 0)
+            {
+                App.SaveDebugEntry("dataSource.constructor: JsonReaderException");
+                return;
+            }
+
             try
             {
                 UserReturn output = JsonConvert.DeserializeObject<UserReturn>(htmlOutput.ToString());
