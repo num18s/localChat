@@ -29,13 +29,13 @@ namespace localChat
                 using( 
                     StreamWriter sw = new StreamWriter( store.OpenFile(LOG_PATH,FileMode.Append,FileAccess.Write ) )
                 ){
-                    sw.WriteLine(objectName + "|" + methodName + "|" + error);
+                    sw.WriteLine(objectName + "|" + methodName + "|" + error + "|" + DateTime.UtcNow.Ticks.ToString() );
                 }
 
             }
         }
 
-        static public List<ErrorNoID> getLog()
+        static public List<Error> getLog()
         {
             using (
                 IsolatedStorageFile store = IsolatedStorageFile.GetUserStoreForApplication()
@@ -45,33 +45,14 @@ namespace localChat
                     StreamReader sr = new StreamReader(store.OpenFile(LOG_PATH, FileMode.Open, FileAccess.Read))
                 )
                 {
-                    List<ErrorNoID> output = new List<ErrorNoID>(LOG_SIZE);
+                    List<Error> output = new List<Error>(LOG_SIZE);
                     while (!sr.EndOfStream)
                     {
                         string line = sr.ReadLine();
-                        bool good = false;
-                        int pipe = 0;
-                        int nextPipe = line.IndexOf("|");
+                        Error temp = new Error(line);
 
-                        string objectName, methodName, msg;
-                        objectName = methodName = msg = "";
-
-                        if (nextPipe > 0)
-                        {
-                            methodName = line.Substring(0, line.IndexOf("|") );
-
-                            pipe = nextPipe + 1;
-                            nextPipe = line.IndexOf("|", pipe);
-
-                            if (nextPipe > 0)
-                            {
-                                msg = line.Substring(pipe, nextPipe - pipe);
-                                good = true;
-                            }
-                        }
-
-                        if (good)
-                            output.Add(new ErrorNoID(objectName, methodName, msg));
+                        if (temp.getObjectName() != "")
+                            output.Add(temp);
                     }
                     
                     return output;

@@ -96,7 +96,7 @@
     </Compile>
     <Compile Include="Classes\LogIO.cs" />
     <Compile Include="Classes\UDF.cs" />
-    <Compile Include="DataObjects\ErrorHandling\ErrorNoID.cs" />
+    <Compile Include="DataObjects\ErrorHandling\Error.cs" />
     <Compile Include="DataObjects\ErrorHandling\ErrorType.cs" />
     <Compile Include="DataObjects\ErrorHandling\ErrorTypeReturn.cs" />
     <Compile Include="DataObjects\ErrorHandling\ErrorTypesReturn.cs" />
