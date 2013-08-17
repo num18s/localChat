@@ -201,63 +201,67 @@ namespace localChat
         public void uploadErrorLog()
         {
             List<ErrorType> errorTypes = LogIO.getErrorTypes();
-            List<ErrorType> errors = new List<ErrorType>();
-            List<ErrorNoID> log = LogIO.getLog();
-            List<ErrorNoID> toAdd = new List<ErrorNoID>();
+            List<Error> log = LogIO.getLog();
 
-            foreach ( ErrorNoID error in log ){
-                bool found = false;
+            int fails = getErrorType( log, errorTypes );
 
-                foreach( ErrorType errorType in errorTypes ){
-                    if( errorType.Equals( error ) ){
-                        errors.Add( errorType );
-                        break;
-                    }
+            if( fails > 0 ){
+                getErrorTypes( errorTypes );   
+                fails = getErrorType( log, errorTypes );
+
+                if (fails > 0)
+                {
+                    List<Error> toAdd = new List<Error>();
+                    foreach( Error error in log )
+                        if( !toAdd.Contains( error ) )
+                            toAdd.Add( error ); 
+
                 }
-
-                if( !found){
-                    for( int i = 0; i < toAdd.Count; i++ ){
-                        bool newError = true;
-
-                        for( int j = i + 1; j < toAdd.Count; j++ ){
-                            if( toAdd[i].Equals( toAdd[j] ) ){
-                                newError = false;
-                                break;
-                            }
-                        }
-                        
-                        if( newError ) toAdd.Add( error );
-                    }
-                }
-            }
-
-            if( toAdd.Count != 0 ){
-
             }
         }
 
-        public void uploadErrorLogDB()
+        private void uploadErrorLogDB()
         {
 
         }
 
-        private List<ErrorType> getErrorTypes(int maxErorrID)
+        private int getErrorType( List<Error> log, List<ErrorType> errorTypes ){
+            int fails = 0;
+
+            foreach ( Error error in log ){
+                if( !error.addType( errorTypes ) )
+                    fails++;
+            }
+
+            return fails;
+        }
+
+        private bool getErrorTypes( List<ErrorType> toExpand )
         {
+            int maxID= 0;
+                
+            foreach( ErrorType errorType in toExpand )
+                if( errorType.getID() > maxID ) 
+                    maxID = errorType.getID();
+            
             StringBuilder htmlOutput = new StringBuilder("");
 
             DB db = new DB();
             db.setOutput(htmlOutput);
 
-            db.getErrors(maxErorrID);
+            db.getErrors(maxID);
 
             ErrorTypesReturn jsonReturn = JsonConvert.DeserializeObject<ErrorTypesReturn>(htmlOutput.ToString());
 
-            List<ErrorType> output = new List<ErrorType>();
+            if( jsonReturn.status.status.ToLower() != "success" ) return false;
 
-            for (int i = 0; i < jsonReturn.maxI; i++)
-                output.Add(new ErrorType(jsonReturn.errors[i]));
+            for (int i = 0; i < jsonReturn.maxI; i++){
+                ErrorType tempErrorType = new ErrorType(jsonReturn.errors[i]);
+                if (!toExpand.Contains(tempErrorType)) 
+                    toExpand.Add(tempErrorType);
+            }
 
-            return output;
+            return true;
         }
     }
 }
