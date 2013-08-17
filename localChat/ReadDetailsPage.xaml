@@ -17,6 +17,7 @@
     <phone:PhoneApplicationPage.ApplicationBar>
         <shell:ApplicationBar Mode="Default">
             <shell:ApplicationBarIconButton x:Name="Prev" Click="readDetailPrev_click" IconUri="/Assets/AppBar/back.png" IsEnabled="True" Text="Prev"/>
+            <shell:ApplicationBarIconButton x:Name="btnPinToStart" IconUri="/Assets/AppBar/like.png" IsEnabled="True" Text="like" Click="btnPinToStart_Click"/>
             <shell:ApplicationBarIconButton x:Name="Next" Click="readDetailNext_click" IconUri="/Assets/AppBar/next.png" IsEnabled="True" Text="Next"/>
         </shell:ApplicationBar>
     </phone:PhoneApplicationPage.ApplicationBar>
