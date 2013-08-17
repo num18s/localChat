@@ -45,7 +45,7 @@ namespace localChat
             }
             else
             {
-                ErrorNoID e = obj as ErrorNoID;
+                Error e = obj as Error;
                 if ((System.Object)e != null)
                     return Equals(e);
             }
@@ -61,7 +61,7 @@ namespace localChat
             return false;
         }
 
-        public bool Equals(ErrorNoID toCompare)
+        public bool Equals(Error toCompare)
         {
             if ( objectName == toCompare.getObjectName()
                     && methodName == toCompare.getMethodName()
