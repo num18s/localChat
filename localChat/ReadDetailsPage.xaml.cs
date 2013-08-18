@@ -9,7 +9,15 @@ using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
 using localChat.Resources;
 
+using System.Threading;
 using System.ComponentModel;
+
+using Microsoft.Phone.Maps;
+using Microsoft.Phone.Maps.Controls;
+using System.Device.Location; // Provides the GeoCoordinate class.
+using Windows.Devices.Geolocation; //Provides the Geocoordinate class.
+using System.Windows.Shapes;
+using System.Windows.Media;
 
 namespace localChat
 {
@@ -22,6 +30,11 @@ namespace localChat
 
         private const string removeFavUri = "/Assets/Appbar/unlike.png";
         private const string FavUri = "/Assets/Appbar/like.png";
+
+        private Map MyMap = null;
+        private GeoCoordinate postLoc = null;
+        private Button showMap = null;
+        private bool showMapToggle = true;
         
         // Constructor
         public ReadDetailsPage()
@@ -37,6 +50,54 @@ namespace localChat
 
             // Sample code to localize the ApplicationBar
             //BuildLocalizedApplicationBar();
+        }
+
+        private void btnShowMap_Click(object sender, RoutedEventArgs e)
+        {
+            if (showMapToggle)
+            {
+                showMap.Content = "Hide Map";
+                addMap();
+            }
+            else
+            {
+                showMap.Content = "Show Map";
+                ContentPanel.Children.Remove(MyMap);
+            }
+            showMapToggle = !showMapToggle;
+        }
+
+        public void addMap()
+        {
+            if (postLoc == null) return;
+
+            MyMap = new Map();
+            MyMap.Width = 440;
+            MyMap.Height = 440;
+            MyMap.Margin = new Thickness(0, -90, 0, 0);
+            MyMap.Center = postLoc;
+            MyMap.ZoomLevel = 13;
+            ContentPanel.Children.Add(MyMap);
+
+            // Create a small circle to mark the current location.
+            Ellipse myCircle = new Ellipse();
+            myCircle.Fill = new SolidColorBrush(Colors.Blue);
+            myCircle.Height = 20;
+            myCircle.Width = 20;
+            myCircle.Opacity = 50;
+
+            // Create a MapOverlay to contain the circle.
+            MapOverlay postOverlay = new MapOverlay();
+            postOverlay.Content = myCircle;
+            postOverlay.PositionOrigin = new Point(0.5, 0.5);
+            postOverlay.GeoCoordinate = postLoc;
+
+            // Create a MapLayer to contain the MapOverlay.
+            MapLayer locationLayer = new MapLayer();
+            locationLayer.Add(postOverlay);
+
+            // Add the MapLayer to the Map.
+            MyMap.Layers.Add(locationLayer);
         }
 
         // When page is navigated to set data context to selected item in list
@@ -121,8 +182,25 @@ namespace localChat
                         Time = curMsg.createDate.TimeOfDay.ToString(),
                         Title = curMsg.title,
                         Author = curMsg.userName,
-                        Msg = curMsg.msgBody
+                        Msg = curMsg.msgBody,
+                        ShowLocation = curMsg.showLocation
                     };
+
+                    if (curMsg.showLocation)
+                    {
+                        postLoc = new GeoCoordinate(curMsg.lat, curMsg.lon);
+                        msgBubble.Height = 400;
+
+                        showMap = new Button();
+                        showMap.Name = "btnShowMap";
+                        showMap.Height = 75;
+                        showMap.Width = 200;
+                        showMap.Margin = new Thickness(226, 450, 0, 0);
+                        showMap.Content = "Show Map";
+                        showMap.Click += btnShowMap_Click;
+
+                        ContentPanel.Children.Add(showMap);
+                    }
 
                     DataContext = curReadMsg;
                 }

@@ -12,5 +12,6 @@ namespace localChat
         public string userName, title, msgBody;
         public DateTime createDate;
         public float lat, lon;
+        public bool showLocation;
     }
 }

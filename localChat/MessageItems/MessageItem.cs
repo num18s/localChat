@@ -187,6 +187,27 @@ namespace localChat
                 }
             }
         }
+        
+        private bool _showLocation;
+        /// <summary>
+        /// Sample ViewModel property; this property is used in the view to display its value using a Binding.
+        /// </summary>
+        /// <returns></returns>
+        public bool ShowLocation
+        {
+            get
+            {
+                return _showLocation;
+            }
+            set
+            {
+                if (value != _showLocation)
+                {
+                    _showLocation = value;
+                    NotifyPropertyChanged("ShowLocation");
+                }
+            }
+        }
 
         public event PropertyChangedEventHandler PropertyChanged;
         private void NotifyPropertyChanged(String propertyName)
