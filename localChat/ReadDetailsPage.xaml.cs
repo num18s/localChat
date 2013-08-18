@@ -18,6 +18,7 @@ namespace localChat
         private int msgID;
         private MessageItem curReadMsg;
         private BackgroundWorker bw;
+        private BackgroundWorker bwDS;
 
         private const string removeFavUri = "/Assets/Appbar/unlike.png";
         private const string FavUri = "/Assets/Appbar/like.png";
@@ -30,6 +31,10 @@ namespace localChat
             this.bw.DoWork += new System.ComponentModel.DoWorkEventHandler(this.getMsgDoWork);
             this.bw.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.getMsgComplete);
 
+            this.bwDS = new System.ComponentModel.BackgroundWorker();
+            this.bwDS.DoWork += new System.ComponentModel.DoWorkEventHandler(this.createDSDoWork);
+            this.bwDS.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.createDSComplete);
+
             // Sample code to localize the ApplicationBar
             //BuildLocalizedApplicationBar();
         }
@@ -37,26 +42,34 @@ namespace localChat
         // When page is navigated to set data context to selected item in list
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
+            OnNavigatedToWork();
+
+            base.OnNavigatedTo(e);
+        }
+
+        private void OnNavigatedToWork()
+        {
             string strMsgId = "";
             if (NavigationContext.QueryString.TryGetValue("selectedItem", out strMsgId))
-            msgID = Convert.ToInt32(strMsgId);
+                msgID = Convert.ToInt32(strMsgId);
+
+            if (App.Current.getDataSource() == null || App.Current.getDataSource().getUser() == null)
+            {
+                this.bwDS.RunWorkerAsync();
+                return;
+            }
 
             if (!App.ReadMsgList.IsDataLoaded)
             {
-                /* We just got a request from a tile for just for reading that mssage.*/
-                /* Not workinng yet.. */
-                //App.Current.setDataSource(new dataSource());
-                NavigationService.Navigate(new Uri("/SplashScreen.xaml", UriKind.Relative));
+                App.ReadMsgList.LoadData(); // Get all the saved messags...
             }
 
             if (DataContext == null)
             {
                 getMsg();
             }
-            
-            SetPinBar();
 
-            base.OnNavigatedTo(e);
+            SetPinBar();
         }
 
         private void getMsg()
@@ -199,6 +212,22 @@ namespace localChat
                 pinBtn.IconUri = new Uri(FavUri, UriKind.Relative);
                 pinBtn.Text = "Pin";
             }
+        }
+
+        public void createDSDoWork(object sender, DoWorkEventArgs e)
+        {
+            App.Current.setDataSource(new dataSource());
+        }
+
+        public void createDSComplete(object sender, RunWorkerCompletedEventArgs e)
+        {
+            if (App.Current.getDataSource().getUser() == null)
+            {
+                MessageBox.Show("Failed to contact the remote server, please try again latter");
+                return;
+            }
+
+            OnNavigatedToWork();
         }
 
 

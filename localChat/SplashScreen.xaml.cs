@@ -47,7 +47,7 @@ namespace localChat
             pi.IsVisible = false;
             Microsoft.Phone.Shell.SystemTray.SetIsVisible(this, false);
 
-            if (App.Current.getDataSource() == null)
+            if (App.Current.getDataSource().getUser() == null)
             {
                 MessageBox.Show("Failed to contact the remote server, please try again latter");
             }
