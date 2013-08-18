@@ -117,9 +117,6 @@
     <Compile Include="Classes\mathPlus.cs" />
     <Compile Include="DataObjects\msg.cs" />
     <Compile Include="DataObjects\readData.cs" />
-    <Compile Include="Page1.xaml.cs">
-      <DependentUpon>Page1.xaml</DependentUpon>
-    </Compile>
     <Compile Include="ReadDetailsPage.xaml.cs">
       <DependentUpon>ReadDetailsPage.xaml</DependentUpon>
     </Compile>
@@ -151,10 +148,6 @@
     </ApplicationDefinition>
     <Page Include="LoginPage.xaml">
       <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Page1.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="ReadDetailsPage.xaml">
       <Generator>MSBuild:Compile</Generator>
