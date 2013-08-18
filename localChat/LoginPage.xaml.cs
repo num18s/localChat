@@ -36,6 +36,11 @@ namespace localChat
             btnAnonymous.IsEnabled = false;
 
             string username = txtUsername.Text;
+            if (username.Length < 5)
+            {
+                MessageBox.Show("Username must be at least 5 characters");
+                return;
+            }
             bwUsername.RunWorkerAsync(username);
         }
 
