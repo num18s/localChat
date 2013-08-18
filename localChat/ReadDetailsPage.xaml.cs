@@ -18,6 +18,9 @@ namespace localChat
         private int msgID;
         private MessageItem curReadMsg;
         private BackgroundWorker bw;
+
+        private const string removeFavUri = "/Assets/Appbar/unlike.png";
+        private const string FavUri = "/Assets/Appbar/like.png";
         
         // Constructor
         public ReadDetailsPage()
@@ -38,11 +41,22 @@ namespace localChat
             if (NavigationContext.QueryString.TryGetValue("selectedItem", out strMsgId))
             msgID = Convert.ToInt32(strMsgId);
 
+            if (!App.ReadMsgList.IsDataLoaded)
+            {
+                /* We just got a request from a tile for just for reading that mssage.*/
+                /* Not workinng yet.. */
+                //App.Current.setDataSource(new dataSource());
+                NavigationService.Navigate(new Uri("/SplashScreen.xaml", UriKind.Relative));
+            }
+
             if (DataContext == null)
             {
                 getMsg();
-                
             }
+            
+            SetPinBar();
+
+            base.OnNavigatedTo(e);
         }
 
         private void getMsg()
@@ -140,6 +154,54 @@ namespace localChat
                         
             NavigationService.Navigate(new Uri("/ReadLongListPage.xaml", UriKind.Relative));
         }
+
+        private void btnPinToStart_Click(object sender, EventArgs e)
+        {
+            var uri = NavigationService.Source.ToString();
+            if (Features.Tile.TileExists(uri))
+            {
+                Features.Tile.DeleteTile(uri);
+            }
+            else
+            {
+                Features.Tile.SetTile(curReadMsg, uri);
+            }
+
+            SetPinBar();
+        }
+
+        public ApplicationBarIconButton pinBtn
+        {
+            get
+            {
+                var appBar = (ApplicationBar)ApplicationBar;
+                var count = appBar.Buttons.Count;
+                for (var i = 0; i < count; i++)
+                {
+                    ApplicationBarIconButton btn = appBar.Buttons[i] as ApplicationBarIconButton;
+                    if (btn.IconUri.OriginalString.Contains("like"))
+                        return btn;
+                }
+                return null;
+            }
+        }
+
+        void SetPinBar()
+        {
+            var uri = NavigationService.Source.ToString();
+            if (Features.Tile.TileExists(uri))
+            {
+                pinBtn.IconUri = new Uri(removeFavUri, UriKind.Relative);
+                pinBtn.Text = "Unpin";
+            }
+            else
+            {
+                pinBtn.IconUri = new Uri(FavUri, UriKind.Relative);
+                pinBtn.Text = "Pin";
+            }
+        }
+
+
 
         // Sample code for building a localized ApplicationBar
         //private void BuildLocalizedApplicationBar()

@@ -57,6 +57,8 @@ namespace localChat
             //    StopBackgroundAgent();
 
             refreshData();
+
+            base.OnNavigatedTo(e);
         }
 
         private void refreshData()
