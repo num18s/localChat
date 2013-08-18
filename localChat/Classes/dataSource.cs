@@ -169,7 +169,7 @@ namespace localChat
             DB db = new DB();
             db.setOutput(output);
 
-            db.write(0
+            db.write( myUser.getUserID()
                 , nwGrid[gridI]
                 , position.getLat()
                 , position.getLon()

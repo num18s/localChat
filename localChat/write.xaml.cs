@@ -33,6 +33,12 @@ namespace localChat
 
         private void PostButton_Click(object sender, EventArgs e)
         {
+            if (Message_Post_Box.Text.Length > 500)
+            {
+                MessageBox.Show("You have used over 500 characters, you must reduce the number of characters under 500 to proceed.");
+                return;
+            }
+
             MessageBoxResult postMsg = MessageBox.Show("Please click ok if you really want to post this message?", "Posting Message?", MessageBoxButton.OKCancel);
             if (postMsg == MessageBoxResult.OK)
             {
@@ -60,7 +66,6 @@ namespace localChat
                 pi.IsVisible = true;
                 Microsoft.Phone.Shell.SystemTray.SetIsVisible(this, true);
                 Microsoft.Phone.Shell.SystemTray.SetProgressIndicator(this, pi);
-
 
                 ThreadStart starter = delegate { Post_Button_Click_Work(title, message, id, radiusMeters, showLocation); };
 
@@ -94,6 +99,15 @@ namespace localChat
                 int distance = (int)Distance_Slider.Value;
                 curMeterValue.Text = App.distances[distance];
             }
+        }
+
+        private void Message_Post_Box_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            int len = Message_Post_Box.Text.Length;
+            Less_than_500_char_text.Text = len.ToString() + " of 500 used";
+
+            if( len == 400 )
+                MessageBox.Show("You have used 400 of 500 characters");
         }
     }
 }
