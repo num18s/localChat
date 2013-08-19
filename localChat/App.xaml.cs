@@ -20,15 +20,15 @@ namespace localChat
             "1/2 Mile",
             "3/4 Mile",
             "1 Mile",
-            "2 Mile",
-            "3 Mile",
-            "4 Mile",
-            "5 Mile",
-            "6 Mile",
-            "7 Mile",
-            "8 Mile",
-            "9 Mile",
-            "10 Mile"
+            "2 Miles",
+            "3 Miles",
+            "4 Miles",
+            "5 Miles",
+            "6 Miles",
+            "7 Miles",
+            "8 Miles",
+            "9 Miles",
+            "10 Miles"
                                             };
 
         public static int[] distancesMeter = { 107,
