@@ -10,7 +10,7 @@ namespace localChat
     {
         private static int REMOVE_DECIMAL = 100000;
         private static int LAT_ADD = 90, LON_ADD = 180;
-        private static float LAT_SEGMENT = 1, LON_SEGMENT = 1;
+        private static float LAT_SEGMENT = 2, LON_SEGMENT = 2;
         private static int GRID_COUNT = 9;
 
         private float lat, lon;

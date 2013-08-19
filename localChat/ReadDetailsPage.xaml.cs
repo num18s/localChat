@@ -9,7 +9,15 @@ using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
 using localChat.Resources;
 
+using System.Threading;
 using System.ComponentModel;
+
+using Microsoft.Phone.Maps;
+using Microsoft.Phone.Maps.Controls;
+using System.Device.Location; // Provides the GeoCoordinate class.
+using Windows.Devices.Geolocation; //Provides the Geocoordinate class.
+using System.Windows.Shapes;
+using System.Windows.Media;
 
 namespace localChat
 {
@@ -18,9 +26,15 @@ namespace localChat
         private int msgID;
         private MessageItem curReadMsg;
         private BackgroundWorker bw;
+        private BackgroundWorker bwDS;
 
-        private const string removeFavUri = "/Assets/Appbar/unlike.png";
-        private const string FavUri = "/Assets/Appbar/like.png";
+        private const string removeFavUri = "/Assets/Appbar/unpin.png";
+        private const string FavUri = "/Assets/Appbar/pin.png";
+
+        private Map MyMap = null;
+        private GeoCoordinate postLoc = null;
+        private Button showMap = null;
+        private bool showMapToggle = true;
         
         // Constructor
         public ReadDetailsPage()
@@ -30,33 +44,93 @@ namespace localChat
             this.bw.DoWork += new System.ComponentModel.DoWorkEventHandler(this.getMsgDoWork);
             this.bw.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.getMsgComplete);
 
+            this.bwDS = new System.ComponentModel.BackgroundWorker();
+            this.bwDS.DoWork += new System.ComponentModel.DoWorkEventHandler(this.createDSDoWork);
+            this.bwDS.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.createDSComplete);
+
             // Sample code to localize the ApplicationBar
             //BuildLocalizedApplicationBar();
+        }
+
+        private void btnShowMap_Click(object sender, RoutedEventArgs e)
+        {
+            if (showMapToggle)
+            {
+                showMap.Content = "Hide Map";
+                addMap();
+            }
+            else
+            {
+                showMap.Content = "Show Map";
+                ContentPanel.Children.Remove(MyMap);
+            }
+            showMapToggle = !showMapToggle;
+        }
+
+        public void addMap()
+        {
+            if (postLoc == null) return;
+
+            MyMap = new Map();
+            MyMap.Width = 440;
+            MyMap.Height = 440;
+            MyMap.Margin = new Thickness(0, -90, 0, 0);
+            MyMap.Center = postLoc;
+            MyMap.ZoomLevel = 13;
+            ContentPanel.Children.Add(MyMap);
+
+            // Create a small circle to mark the current location.
+            Ellipse myCircle = new Ellipse();
+            myCircle.Fill = new SolidColorBrush(Colors.Blue);
+            myCircle.Height = 20;
+            myCircle.Width = 20;
+            myCircle.Opacity = 50;
+
+            // Create a MapOverlay to contain the circle.
+            MapOverlay postOverlay = new MapOverlay();
+            postOverlay.Content = myCircle;
+            postOverlay.PositionOrigin = new Point(0.5, 0.5);
+            postOverlay.GeoCoordinate = postLoc;
+
+            // Create a MapLayer to contain the MapOverlay.
+            MapLayer locationLayer = new MapLayer();
+            locationLayer.Add(postOverlay);
+
+            // Add the MapLayer to the Map.
+            MyMap.Layers.Add(locationLayer);
         }
 
         // When page is navigated to set data context to selected item in list
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
+            OnNavigatedToWork();
+
+            base.OnNavigatedTo(e);
+        }
+
+        private void OnNavigatedToWork()
+        {
             string strMsgId = "";
             if (NavigationContext.QueryString.TryGetValue("selectedItem", out strMsgId))
-            msgID = Convert.ToInt32(strMsgId);
+                msgID = Convert.ToInt32(strMsgId);
+
+            if (App.Current.getDataSource() == null || App.Current.getDataSource().getUser() == null)
+            {
+                this.bwDS.RunWorkerAsync();
+                return;
+            }
 
             if (!App.ReadMsgList.IsDataLoaded)
             {
-                /* We just got a request from a tile for just for reading that mssage.*/
-                /* Not workinng yet.. */
-                //App.Current.setDataSource(new dataSource());
-                NavigationService.Navigate(new Uri("/SplashScreen.xaml", UriKind.Relative));
+                App.ReadMsgList.LoadData(); // Get all the saved messags...
             }
 
             if (DataContext == null)
             {
                 getMsg();
             }
-            
-            SetPinBar();
 
-            base.OnNavigatedTo(e);
+            SetPinBar();
         }
 
         private void getMsg()
@@ -108,8 +182,25 @@ namespace localChat
                         Time = curMsg.createDate.TimeOfDay.ToString(),
                         Title = curMsg.title,
                         Author = curMsg.userName,
-                        Msg = curMsg.msgBody
+                        Msg = curMsg.msgBody,
+                        ShowLocation = curMsg.showLocation
                     };
+
+                    if (curMsg.showLocation)
+                    {
+                        postLoc = new GeoCoordinate(curMsg.lat, curMsg.lon);
+                        msgBubble.Height = 400;
+
+                        showMap = new Button();
+                        showMap.Name = "btnShowMap";
+                        showMap.Height = 75;
+                        showMap.Width = 200;
+                        showMap.Margin = new Thickness(226, 450, 0, 0);
+                        showMap.Content = "Show Map";
+                        showMap.Click += btnShowMap_Click;
+
+                        ContentPanel.Children.Add(showMap);
+                    }
 
                     DataContext = curReadMsg;
                 }
@@ -179,7 +270,7 @@ namespace localChat
                 for (var i = 0; i < count; i++)
                 {
                     ApplicationBarIconButton btn = appBar.Buttons[i] as ApplicationBarIconButton;
-                    if (btn.IconUri.OriginalString.Contains("like"))
+                    if (btn.IconUri.OriginalString.Contains("pin"))
                         return btn;
                 }
                 return null;
@@ -192,13 +283,29 @@ namespace localChat
             if (Features.Tile.TileExists(uri))
             {
                 pinBtn.IconUri = new Uri(removeFavUri, UriKind.Relative);
-                pinBtn.Text = "Unpin";
+                pinBtn.Text = "Unpin Tile";
             }
             else
             {
                 pinBtn.IconUri = new Uri(FavUri, UriKind.Relative);
-                pinBtn.Text = "Pin";
+                pinBtn.Text = "Pin as Tile";
             }
+        }
+
+        public void createDSDoWork(object sender, DoWorkEventArgs e)
+        {
+            App.Current.setDataSource(new dataSource());
+        }
+
+        public void createDSComplete(object sender, RunWorkerCompletedEventArgs e)
+        {
+            if (App.Current.getDataSource().getUser() == null)
+            {
+                MessageBox.Show("Failed to contact the remote server, please try again latter");
+                return;
+            }
+
+            OnNavigatedToWork();
         }
 
 

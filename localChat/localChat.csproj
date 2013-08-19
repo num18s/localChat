@@ -196,6 +196,7 @@
     </Content>
     <Content Include="Assets\AppBar\like.png" />
     <Content Include="Assets\AppBar\next.png" />
+    <Content Include="Assets\AppBar\pin.png" />
     <Content Include="Assets\AppBar\refresh.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -203,6 +204,7 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Assets\AppBar\unlike.png" />
+    <Content Include="Assets\AppBar\unpin.png" />
     <Content Include="Assets\ApplicationIcon.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

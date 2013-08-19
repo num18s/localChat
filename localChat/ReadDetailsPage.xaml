@@ -17,7 +17,7 @@
     <phone:PhoneApplicationPage.ApplicationBar>
         <shell:ApplicationBar Mode="Default">
             <shell:ApplicationBarIconButton x:Name="Prev" Click="readDetailPrev_click" IconUri="/Assets/AppBar/back.png" IsEnabled="True" Text="Prev"/>
-            <shell:ApplicationBarIconButton x:Name="btnPinToStart" IconUri="/Assets/AppBar/like.png" IsEnabled="True" Text="like" Click="btnPinToStart_Click"/>
+            <shell:ApplicationBarIconButton x:Name="btnPinToStart" IconUri="/Assets/AppBar/pin.png" IsEnabled="True" Text="like" Click="btnPinToStart_Click"/>
             <shell:ApplicationBarIconButton x:Name="Next" Click="readDetailNext_click" IconUri="/Assets/AppBar/next.png" IsEnabled="True" Text="Next"/>
         </shell:ApplicationBar>
     </phone:PhoneApplicationPage.ApplicationBar>
@@ -76,8 +76,8 @@
 		</StackPanel>
 
         <!--ContentPanel contains details text. Place additional content here-->
-		<Grid x:Name="ContentPanel" Margin="12,5,12,0" Grid.Row="1">
-			<edc:Callout AnchorPoint="0.063,1.078" CalloutStyle="Rectangle" Content="Callout" Fill="#FFF4F4F5" FontSize="14.666999816894531" HorizontalAlignment="Left" Height="491" Stroke="Black" VerticalAlignment="Top" Width="444" Opacity="0.5"/>
+		<Grid x:Name="ContentPanel" Margin="12,5,12,0" Grid.Row="1" VerticalAlignment="Top" HorizontalAlignment="Left">
+			<edc:Callout x:Name="msgBubble" AnchorPoint="0.063,1.078" CalloutStyle="Rectangle" Content="Callout" Fill="#FFF4F4F5" FontSize="14.666999816894531" HorizontalAlignment="Left" Height="491" Stroke="Black" VerticalAlignment="Top" Width="444" Opacity="0.5"/>
 			<TextBlock x:Name="Message" Text="{Binding Msg}" TextWrapping="Wrap" Style="{StaticResource PhoneTextNormalStyle}" Margin="12,0,12,45">
 				<TextBlock.Foreground>
 					<SolidColorBrush Color="#FFFFFFFF"/>
