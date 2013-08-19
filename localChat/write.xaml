@@ -39,18 +39,12 @@
                 <TextBlock x:Name="Title_Text" HorizontalAlignment="Left" TextWrapping="Wrap" Text="Title   " VerticalAlignment="Top"/>
             </StackPanel>
             <StackPanel Margin="0,455,0,165" Orientation="Horizontal">
-                <TextBlock x:Name="How_far_text" HorizontalAlignment="Left" TextWrapping="Wrap" Text="How far away shoud this be visable?" VerticalAlignment="Top" FontSize="{StaticResource PhoneFontSizeSmall}"/>
-                <TextBox x:Name="curMeterValue" Text="1 Mile" TextWrapping="Wrap" BorderThickness="0" Margin="0,-13,0,-10" IsReadOnly="True" InputScope="Number" Background="Black" FontSize="{StaticResource PhoneFontSizeSmall}">
-                    <TextBox.SelectionForeground>
-                        <SolidColorBrush Color="{StaticResource PhoneBackgroundColor}"/>
-                    </TextBox.SelectionForeground>
-                    <TextBox.SelectionBackground>
-                        <SolidColorBrush Color="{StaticResource PhoneBackgroundColor}"/>
-                    </TextBox.SelectionBackground>
-                    <TextBox.Foreground>
-                        <SolidColorBrush Color="{StaticResource PhoneAccentColor}"/>
-                    </TextBox.Foreground>
-                </TextBox>
+                <TextBlock x:Name="How_far_text" HorizontalAlignment="Left" TextWrapping="Wrap" Text="How far away shoud this be visable?             " VerticalAlignment="Top" FontSize="{StaticResource PhoneFontSizeSmall}"/>
+                <TextBlock x:Name="curMeterValue" Text="10 Miles" TextWrapping="Wrap" Margin="0" FontSize="{StaticResource PhoneFontSizeSmall}" VerticalAlignment="Center" FontWeight="Bold">
+                	<TextBlock.Foreground>
+                		<SolidColorBrush Color="{StaticResource PhoneAccentColor}"/>
+                	</TextBlock.Foreground>
+                </TextBlock>                    
             </StackPanel>
             <Slider x:Name="Distance_Slider" HorizontalAlignment="Center" VerticalAlignment="Center" Width="437" Value="5" ValueChanged="Distance_Slider_ValueChanged" Minimum="0" Margin="10,483,9,95" SmallChange="1" Maximum="14" LargeChange="10" Height="79"/>
             <CheckBox x:Name="chkShowLocation" Content="Show My Location" HorizontalAlignment="Left" Margin="10,536,0,0" VerticalAlignment="Top"/>

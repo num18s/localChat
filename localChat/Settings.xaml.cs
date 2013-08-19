@@ -26,10 +26,16 @@ namespace localChat
             curMeterValue.Text = App.distances[(int)slider_receive_radius.Value];
 
             slider_keep_time.Value = keepTime = App.ReadSettings.keepTime;
-            curTimeValue.Text = slider_keep_time.Value.ToString();
-
+            if (keepTime > 1)
+                curTimeValue.Text = keepTime.ToString() + " Days";
+            else
+                curTimeValue.Text = keepTime.ToString() + " Day";
+            
             slider_update_time.Value = updateInterval = App.ReadSettings.updateInterval;
-            curUpdateIntervalValue.Text = slider_update_time.Value.ToString();
+            if (updateInterval > 1)
+                curUpdateIntervalValue.Text = updateInterval.ToString() + " Hours";
+            else
+                curUpdateIntervalValue.Text = updateInterval.ToString() + " Hour";
 
             recieve_toast_notificaiton_cb.IsChecked = App.ReadSettings.recieveToastNotificaiton;
 
@@ -50,7 +56,10 @@ namespace localChat
             if (pageLoaded)
             {
                 keepTime = (int)slider_keep_time.Value;
-                curTimeValue.Text = keepTime.ToString();
+                if(keepTime > 1)
+                    curTimeValue.Text = keepTime.ToString() + " Days";
+                else
+                    curTimeValue.Text = keepTime.ToString() + " Day";
             }
         }
 
@@ -59,7 +68,10 @@ namespace localChat
             if (pageLoaded)
             {
                 updateInterval = (int)slider_update_time.Value;
-                curUpdateIntervalValue.Text = updateInterval.ToString();
+                if(updateInterval > 1)
+                    curUpdateIntervalValue.Text = updateInterval.ToString() + " Hours";
+                else
+                    curUpdateIntervalValue.Text = updateInterval.ToString() + " Hour";
             }
         }
 
