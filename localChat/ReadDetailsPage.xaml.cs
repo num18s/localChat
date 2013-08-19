@@ -28,8 +28,8 @@ namespace localChat
         private BackgroundWorker bw;
         private BackgroundWorker bwDS;
 
-        private const string removeFavUri = "/Assets/Appbar/unlike.png";
-        private const string FavUri = "/Assets/Appbar/like.png";
+        private const string removeFavUri = "/Assets/Appbar/unpin.png";
+        private const string FavUri = "/Assets/Appbar/pin.png";
 
         private Map MyMap = null;
         private GeoCoordinate postLoc = null;
@@ -270,7 +270,7 @@ namespace localChat
                 for (var i = 0; i < count; i++)
                 {
                     ApplicationBarIconButton btn = appBar.Buttons[i] as ApplicationBarIconButton;
-                    if (btn.IconUri.OriginalString.Contains("like"))
+                    if (btn.IconUri.OriginalString.Contains("pin"))
                         return btn;
                 }
                 return null;
@@ -283,12 +283,12 @@ namespace localChat
             if (Features.Tile.TileExists(uri))
             {
                 pinBtn.IconUri = new Uri(removeFavUri, UriKind.Relative);
-                pinBtn.Text = "Unpin";
+                pinBtn.Text = "Unpin Tile";
             }
             else
             {
                 pinBtn.IconUri = new Uri(FavUri, UriKind.Relative);
-                pinBtn.Text = "Pin";
+                pinBtn.Text = "Pin as Tile";
             }
         }
 
